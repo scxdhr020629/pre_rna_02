@@ -49,6 +49,16 @@ const frameIn = [
         },
         component: _import('demo/page3')
       },
+      // test
+      {
+        path: 'demo-page',
+        name: 'demo-page',
+        meta: {
+          title: 'demo-page',
+          auth: true
+        },
+        component: _import('demo/page-demo')
+      },
       // 系统 前端日志
       {
         path: 'log',
