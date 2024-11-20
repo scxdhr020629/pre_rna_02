@@ -80,6 +80,7 @@ const frameIn = [
         },
         component: _import('help/help-document')
       },
+      // 发送邮件
       {
         path: 'send-email',
         name: 'send-email',
@@ -88,6 +89,16 @@ const frameIn = [
           auth: true
         },
         component: _import('help/send-email')
+      },
+      // about
+      {
+        path: 'about',
+        name: 'about',
+        meta: {
+          title: 'about',
+          auth: true
+        },
+        component: _import('about')
       },
       // 系统 前端日志
       {

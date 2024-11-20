@@ -46,7 +46,9 @@ export const menuHeader = supplementPath([
       { path: '/help-document', title: 'help-document',icon:'question' },
       { path: '/send-email', title: 'send-email',icon:'question' },
     ]
-  }
+  },
+  // about 
+  { path: '/about', title: 'about', icon: 'home' }
 ])
 
 export const menuAside = supplementPath([
@@ -78,5 +80,7 @@ export const menuAside = supplementPath([
       { path: '/help-document', title: 'help-document',icon:'question' },
       { path: '/send-email', title: 'send-email' ,icon:'question' },
     ]
-  }
+  },
+  // about 
+  { path: '/about', title: 'about', icon: 'home' }
 ])
