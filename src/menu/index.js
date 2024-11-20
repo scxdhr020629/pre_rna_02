@@ -19,12 +19,22 @@ export const menuHeader = supplementPath([
   { path: '/index', title: '首页', icon: 'home' },
   {
     title: '页面',
-    icon: 'folder-o',
+    // icon: 'folder-o',
+    icon: 'database',
     children: [
       { path: '/page1', title: '页面 1' },
       { path: '/page2', title: '页面 2' },
       { path: '/page3', title: '页面 3' },
       { path: '/demo-page', title: 'demo-page' }
+    ]
+  },
+  // prediction
+  // 这里的path 要和router 里的path 相互对应
+  {
+    title: 'prediction',
+    icon: 'database',
+    children: [
+      { path: '/prediction-mda', title: 'MDA' }
     ]
   }
 ])
@@ -33,12 +43,21 @@ export const menuAside = supplementPath([
   { path: '/index', title: '首页', icon: 'home' },
   {
     title: '页面',
-    icon: 'folder-o',
+    // icon: 'folder-o',
+    icon: 'database',
     children: [
       { path: '/page1', title: '页面 1' },
       { path: '/page2', title: '页面 2' },
       { path: '/page3', title: '页面 3' },
       { path: '/demo-page', title: 'demo-page' }
+    ]
+  },
+  // prediction
+  {
+    title: 'prediction',
+    icon: 'database',
+    children: [
+      { path: '/prediction-mda', title: 'MDA' }
     ]
   }
 ])

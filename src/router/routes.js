@@ -59,6 +59,16 @@ const frameIn = [
         },
         component: _import('demo/page-demo')
       },
+      // prediction
+      {
+        path: 'prediction-mda',
+        name: 'prediction-mda',
+        meta: {
+          title: 'MDA',
+          auth: true
+        },
+        component: _import('prediction/prediction-mda')
+      },
       // 系统 前端日志
       {
         path: 'log',
