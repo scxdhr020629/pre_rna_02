@@ -34,16 +34,17 @@ export const menuHeader = supplementPath([
     title: 'prediction',
     icon: 'database',
     children: [
-      { path: '/prediction-mda', title: 'MDA' }
+      { path: '/prediction-mda', title: 'MDA',icon:'database' }
     ]
   },
   // help 帮助部分
   {
     title: 'help',
-    icon: 'folder-o',
+    icon: 'question',
     children: [
-      { path: '/help-document', title: 'help-document' },
-      { path: '/send-email', title: 'send-email' },
+      // { path: '/help-document', title: 'help-document' },
+      { path: '/help-document', title: 'help-document',icon:'question' },
+      { path: '/send-email', title: 'send-email',icon:'question' },
     ]
   }
 ])
@@ -66,16 +67,16 @@ export const menuAside = supplementPath([
     title: 'prediction',
     icon: 'database',
     children: [
-      { path: '/prediction-mda', title: 'MDA' }
+      { path: '/prediction-mda', title: 'MDA',icon:'database' }
     ]
   },
   // help 帮助部分
   {
     title: 'help',
-    icon: 'folder-o',
+    icon: 'question',
     children: [
-      { path: '/help-document', title: 'help-document' },
-      { path: '/send-email', title: 'send-email' },
+      { path: '/help-document', title: 'help-document',icon:'question' },
+      { path: '/send-email', title: 'send-email' ,icon:'question' },
     ]
   }
 ])
