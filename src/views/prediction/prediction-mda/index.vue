@@ -32,7 +32,11 @@
 
       <!-- 如果没有数据或还没查询 -->
       <!-- 爆红 -->
-      <div v-else class="no-result" v-if="!loading">
+      <!-- 这 loading 是个啥 -->
+      <!-- <div v-else class="no-result" v-if="!loading">
+        <p>请输入药物名称并点击查询。</p>
+      </div> -->
+      <div v-else class="no-result" >
         <p>请输入药物名称并点击查询。</p>
       </div>
     </div>

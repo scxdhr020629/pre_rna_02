@@ -69,6 +69,26 @@ const frameIn = [
         },
         component: _import('prediction/prediction-mda')
       },
+      // help
+      {
+        // 帮助文档
+        path: 'help-document',
+        name: 'help-document',
+        meta: {
+          title: 'help-document',
+          auth: true
+        },
+        component: _import('help/help-document')
+      },
+      {
+        path: 'send-email',
+        name: 'send-email',
+        meta: {
+          title: 'send-email',
+          auth: true
+        },
+        component: _import('help/send-email')
+      },
       // 系统 前端日志
       {
         path: 'log',

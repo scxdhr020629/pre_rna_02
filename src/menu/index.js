@@ -36,6 +36,15 @@ export const menuHeader = supplementPath([
     children: [
       { path: '/prediction-mda', title: 'MDA' }
     ]
+  },
+  // help 帮助部分
+  {
+    title: 'help',
+    icon: 'folder-o',
+    children: [
+      { path: '/help-document', title: 'help-document' },
+      { path: '/send-email', title: 'send-email' },
+    ]
   }
 ])
 
@@ -58,6 +67,15 @@ export const menuAside = supplementPath([
     icon: 'database',
     children: [
       { path: '/prediction-mda', title: 'MDA' }
+    ]
+  },
+  // help 帮助部分
+  {
+    title: 'help',
+    icon: 'folder-o',
+    children: [
+      { path: '/help-document', title: 'help-document' },
+      { path: '/send-email', title: 'send-email' },
     ]
   }
 ])
