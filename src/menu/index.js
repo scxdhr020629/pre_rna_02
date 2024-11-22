@@ -19,8 +19,8 @@ export const menuHeader = supplementPath([
   { path: '/index', title: '首页', icon: 'home' },
   {
     title: '页面',
-    // icon: 'folder-o',
-    icon: 'database',
+    icon: 'folder-o',
+    // icon: 'database',
     children: [
       { path: '/page1', title: '页面 1' },
       { path: '/page2', title: '页面 2' },
@@ -48,15 +48,15 @@ export const menuHeader = supplementPath([
     ]
   },
   // about 
-  { path: '/about', title: 'about', icon: 'home' }
+  { path: '/about', title: 'about', icon: 'exclamation' }
 ])
 
 export const menuAside = supplementPath([
   { path: '/index', title: '首页', icon: 'home' },
   {
     title: '页面',
-    // icon: 'folder-o',
-    icon: 'database',
+    icon: 'folder-o',
+    // icon: 'database',
     children: [
       { path: '/page1', title: '页面 1' },
       { path: '/page2', title: '页面 2' },
@@ -82,5 +82,5 @@ export const menuAside = supplementPath([
     ]
   },
   // about 
-  { path: '/about', title: 'about', icon: 'home' }
+  { path: '/about', title: 'about', icon: 'exclamation' }
 ])
