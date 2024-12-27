@@ -6,7 +6,7 @@
       <!-- 输入药物名称 -->
       <el-input
         v-model="drugName"
-        placeholder="请输入药物名称"
+        placeholder="请输入drug sequence"
         clearable
         class="input-field"
       ></el-input>
@@ -25,19 +25,16 @@
       <div v-if="mrnaList.length > 0" class="result-container">
         <el-card v-for="(mrna, index) in mrnaList" :key="index" class="mrna-card">
           <div class="mrna-info">
-            <span>{{ index + 1 }}. {{ mrna }}</span>
+            <span><strong>{{ index + 1 }}. RNA_ID: </strong>{{ mrna.RNA_ID }}</span><br />
+            <span><strong>Sequence: </strong>{{ mrna.Sequence }}</span><br />
+            <span><strong>Probability: </strong>{{ mrna.Probability }}</span>
           </div>
         </el-card>
       </div>
 
       <!-- 如果没有数据或还没查询 -->
-      <!-- 爆红 -->
-      <!-- 这 loading 是个啥 -->
-      <!-- <div v-else class="no-result" v-if="!loading">
-        <p>请输入药物名称并点击查询。</p>
-      </div> -->
-      <div v-else class="no-result" >
-        <p>请输入药物名称并点击查询。</p>
+      <div v-else class="no-result">
+        <p>请输入drug sequence并点击查询。</p>
       </div>
     </div>
   </d2-container>
@@ -48,31 +45,40 @@ export default {
   name: 'Prediction1',
   data() {
     return {
-      drugName: '',
-      mrnaList: [],
-      loading: false,
+      drugName: '',  // 用户输入的drug sequence
+      mrnaList: [],  // 存储返回的mRNA数据
+      loading: false,  // 加载状态
     };
   },
   methods: {
-    fetchMRNA() {
+    async fetchMRNA() {
       if (!this.drugName) {
-        this.$message.warning('请先输入药物名称');
+        this.$message.warning('请先输入drug sequence');
         return;
       }
       this.loading = true;
 
-      // 模拟一个API请求，替换为真实接口调用
-      setTimeout(() => {
-        // 假设返回的数据是药物相关的mRNA
-        this.mrnaList = [
-          'mRNA1: Example 1',
-          'mRNA2: Example 2',
-          'mRNA3: Example 3',
-          'mRNA4: Example 4',
-          'mRNA5: Example 5',
-        ];
+      try {
+        console.log('drug_sequence:', this.drugName);  // 打印 drugName 查看是否正确
+
+        // 调用 get_rnas API，传入 drugName 作为 drug_sequence
+        const response = await this.$api.get_rnas({ drug_sequence: this.drugName });
+        
+        // 直接将返回的 RNA 数据赋值给 mrnaList
+        
+        this.mrnaList = response[1].data.data;  // 假设 API 直接返回了 RNA 数据数组
+        console.log('vue 中的数据')
+        console.log(response)
+        console.log(response[1].msg)
+        console.log(response[1].data)
+        console.log(response[1].data.data[1])
+        console.log(this.mrnaList)
+      } catch (error) {
+        console.error('请求失败', error);  // 打印错误信息
+        this.$message.error('请求失败，请稍后再试');
+      } finally {
         this.loading = false;
-      }, 1000);
+      }
     },
   },
 };
@@ -108,10 +114,11 @@ export default {
   width: 300px;
   margin: 10px 0;
   padding: 10px;
+  border: 1px solid #ddd;
 }
 
 .mrna-info {
-  font-size: 16px;
+  font-size: 14px;
   color: #333;
 }
 
