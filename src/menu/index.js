@@ -16,22 +16,22 @@ function supplementPath (menu) {
 }
 
 export const menuHeader = supplementPath([
-  { path: '/index', title: '首页', icon: 'home' },
+  { path: '/index', title: 'Home', icon: 'home' },
   {
-    title: '页面',
+    title: 'Page',
     icon: 'folder-o',
     // icon: 'database',
     children: [
-      { path: '/page1', title: '页面 1' },
-      { path: '/page2', title: '页面 2' },
-      { path: '/page3', title: '页面 3' },
+      { path: '/page1', title: 'Page 1' },
+      { path: '/page2', title: 'Page 2' },
+      { path: '/page3', title: 'Page 3' },
       { path: '/demo-page', title: 'demo-page' }
     ]
   },
   // prediction
   // 这里的path 要和router 里的path 相互对应
   {
-    title: 'prediction',
+    title: 'Prediction',
     icon: 'database',
     children: [
       { path: '/prediction-mda', title: 'MDA',icon:'database' }
@@ -39,28 +39,28 @@ export const menuHeader = supplementPath([
   },
   // help 帮助部分
   {
-    title: 'help',
+    title: 'Help',
     icon: 'question',
     children: [
       // { path: '/help-document', title: 'help-document' },
-      { path: '/help-document', title: 'help-document',icon:'question' },
-      { path: '/send-email', title: 'send-email',icon:'question' },
+      { path: '/help-document', title: 'Help-document',icon:'question' },
+      { path: '/send-email', title: 'Send-email',icon:'question' },
     ]
   },
   // about 
-  { path: '/about', title: 'about', icon: 'exclamation' }
+  { path: '/about', title: 'About', icon: 'exclamation' }
 ])
 
 export const menuAside = supplementPath([
-  { path: '/index', title: '首页', icon: 'home' },
+  { path: '/index', title: 'Home', icon: 'home' },
   {
-    title: '页面',
+    title: 'Page',
     icon: 'folder-o',
     // icon: 'database',
     children: [
-      { path: '/page1', title: '页面 1' },
-      { path: '/page2', title: '页面 2' },
-      { path: '/page3', title: '页面 3' },
+      { path: '/page1', title: 'Page 1' },
+      { path: '/page2', title: 'Page 2' },
+      { path: '/page3', title: 'Page 3' },
       { path: '/demo-page', title: 'demo-page' }
     ]
   },
@@ -77,10 +77,10 @@ export const menuAside = supplementPath([
     title: 'help',
     icon: 'question',
     children: [
-      { path: '/help-document', title: 'help-document',icon:'question' },
-      { path: '/send-email', title: 'send-email' ,icon:'question' },
+      { path: '/help-document', title: 'Help-document',icon:'question' },
+      { path: '/send-email', title: 'Send-email' ,icon:'question' },
     ]
   },
   // about 
-  { path: '/about', title: 'about', icon: 'exclamation' }
+  { path: '/about', title: 'About', icon: 'exclamation' }
 ])
