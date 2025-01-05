@@ -19,7 +19,7 @@ export default {
         name: 'index',
         fullPath: '/index',
         meta: {
-          title: '首页',
+          title: 'Home',
           auth: false
         }
       }

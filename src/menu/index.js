@@ -34,6 +34,7 @@ export const menuHeader = supplementPath([
     title: 'Prediction',
     icon: 'database',
     children: [
+      { path: '/description-mda', title: 'DESCR',icon:'database' },
       { path: '/prediction-mda', title: 'MDA',icon:'database' }
     ]
   },
@@ -69,6 +70,7 @@ export const menuAside = supplementPath([
     title: 'prediction',
     icon: 'database',
     children: [
+      { path: '/description-mda', title: 'DESCR',icon:'database' },
       { path: '/prediction-mda', title: 'MDA',icon:'database' }
     ]
   },
