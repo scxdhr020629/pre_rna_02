@@ -4,7 +4,7 @@
       <slot/>
     </div>
     <p class="d2-page-cover__title">MDA {{$version}}</p>
-    <p class="d2-page-cover__sub-title">miRNA-药物关联</p>
+    <p class="d2-page-cover__sub-title">Drug-MiRNA Association</p>
     <p class="d2-page-cover__build-time">FINAL BUILD TIME {{$buildTime}}</p>
     <slot name="footer"/>
     <a target="blank" href="https://github.com/scxdhr020629/pre_rna_02">

@@ -1,12 +1,12 @@
 <template>
   <d2-container>
-    <template slot="header">药物与mRNA关联查询</template>
+    <template slot="header">Drug-MiRNA Association Query</template>
     
     <div class="content">
       <!-- 输入药物名称 -->
       <el-input
         v-model="drugName"
-        placeholder="请输入drug sequence"
+        placeholder="Please enter drug sequence"
         clearable
         class="input-field"
       ></el-input>
@@ -18,7 +18,7 @@
         @click="fetchMRNA"
         class="query-button"
       >
-        查询相关mRNA
+        Search
       </el-button>
 
       <!-- 显示相关的mRNA -->
@@ -34,7 +34,7 @@
 
       <!-- 如果没有数据或还没查询 -->
       <div v-else class="no-result">
-        <p>请输入drug sequence并点击查询。</p>
+        <p>Please enter the drug sequence and click on search.</p>
       </div>
     </div>
   </d2-container>
@@ -53,7 +53,7 @@ export default {
   methods: {
     async fetchMRNA() {
       if (!this.drugName) {
-        this.$message.warning('请先输入drug sequence');
+        this.$message.warning('Please enter the drug sequence');
         return;
       }
       this.loading = true;
@@ -74,8 +74,8 @@ export default {
         console.log(response[1].data.data[1])
         console.log(this.mrnaList)
       } catch (error) {
-        console.error('请求失败', error);  // 打印错误信息
-        this.$message.error('请求失败，请稍后再试');
+        console.error('Request failed', error);  // 打印错误信息
+        this.$message.error('Request failed. Please try again later.');
       } finally {
         this.loading = false;
       }
