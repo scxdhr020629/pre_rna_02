@@ -27,7 +27,8 @@
   .d2-layout-header-aside-content {
     @extend %full;
     .d2-theme-header {
-      height: 60px;
+      // height: 60px;
+      height: 80px;
       .d2-theme-header-menu {
         overflow: hidden;
         &.is-scrollable {
@@ -53,7 +54,8 @@
           }
         }
         .d2-theme-header-menu__prev, .d2-theme-header-menu__next {
-          height: 60px;
+          // height: 60px;
+          height: 80px;
           position: absolute;
           top: 0;
           font-size: 20px;
@@ -121,7 +123,8 @@
         float: left;
         text-align: center;
         img {
-          height: 60px;
+          // height: 60px;
+          height: 80px;
         }
       }
       .logo-transition {
@@ -130,12 +133,16 @@
       // 折叠侧边栏切换按钮
       .toggle-aside-btn {
         float: left;
-        height: 60px;
-        width: 60px;
+        // height: 60px;
+        // width: 60px;
+        height: 80px;
+        width: 80px;
         display: flex;
         justify-content: center;
         align-items: center;
         @extend %unable-select;
+        // 侧边栏到图标 添加距离
+        margin-left: 10px;
         i {
           font-size: 20px;
           margin-top: 4px;
@@ -167,7 +174,8 @@
       // 顶栏右侧的按钮
       .d2-header-right {
         float: right;
-        height: 60px;
+        // height: 60px;
+        height: 80px;
         display: flex;
         align-items: center;
         .btn-text {
