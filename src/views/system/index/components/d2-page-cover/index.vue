@@ -4,7 +4,9 @@
       <slot/>
     </div>
     <p class="d2-page-cover__title">MDA {{$version}}</p>
-    <p class="d2-page-cover__sub-title">miRNA-药物关联</p>
+    <!-- <p class="d2-page-cover__sub-title">miRNA-药物关联</p> -->
+    <p class="d2-page-cover__sub-title">This website is free and open to all users and there is no login requirement.</p>
+    <p class="d2-page-cover__sub-title">© Copyright 2025,Key Laboratory of Symbolic Computation and Knowledge Engineering of Ministry of Education, Jilin University</p>
     <p class="d2-page-cover__build-time">FINAL BUILD TIME {{$buildTime}}</p>
     <slot name="footer"/>
     <a target="blank" href="https://github.com/scxdhr020629/pre_rna_02">

@@ -61,15 +61,15 @@ const frameIn = [
         component: _import('demo/page-demo')
       },
       // prediction
-      {
-        path: 'description-mda',
-        name: 'description-mda',
-        meta: {
-          title: 'DESCR',
-          auth: true
-        },
-        component: _import('prediction/description-mda')
-      },
+      // {
+      //   path: 'description-mda',
+      //   name: 'description-mda',
+      //   meta: {
+      //     title: 'DESCR',
+      //     auth: true
+      //   },
+      //   component: _import('prediction/description-mda')
+      // },
       {
         path: 'prediction-mda',
         name: 'prediction-mda',

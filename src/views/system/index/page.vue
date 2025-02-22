@@ -1,8 +1,19 @@
 <template>
-  <d2-container class="d2-page" fluid>
-    <div class="image-container">
-      <img src="./image/DNA3.png" alt="Deep Learning Framework" />
-    </div>
+  <d2-container class="page">
+    <d2-page-cover>
+      
+      <!-- 图片插入 -->
+      <div class="image-container">
+        <img src="./image/model.png" alt="Deep Learning Framework" />
+      </div>
+
+      <!-- 介绍文本 -->
+      <div class="intro-text">
+        <p>We propose a deep learning framework (DLST-MDA) for identifying potential miRNA-drug associations (MDAs). Sequence and structural information of drugs are combined to leverage the intrinsic properties of miRNAs and drugs, rather than relying on interaction graphs. Experiments were performed on a manually constructed dataset and verified that DLST-MDA outperforms peers in drug-miRNA association prediction. In addition, case study results on antitumor drugs (paclitaxel, oxaliplatin, and docetaxel) are supported by published literature, highlighting the potential of the model for discovering novel MDAs.</p>
+      </div>
+      
+
+    </d2-page-cover>
   </d2-container>
 </template>
 
@@ -20,30 +31,53 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/* 通过d2-container的fluid属性使容器宽度充满视口 */
-.d2-page {
-  height: 100vh; /* 确保容器填满整个视口的高度 */
-  margin: 0;     /* 去除可能的外边距 */
-  padding: 0;    /* 去除可能的内边距 */
-}
+.page {
+  .logo {
+    width: 120px;
+  }
 
-/* 图片容器样式 */
-.image-container {
-  width: 100%;                    /* 宽度填满父容器 */
-  height: 100vh;                  /* 高度填满视口 */
-  display: flex;
-  justify-content: center;        /* 水平居中对齐 */
-  align-items: center;            /* 垂直居中对齐 */
-  position: absolute;             /* 使容器绝对定位，确保覆盖整个页面 */
-  top: 0;
-  left: 0;
-  overflow: hidden;               /* 防止图片溢出 */
-}
+  .btn-group {
+    color: $color-text-placehoder;
+    font-size: 12px;
+    line-height: 12px;
+    margin-top: 0px;
+    margin-bottom: 20px;
 
-/* 图片样式 */
-.image-container img {
-  width: 100vw;                   /* 图片宽度填满视口 */
-  height: 100vh;                  /* 图片高度填满视口 */
-  object-fit: cover;              /* 保持宽高比填充容器，可能裁剪 */
+    .btn-group__btn {
+      color: $color-text-sub;
+      &:hover {
+        color: $color-text-main;
+      }
+      &.btn-group__btn--link {
+        color: $color-primary;
+      }
+    }
+  }
+
+   /* 图片容器样式 */
+  .image-container {
+    display: flex;
+    justify-content: center;   /* 居中对齐 */
+    align-items: center;
+    margin-top: 30px;           /* 图片顶部与文字的间距 */
+    margin-bottom: 20px;        /* 图片底部与文本之间的间距 */
+  }
+
+  .image-container img {
+    max-width: 900px;            /* 设置最大宽度为容器的90% */
+    // max-height: 437px;         /* 设置最大高度，保持比例 */
+    width: auto;               /* 宽度自动调整，保持比例 */
+    height: auto;              /* 高度自动调整，保持比例 */
+  }
+
+  /* 介绍文本样式 */
+  .intro-text {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+    margin-top: 20px;
+    padding: 0 20px;
+    text-align: center;
+  }
 }
 </style>
