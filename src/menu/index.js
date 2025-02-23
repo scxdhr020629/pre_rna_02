@@ -41,15 +41,27 @@ export const menuHeader = supplementPath([
   // help 帮助部分
   {
     title: 'Help',
-    icon: 'question',
+    icon: 'tree',
     children: [
       // { path: '/help-document', title: 'help-document' },
-      { path: '/help-document', title: 'Help-document',icon:'question' },
-      { path: '/send-email', title: 'Send-email',icon:'question' },
+      { path: '/help-document', title: 'Help-document',icon:'tree' },
+      // { path: '/send-email', title: 'Send-email',icon:'question' },
     ]
   },
+  //email 单独出来
+  {
+    path:'/email',
+    title: 'Email',
+    icon: 'envelope',
+  },
   // about 
-  { path: '/about', title: 'About', icon: 'exclamation' }
+  { path: '/about', title: 'About', icon: 'thumbs-up' },
+  // Publication
+  {
+    path:'/publication',
+    title: 'Publication',
+    icon: 'list',
+  }
 ])
 
 export const menuAside = supplementPath([
@@ -77,12 +89,24 @@ export const menuAside = supplementPath([
   // help 帮助部分
   {
     title: 'help',
-    icon: 'question',
+    icon: 'tree',
     children: [
-      { path: '/help-document', title: 'Help-document',icon:'question' },
-      { path: '/send-email', title: 'Send-email' ,icon:'question' },
+      { path: '/help-document', title: 'Help-document',icon:'tree' },
+      // { path: '/send-email', title: 'Send-email' ,icon:'question' },
     ]
   },
+  //email
+  {
+    path:'/email',
+    title: 'Email',
+    icon: 'envelope',
+  },
   // about 
-  { path: '/about', title: 'About', icon: 'exclamation' }
+  { path: '/about', title: 'About', icon: 'thumbs-up' },
+  // Publication
+  {
+    path:'/publication',
+    title: 'Publication',
+    icon: 'list',
+  }
 ])

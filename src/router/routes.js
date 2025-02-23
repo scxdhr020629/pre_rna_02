@@ -92,14 +92,15 @@ const frameIn = [
       },
       // 发送邮件
       {
-        path: 'send-email',
-        name: 'send-email',
+        path: 'email',
+        name: 'email',
         meta: {
-          title: 'send-email',
+          title: 'Email',
           auth: true
         },
-        component: _import('help/send-email')
+        component: _import('email')
       },
+      
       // about
       {
         path: 'about',
@@ -109,6 +110,16 @@ const frameIn = [
           auth: true
         },
         component: _import('about')
+      },
+      // Publiction
+      {
+        path: 'publication',
+        name: 'publication',
+        meta: {
+          title: 'Publication',
+          auth: true
+        },
+        component: _import('publication')
       },
       // 系统 前端日志
       {
