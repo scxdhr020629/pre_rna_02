@@ -23,43 +23,43 @@ const frameIn = [
         component: _import('system/index')
       },
       // 演示页面
-      {
-        path: 'page1',
-        name: 'page1',
-        meta: {
-          title: 'Page 1',
-          auth: true
-        },
-        component: _import('demo/page1')
-      },
-      {
-        path: 'page2',
-        name: 'page2',
-        meta: {
-          title: 'Page 2',
-          auth: true
-        },
-        component: _import('demo/page2')
-      },
-      {
-        path: 'page3',
-        name: 'page3',
-        meta: {
-          title: 'Page 3',
-          auth: true
-        },
-        component: _import('demo/page3')
-      },
+      // {
+      //   path: 'page1',
+      //   name: 'page1',
+      //   meta: {
+      //     title: 'Page 1',
+      //     auth: true
+      //   },
+      //   component: _import('demo/page1')
+      // },
+      // {
+      //   path: 'page2',
+      //   name: 'page2',
+      //   meta: {
+      //     title: 'Page 2',
+      //     auth: true
+      //   },
+      //   component: _import('demo/page2')
+      // },
+      // {
+      //   path: 'page3',
+      //   name: 'page3',
+      //   meta: {
+      //     title: 'Page 3',
+      //     auth: true
+      //   },
+      //   component: _import('demo/page3')
+      // },
       // test
-      {
-        path: 'demo-page',
-        name: 'demo-page',
-        meta: {
-          title: 'demo-page',
-          auth: true
-        },
-        component: _import('demo/page-demo')
-      },
+      // {
+      //   path: 'demo-page',
+      //   name: 'demo-page',
+      //   meta: {
+      //     title: 'demo-page',
+      //     auth: true
+      //   },
+      //   component: _import('demo/page-demo')
+      // },
       // prediction
       // {
       //   path: 'description-mda',

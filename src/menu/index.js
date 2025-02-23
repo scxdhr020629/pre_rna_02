@@ -17,17 +17,17 @@ function supplementPath (menu) {
 
 export const menuHeader = supplementPath([
   { path: '/index', title: 'Home', icon: 'home' },
-  {
-    title: 'Page',
-    icon: 'folder-o',
-    // icon: 'database',
-    children: [
-      { path: '/page1', title: 'Page 1' },
-      { path: '/page2', title: 'Page 2' },
-      { path: '/page3', title: 'Page 3' },
-      { path: '/demo-page', title: 'demo-page' }
-    ]
-  },
+  // {
+  //   title: 'Page',
+  //   icon: 'folder-o',
+  //   // icon: 'database',
+  //   children: [
+  //     { path: '/page1', title: 'Page 1' },
+  //     { path: '/page2', title: 'Page 2' },
+  //     { path: '/page3', title: 'Page 3' },
+  //     { path: '/demo-page', title: 'demo-page' }
+  //   ]
+  // },
   // prediction
   // 这里的path 要和router 里的path 相互对应
   {
@@ -54,17 +54,17 @@ export const menuHeader = supplementPath([
 
 export const menuAside = supplementPath([
   { path: '/index', title: 'Home', icon: 'home' },
-  {
-    title: 'Page',
-    icon: 'folder-o',
-    // icon: 'database',
-    children: [
-      { path: '/page1', title: 'Page 1' },
-      { path: '/page2', title: 'Page 2' },
-      { path: '/page3', title: 'Page 3' },
-      { path: '/demo-page', title: 'demo-page' }
-    ]
-  },
+  // {
+  //   title: 'Page',
+  //   icon: 'folder-o',
+  //   // icon: 'database',
+  //   children: [
+  //     { path: '/page1', title: 'Page 1' },
+  //     { path: '/page2', title: 'Page 2' },
+  //     { path: '/page3', title: 'Page 3' },
+  //     { path: '/demo-page', title: 'demo-page' }
+  //   ]
+  // },
   // prediction
   {
     title: 'prediction',
