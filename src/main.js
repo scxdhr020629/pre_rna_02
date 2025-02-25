@@ -4,6 +4,8 @@ import i18n from './i18n'
 import App from './App'
 // 核心插件
 import d2Admin from '@/plugin/d2admin'
+// 文件上传插件
+import pluginImport from '@d2-projects/vue-table-import'
 // store
 import store from '@/store/index'
 
@@ -14,7 +16,7 @@ import { frameInRoutes } from '@/router/routes'
 
 // 核心插件
 Vue.use(d2Admin)
-
+Vue.use(pluginImport)
 new Vue({
   router,
   store,
