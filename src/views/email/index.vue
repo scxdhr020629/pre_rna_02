@@ -1,11 +1,11 @@
 <template>
   <d2-container>
-    <template slot="header">发送邮件</template>
-    <div>
-      <h2>发送邮件</h2>
-      <input v-model="emailSubject" placeholder="邮件主题" />
-      <textarea v-model="emailBody" placeholder="邮件内容"></textarea>
-      <button @click="sendEmail">发送邮件</button>
+    <template slot="header">Send Email</template>
+    <div class="email-container">
+      <h2>Send Email</h2>
+      <input v-model="emailSubject" placeholder="Email Subject" class="email-input" />
+      <textarea v-model="emailBody" placeholder="Email Body" class="email-textarea"></textarea>
+      <button @click="sendEmail" class="send-button">Send Email</button>
     </div>
   </d2-container>
 </template>
@@ -14,40 +14,92 @@
 export default {
   data() {
     return {
-      emailSubject: '', // 邮件主题
-      emailBody: '', // 邮件内容
+      emailSubject: '', // Email subject
+      emailBody: '', // Email body
     };
   },
   methods: {
     async sendEmail() {
+      // Validate that subject and message are not empty
+      if (!this.emailSubject || !this.emailBody) {
+        this.$message.error('Email subject and body cannot be empty');
+        return;
+      }
+
       try {
-        // 设置邮件内容
+        // Set email content
         const subject = this.emailSubject;
         const message = this.emailBody;
-        const recipient_list = ['1282026764@qq.com'];  // 收件人列表，可以改成动态输入
+        const recipient_list = ['1282026764@qq.com'];  // Recipient list, can be dynamically set
 
-        // 发送邮件请求
+        // Send email request
         const response = await this.$api.send_email({
           subject: subject,
           message: message,
           recipient_list: recipient_list,
         });
 
-        // 判断响应结果
-        if (response.code === 0) {
-          this.$toast.success('邮件发送成功');
+        console.log('Response from email API')
+        console.log(response[0])
+        if (response[0] === 200) {
+          console.log("hello")
+          this.$message.success('Email sent successfully');
         } else {
-          this.$toast.error('邮件发送失败: ' + response.msg);
+          this.$message.error('Failed to send email');
         }
       } catch (error) {
-        console.error('邮件发送失败:', error);
-        this.$toast.error('邮件发送失败，请重试');
+        console.error('Failed to send email:', error);
+        this.$message.error('Failed to send email');
       }
     },
   },
 };
 </script>
 
+
 <style scoped>
-/* 页面样式 */
+.email-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.email-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.email-input,
+.email-textarea {
+  width: 100%;
+  max-width: 500px;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.email-textarea {
+  height: 150px;
+  resize: none;
+}
+
+.send-button {
+  padding: 10px 20px;
+  background-color: #2f74ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.send-button:hover {
+  background-color: #2f74ff;
+}
 </style>
