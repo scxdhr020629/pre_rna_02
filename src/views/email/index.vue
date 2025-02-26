@@ -40,8 +40,9 @@ export default {
         });
 
         console.log('Response from email API')
+        console.log(response)
         console.log(response[0])
-        if (response[0] === 200) {
+        if (response[1].code === 0) {
           console.log("hello")
           this.$message.success('Email sent successfully');
         } else {
