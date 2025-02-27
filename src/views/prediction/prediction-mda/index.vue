@@ -1,84 +1,141 @@
 <template>
   <d2-container>
     <template slot="header">Drug-MiRNA Association Query</template>
-    
+
     <div class="content">
-      <!-- 输入药物名称 -->
-      <el-input
-        v-model="drugName"
-        placeholder="Please enter drug sequence"
-        clearable
-        class="input-field"
-      ></el-input>
-      
-      <!-- 查询按钮 -->
-      <el-button
-        type="primary"
-        :loading="loading"
-        @click="fetchMRNA"
-        class="query-button"
+      <!-- 文件上传按钮 -->
+      <el-upload
+        class="upload-demo"
+        ref="upload"
+        :before-upload="beforeUpload"
+        :on-change="handleChange"
+        :on-success="handleUploadSuccess"
+        :on-error="handleUploadError"
+        :file-list="fileList"
+        :http-request="handleUpload"
+        accept=".xlsx, .xls, .csv"
       >
-        Search
-      </el-button>
+        <el-button slot="trigger" size="small" type="primary"
+          >Upload File</el-button
+        >
+        <div slot="tip" class="el-upload__tip">
+          Only .xlsx, .xls and .csv files are accepted
+        </div>
+      </el-upload>
 
-      <!-- 显示相关的mRNA -->
-      <div v-if="mrnaList.length > 0" class="result-container">
-        <el-card v-for="(mrna, index) in mrnaList" :key="index" class="mrna-card">
-          <div class="mrna-info">
-            <span><strong>{{ index + 1 }}. RNA_ID: </strong>{{ mrna.RNA_ID }}</span><br />
-            <span><strong>Sequence: </strong>{{ mrna.Sequence }}</span><br />
-            <span><strong>Probability: </strong>{{ mrna.Probability }}</span>
-          </div>
-        </el-card>
-      </div>
-
-      <!-- 如果没有数据或还没查询 -->
-      <div v-else class="no-result">
-        <p>Please enter the drug sequence and click on search.</p>
-      </div>
+      <!-- 显示上传的表格数据 -->
+      <el-table :data="table.data" style="width: 100%">
+        <el-table-column
+          v-for="(column, index) in table.columns"
+          :key="index"
+          :prop="column.prop"
+          :label="column.label"
+        >
+        </el-table-column>
+      </el-table>
     </div>
   </d2-container>
 </template>
 
 <script>
+import log from '@/libs/util.log';
+import * as XLSX from "xlsx";
+
 export default {
-  name: 'Prediction1',
+  name: "DrugMiRNAQuery",
   data() {
     return {
-      drugName: '',  // 用户输入的drug sequence
-      mrnaList: [],  // 存储返回的mRNA数据
-      loading: false,  // 加载状态
+      fileList: [], // 上传的文件列表
+      table: {
+        columns: [], // 表格列
+        data: [], // 表格数据
+      },
     };
   },
   methods: {
-    async fetchMRNA() {
-      if (!this.drugName) {
-        this.$message.warning('Please enter the drug sequence');
-        return;
+    beforeUpload(file) {
+      const isAcceptedFormat =
+        file.type ===
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+        file.type === "application/vnd.ms-excel" ||
+        file.type === "text/csv";
+      if (!isAcceptedFormat) {
+        this.$message.error("Only .xlsx, .xls and .csv files are accepted");
       }
-      this.loading = true;
+      return isAcceptedFormat;
+    },
+    handleChange(file, fileList) {
+      this.fileList = fileList.slice(-1); // 只保留最新上传的一个文件
+    },
+    handleUploadSuccess(response, file, fileList) {
+      this.fileList = fileList;
+      this.$message.success("Upload successful");
+    },
+    handleUploadError(err, file, fileList) {
+      this.$message.error("Upload failed");
+    },
+    async handleUpload({ file }) {
+  
+      console.log("Uploading file:", file);
 
-      try {
-        console.log('drug_sequence:', this.drugName);  // 打印 drugName 查看是否正确
+      const reader = new FileReader();
 
-        // 调用 get_rnas API，传入 drugName 作为 drug_sequence
-        const response = await this.$api.get_rnas({ drug_sequence: this.drugName });
-        
-        // 直接将返回的 RNA 数据赋值给 mrnaList
-        
-        this.mrnaList = response[1].data.data;  // 假设 API 直接返回了 RNA 数据数组
-        console.log('vue 中的数据')
-        console.log(response)
-        console.log(response[1].msg)
-        console.log(response[1].data)
-        console.log(response[1].data.data[1])
-        console.log(this.mrnaList)
-      } catch (error) {
-        console.error('Request failed', error);  // 打印错误信息
-        this.$message.error('Request failed. Please try again later.');
-      } finally {
-        this.loading = false;
-      }
+      reader.onload = async (event) => {
+        const fileContent = event.target.result;
+        const rows = fileContent
+          .split("\n")
+          .map((row) => row.trim())
+          .filter((row) => row);
+
+        if (rows.length > 1) {
+          const sequenceData = rows.slice(1).map((sequence) => ({ sequence }));
+          console.log(sequenceData)
+          // 列表
+          // console.log(sequenceData[0].sequence)
+          // console.log(sequenceData[1].sequence)
+          try {
+            // const response = await this.$axios.post(
+            //   "http://localhost:8000/dj_api/get_all_rnas/",
+            //   {
+            //     data: sequenceData,
+            //   },
+            //   {
+            //     headers: {
+            //       "Content-Type": "application/json",
+            //     },
+            //   }
+            // );
+            const response = await this.$api.get_all_rnas({ data: sequenceData });
+
+            console.log("Upload response:", response);
+            console.log("now");
+            console.log(response[1].data);
+            if (response[1].code === 0) {
+              this.$message.success("File processed successfully");
+              // 假设返回一个下载链接
+              if (response[1].data.data) {
+                window.location.href = response[1].data.data;
+              }
+            } else {
+              this.$message.error("Failed to process the file");
+            }
+          } catch (error) {
+            console.error("Error uploading file:", error);
+            this.$message.error("Failed to upload file");
+          }
+        } else {
+          this.$message.error(
+            "The file is empty or does not contain any sequences"
+          );
+        }
+      };
+
+      reader.onerror = (error) => {
+        console.error("Error reading file:", error);
+        this.$message.error("Failed to read the file");
+      };
+
+      reader.readAsText(file);
     },
   },
 };
@@ -93,37 +150,13 @@ export default {
   margin-top: 20px;
 }
 
-.input-field {
+.upload-demo {
   width: 300px;
   margin-bottom: 20px;
 }
 
-.query-button {
-  width: 300px;
-  margin-bottom: 20px;
-}
-
-.result-container {
+.el-table {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.mrna-card {
-  width: 300px;
-  margin: 10px 0;
-  padding: 10px;
-  border: 1px solid #ddd;
-}
-
-.mrna-info {
-  font-size: 14px;
-  color: #333;
-}
-
-.no-result {
-  color: #888;
-  font-size: 16px;
+  margin-top: 20px;
 }
 </style>

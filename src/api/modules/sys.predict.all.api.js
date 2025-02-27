@@ -1,19 +1,17 @@
 export default ({ request, tools }) => ({
     /**
      * @description 讲一个sequence列表数据传入到后端 进行rna预测
-     * @param {Object} data 请求携带的信息，包含 [1]
+     * @param {Object} data 请求携带的信息,[{"sequence":"CC(C)OC1=C(NC2=NC=C(Cl)C(N2)=NC2=CC=CC=C2S(=O)(=O)C(C)C)C=C(C)C(=C1)C1CCNCC1"},{"sequence":"COC(=O)C1=CCCN(C)C1"}]
      */
-    send_email (data = {}) {
+    get_all_rnas (data = {}) {
       // 真实请求，访问后台接口 localhost:8000/dj_api/get_rnas/
       return request({
-        url: 'email/send/',  // 后端接口
+        url: 'get_all_rnas/',   // 后端接口
         method: 'post',
         timeout: 10000,  // 设置请求超时时间为 1 秒
         data: {
             // drug_sequence: data.drug_sequence,  // 传递 drug_sequence
-            subject:data.subject,
-            message:data.message,
-            recipient_list:data.recipient_list
+            data:data.data
         }
       })
         .then(response => {
