@@ -3,48 +3,95 @@
     <template slot="header">Drug-MiRNA Association Query</template>
 
     <div class="content">
-      <!-- 文件上传按钮 -->
-      <el-upload
-        class="upload-demo"
-        ref="upload"
-        :before-upload="beforeUpload"
-        :on-change="handleChange"
-        :on-success="handleUploadSuccess"
-        :on-error="handleUploadError"
-        :file-list="fileList"
-        :http-request="handleUpload"
-        accept=".xlsx, .xls, .csv"
-      >
-        <el-button slot="trigger" size="small" type="primary"
-          >Upload File</el-button
-        >
-        <div slot="tip" class="el-upload__tip">
-          Only .xlsx, .xls and .csv files are accepted
-        </div>
-      </el-upload>
+      <div class="query-section">
+        <!-- 输入药物名称 -->
+        <el-input
+          v-model="drugName"
+          placeholder="Please enter drug sequence"
+          clearable
+          class="input-field"
+        ></el-input>
 
-      <!-- 显示上传的表格数据 -->
-      <el-table :data="table.data" style="width: 100%">
-        <el-table-column
-          v-for="(column, index) in table.columns"
-          :key="index"
-          :prop="column.prop"
-          :label="column.label"
+        <!-- 查询按钮 -->
+        <el-button
+          type="primary"
+          :loading="loading"
+          @click="fetchMRNA"
+          class="query-button"
         >
-        </el-table-column>
+          Search
+        </el-button>
+      </div>
+
+      <!-- 显示相关的mRNA -->
+      <el-table
+        v-if="mrnaList.length > 0"
+        :data="mrnaList"
+        class="result-table"
+      >
+        <el-table-column prop="RNA_ID" label="RNA_ID"></el-table-column>
+        <el-table-column prop="Sequence" label="Sequence"></el-table-column>
+        <el-table-column
+          prop="Probability"
+          label="Probability"
+        ></el-table-column>
       </el-table>
+
+      <!-- 如果没有数据或还没查询 -->
+      <div v-else class="no-result">
+        <p>Please enter the drug sequence and click on search.</p>
+      </div>
+
+      <div class="upload-section">
+        <!-- 文件上传按钮 -->
+        <el-upload
+          class="upload-demo"
+          ref="upload"
+          :before-upload="beforeUpload"
+          :on-change="handleChange"
+          :on-success="handleUploadSuccess"
+          :on-error="handleUploadError"
+          :file-list="fileList"
+          :http-request="handleUpload"
+          accept=".xlsx, .xls, .csv"
+        >
+          <el-button slot="trigger" size="small" type="primary"
+            >Upload File</el-button
+          >
+          <div slot="tip" class="el-upload__tip">
+            Only .xlsx, .xls and .csv files are accepted
+          </div>
+        </el-upload>
+
+        <!-- 显示上传的表格数据 -->
+        <el-table
+          v-if="table.data.length > 0"
+          :data="table.data"
+          class="upload-table"
+        >
+          <el-table-column
+            v-for="(column, index) in table.columns"
+            :key="index"
+            :prop="column.prop"
+            :label="column.label"
+          >
+          </el-table-column>
+        </el-table>
+      </div>
     </div>
   </d2-container>
 </template>
 
 <script>
-import log from '@/libs/util.log';
 import * as XLSX from "xlsx";
 
 export default {
   name: "DrugMiRNAQuery",
   data() {
     return {
+      drugName: "", // 用户输入的drug sequence
+      mrnaList: [], // 存储返回的mRNA数据
+      loading: false, // 加载状态
       fileList: [], // 上传的文件列表
       table: {
         columns: [], // 表格列
@@ -53,6 +100,36 @@ export default {
     };
   },
   methods: {
+    async fetchMRNA() {
+      if (!this.drugName) {
+        this.$message.warning("Please enter the drug sequence");
+        return;
+      }
+      this.loading = true;
+
+      try {
+        console.log("drug_sequence:", this.drugName); // 打印 drugName 查看是否正确
+
+        // 调用 get_rnas API，传入 drugName 作为 drug_sequence
+        const response = await this.$api.get_rnas({
+          drug_sequence: this.drugName,
+        });
+
+        // 直接将返回的 RNA 数据赋值给 mrnaList
+        this.mrnaList = response[1].data.data; // 假设 API 直接返回了 RNA 数据数组
+        console.log("vue 中的数据");
+        console.log(response);
+        console.log(response[1].msg);
+        console.log(response[1].data);
+        console.log(response[1].data.data[1]);
+        console.log(this.mrnaList);
+      } catch (error) {
+        console.error("Request failed", error); // 打印错误信息
+        this.$message.error("Request failed. Please try again later.");
+      } finally {
+        this.loading = false;
+      }
+    },
     beforeUpload(file) {
       const isAcceptedFormat =
         file.type ===
@@ -75,13 +152,40 @@ export default {
       this.$message.error("Upload failed");
     },
     async handleUpload({ file }) {
-  
       console.log("Uploading file:", file);
 
       const reader = new FileReader();
 
       reader.onload = async (event) => {
         const fileContent = event.target.result;
+        const workbook = XLSX.read(fileContent, { type: "binary" });
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+        if (jsonData.length > 1) {
+          const headers = jsonData[0];
+          const data = jsonData.slice(1);
+        
+
+          this.table.columns = headers.map((header) => ({
+            label: header,
+            prop: header,
+          }));
+          this.table.data = data.map((row) => {
+            const rowData = {};
+            headers.forEach((header, index) => {
+              rowData[header] = row[index];
+            });
+            return rowData;
+          });
+
+          console.log("Parsed table data:", this.table);
+        } else {
+          this.$message.error(
+            "The file is empty or does not contain any sequences"
+          );
+        }
         const rows = fileContent
           .split("\n")
           .map((row) => row.trim())
@@ -89,22 +193,9 @@ export default {
 
         if (rows.length > 1) {
           const sequenceData = rows.slice(1).map((sequence) => ({ sequence }));
-          console.log(sequenceData)
-          // 列表
-          // console.log(sequenceData[0].sequence)
-          // console.log(sequenceData[1].sequence)
+      
           try {
-            // const response = await this.$axios.post(
-            //   "http://localhost:8000/dj_api/get_all_rnas/",
-            //   {
-            //     data: sequenceData,
-            //   },
-            //   {
-            //     headers: {
-            //       "Content-Type": "application/json",
-            //     },
-            //   }
-            // );
+
             const response = await this.$api.get_all_rnas({ data: sequenceData });
 
             console.log("Upload response:", response);
@@ -135,7 +226,7 @@ export default {
         this.$message.error("Failed to read the file");
       };
 
-      reader.readAsText(file);
+      reader.readAsBinaryString(file);
     },
   },
 };
@@ -150,12 +241,57 @@ export default {
   margin-top: 20px;
 }
 
-.upload-demo {
-  width: 300px;
+.query-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.input-field {
+  width: 100%;
   margin-bottom: 20px;
 }
 
-.el-table {
+.query-button {
+  width: 100%;
+}
+
+.result-table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.no-result {
+  color: #888;
+  font-size: 16px;
+}
+
+.upload-demo {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.upload-table {
   width: 100%;
   margin-top: 20px;
 }
