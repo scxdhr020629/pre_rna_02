@@ -1,49 +1,86 @@
 <template>
   <d2-container>
-    <template slot="header">Drug-MiRNA Association Query</template>
+    <template slot="header">
+      <div class="page-header">
+        <h1>Drug-MiRNA Association Query</h1>
+      </div>
+    </template>
 
     <div class="content">
-      <div class="query-section">
-        <!-- 输入药物名称 -->
-        <el-input
-          v-model="drugName"
-          placeholder="Please enter drug sequence"
-          clearable
-          class="input-field"
-        ></el-input>
+      <div class="section left-section">
+        <div class="section-header">
+          <h2>Single Drug Query</h2>
+        </div>
 
-        <!-- 查询按钮 -->
-        <el-button
-          type="primary"
-          :loading="loading"
-          @click="fetchMRNA"
-          class="query-button"
-        >
-          Search
-        </el-button>
+        <div class="input-section">
+          <el-input
+            v-model="drugName"
+            placeholder="Please enter drug sequence"
+            clearable
+            class="input-field"
+          >
+            <template slot="prefix">
+              <i class="el-icon-search"></i>
+            </template>
+          </el-input>
+
+          <el-button
+            type="primary"
+            :loading="loading"
+            @click="fetchMRNA"
+            class="query-button"
+            icon="el-icon-search"
+          >
+            Search
+          </el-button>
+        </div>
+
+        <div class="results-container">
+          <el-table
+            v-if="mrnaList.length > 0"
+            :data="mrnaList"
+            class="result-table"
+            :stripe="true"
+            :border="true"
+            height="400"
+          >
+            <el-table-column
+              prop="RNA_ID"
+              label="RNA_ID"
+              min-width="120"
+            ></el-table-column>
+            <el-table-column
+              prop="Sequence"
+              label="Sequence"
+              min-width="200"
+            ></el-table-column>
+            <el-table-column
+              prop="Probability"
+              label="Probability"
+              min-width="120"
+            >
+              <template slot-scope="scope">
+                <el-progress
+                  :percentage="scope.row.Probability * 100"
+                  :format="percentageFormat"
+                  :color="customColors"
+                ></el-progress>
+              </template>
+            </el-table-column>
+          </el-table>
+
+          <div v-else class="no-result">
+            <i class="el-icon-info-circle"></i>
+            <p>Please enter the drug sequence and click on search.</p>
+          </div>
+        </div>
       </div>
 
-      <!-- 显示相关的mRNA -->
-      <el-table
-        v-if="mrnaList.length > 0"
-        :data="mrnaList"
-        class="result-table"
-      >
-        <el-table-column prop="RNA_ID" label="RNA_ID"></el-table-column>
-        <el-table-column prop="Sequence" label="Sequence"></el-table-column>
-        <el-table-column
-          prop="Probability"
-          label="Probability"
-        ></el-table-column>
-      </el-table>
+      <div class="section right-section">
+        <div class="section-header">
+          <h2>Batch Upload</h2>
+        </div>
 
-      <!-- 如果没有数据或还没查询 -->
-      <div v-else class="no-result">
-        <p>Please enter the drug sequence and click on search.</p>
-      </div>
-
-      <div class="upload-section">
-        <!-- 文件上传按钮 -->
         <el-upload
           class="upload-demo"
           ref="upload"
@@ -54,29 +91,36 @@
           :file-list="fileList"
           :http-request="handleUpload"
           accept=".xlsx, .xls, .csv"
+          drag
         >
-          <el-button slot="trigger" size="small" type="primary"
-            >Upload File</el-button
-          >
+          <i class="el-icon-upload"></i>
+          <div class="el-upload__text">
+            Drop file here or <em>click to upload</em>
+          </div>
           <div slot="tip" class="el-upload__tip">
             Only .xlsx, .xls and .csv files are accepted
           </div>
         </el-upload>
 
-        <!-- 显示上传的表格数据 -->
-        <el-table
-          v-if="table.data.length > 0"
-          :data="table.data"
-          class="upload-table"
-        >
-          <el-table-column
-            v-for="(column, index) in table.columns"
-            :key="index"
-            :prop="column.prop"
-            :label="column.label"
+        <div class="table-container">
+          <el-table
+            v-if="table.data.length > 0"
+            :data="table.data"
+            class="upload-table"
+            :stripe="true"
+            :border="true"
+            height="400"
           >
-          </el-table-column>
-        </el-table>
+            <el-table-column
+              v-for="(column, index) in table.columns"
+              :key="index"
+              :prop="column.prop"
+              :label="column.label"
+              min-width="120"
+            >
+            </el-table-column>
+          </el-table>
+        </div>
       </div>
     </div>
   </d2-container>
@@ -89,17 +133,28 @@ export default {
   name: "DrugMiRNAQuery",
   data() {
     return {
-      drugName: "", // 用户输入的drug sequence
-      mrnaList: [], // 存储返回的mRNA数据
-      loading: false, // 加载状态
-      fileList: [], // 上传的文件列表
+      drugName: "",
+      mrnaList: [],
+      loading: false,
+      fileList: [],
       table: {
-        columns: [], // 表格列
-        data: [], // 表格数据
+        columns: [],
+        data: [],
       },
+      customColors: [
+        { color: "#f56c6c", percentage: 20 },
+        { color: "#e6a23c", percentage: 40 },
+        { color: "#5cb87a", percentage: 60 },
+        { color: "#1989fa", percentage: 80 },
+        { color: "#6f7ad3", percentage: 100 },
+      ],
     };
   },
+
   methods: {
+    percentageFormat(percentage) {
+      return percentage.toFixed(2) + "%";
+    },
     async fetchMRNA() {
       if (!this.drugName) {
         this.$message.warning("Please enter the drug sequence");
@@ -166,7 +221,6 @@ export default {
         if (jsonData.length > 1) {
           const headers = jsonData[0];
           const data = jsonData.slice(1);
-        
 
           this.table.columns = headers.map((header) => ({
             label: header,
@@ -186,6 +240,7 @@ export default {
             "The file is empty or does not contain any sequences"
           );
         }
+
         const rows = fileContent
           .split("\n")
           .map((row) => row.trim())
@@ -193,10 +248,11 @@ export default {
 
         if (rows.length > 1) {
           const sequenceData = rows.slice(1).map((sequence) => ({ sequence }));
-      
+          console.log(sequenceData);
           try {
-
-            const response = await this.$api.get_all_rnas({ data: sequenceData });
+            const response = await this.$api.get_all_rnas({
+              data: sequenceData,
+            });
 
             console.log("Upload response:", response);
             console.log("now");
@@ -233,66 +289,178 @@ export default {
 </script>
 
 <style scoped>
-/* 页面整体样式 */
+.page-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.page-header h1 {
+  color: #2c3e50;
+  font-size: 2em;
+  font-weight: 600;
+  margin: 0;
+}
+
 .content {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+  min-height: 80vh;
 }
 
-.query-section {
+.section {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 600px;
-  margin-bottom: 20px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
-.upload-section {
+.section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+}
+
+.section-header {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #f0f2f5;
+}
+
+.section-header h2 {
+  color: #2c3e50;
+  font-size: 1.5em;
+  font-weight: 500;
+  margin: 0;
+}
+
+.input-section {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 600px;
-  margin-top: 20px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  gap: 12px;
+  margin-bottom: 24px;
 }
 
 .input-field {
-  width: 100%;
-  margin-bottom: 20px;
+  flex: 1;
+}
+
+.input-field :deep(.el-input__inner) {
+  border-radius: 8px;
+  height: 40px;
 }
 
 .query-button {
-  width: 100%;
+  min-width: 120px;
+  height: 40px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.results-container {
+  flex: 1;
+  overflow: hidden;
 }
 
 .result-table {
   width: 100%;
-  margin-top: 20px;
+  border-radius: 8px;
 }
 
 .no-result {
-  color: #888;
-  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #909399;
+  font-size: 1.1em;
+}
+
+.no-result i {
+  font-size: 48px;
+  margin-bottom: 16px;
+  color: #dcdfe6;
 }
 
 .upload-demo {
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+}
+
+.upload-demo :deep(.el-upload-dragger) {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #dcdfe6;
+  border-radius: 8px;
+  background: #f8f9fa;
+  transition: all 0.3s ease;
+}
+
+.upload-demo :deep(.el-upload-dragger:hover) {
+  border-color: #409eff;
+  background: #f0f7ff;
+}
+
+.upload-demo :deep(.el-icon-upload) {
+  font-size: 48px;
+  color: #909399;
+  margin-bottom: 16px;
+}
+
+.el-upload__tip {
+  color: #909399;
+  font-size: 0.9em;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.table-container {
+  flex: 1;
+  overflow: hidden;
 }
 
 .upload-table {
   width: 100%;
-  margin-top: 20px;
+  border-radius: 8px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1200px) {
+  .content {
+    flex-direction: column;
+  }
+
+  .section {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c0c4cc;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #909399;
 }
 </style>
