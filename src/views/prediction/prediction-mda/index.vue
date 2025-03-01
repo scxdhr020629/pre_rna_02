@@ -102,26 +102,6 @@
           <span>Batch Upload Mode</span>
         </div>
 
-        <!-- <el-upload
-          class="upload-demo"
-          ref="upload"
-          :before-upload="beforeUpload"
-          :on-change="handleChange"
-          :on-success="handleUploadSuccess"
-          :on-error="handleUploadError"
-          :file-list="fileList"
-          :http-request="handleUpload"
-          accept=".xlsx, .xls, .csv"
-          drag
-        >
-          <div class="upload-content">
-            <i class="el-icon-upload"></i>
-            <div class="upload-text">
-              <p>Drop your file here or <em>click to upload</em></p>
-              <p class="upload-hint">Support for .xlsx, .xls and .csv files</p>
-            </div>
-          </div>
-        </el-upload> -->
         <el-upload
           class="upload-demo"
           ref="upload"
@@ -250,12 +230,7 @@ export default {
 
         // 直接将返回的 RNA 数据赋值给 mrnaList
         this.mrnaList = response[1].data.data; // 假设 API 直接返回了 RNA 数据数组
-        console.log("vue 中的数据");
-        console.log(response);
-        console.log(response[1].msg);
-        console.log(response[1].data);
-        console.log(response[1].data.data[1]);
-        console.log(this.mrnaList);
+
       } catch (error) {
         console.error("Request failed", error); // 打印错误信息
         this.$message.error("Request failed. Please try again later.");
@@ -404,24 +379,89 @@ export default {
 /* 页面标题样式 */
 .page-header {
   text-align: center;
-  padding: 20px 0;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 30px 0; /* 增加内边距 */
+  background: linear-gradient(135deg, #409eff 0%, #67c23a 100%); /* 使用主色调的渐变 */
   border-radius: var(--border-radius);
-  margin-bottom: 24px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(64, 158, 255, 0.1); /* 添加阴影效果 */
+  position: relative;
+  overflow: hidden; /* 确保伪元素不会溢出 */
+}
+
+/* 添加渐变背景动画效果 */
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  transform: translateX(-100%);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  20% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .title {
-  font-size: 2.5em;
-  color: #2c3e50;
+  font-size: 2.8em; /* 增大标题字号 */
+  color: #ffffff; /* 改为白色 */
   margin: 0;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  font-weight: 700; /* 加粗 */
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* 添加文字阴影 */
+  position: relative;
+  z-index: 1; /* 确保文字在动画效果上层 */
 }
 
 .subtitle {
-  color: #5e6d82;
-  margin-top: 8px;
-  font-size: 1.1em;
+  color: rgba(255, 255, 255, 0.9); /* 半透明白色 */
+  margin-top: 12px;
+  font-size: 1.2em;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  position: relative;
+  z-index: 1;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 添加响应式样式 */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.2em;
+  }
+  
+  .subtitle {
+    font-size: 1.1em;
+  }
+  
+  .page-header {
+    padding: 25px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.8em;
+  }
+  
+  .subtitle {
+    font-size: 1em;
+  }
+  
+  .page-header {
+    padding: 20px 0;
+  }
 }
 
 /* 内容区布局 */
@@ -454,19 +494,32 @@ export default {
 .section-header {
   display: flex;
   align-items: center;
-  margin-bottom: 24px;
-  padding-bottom: 16px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
   border-bottom: 2px solid #f0f2f5;
+  position: relative;
+}
+
+.section-header::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, #409eff, #67c23a);
 }
 
 .section-header i {
-  font-size: 24px;
-  margin-right: 12px;
-  color: var(--primary-color);
+  font-size: 28px;
+  margin-right: 15px;
+  background: linear-gradient(135deg, #409eff, #67c23a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .section-header span {
-  font-size: 1.25em;
+  font-size: 1.4em;
   font-weight: 600;
   color: #2c3e50;
 }
@@ -474,79 +527,169 @@ export default {
 /* 输入区域样式 */
 .input-section {
   display: flex;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 12px; /* 减小间距 */
+  margin-bottom: 30px;
+  align-items: center;
 }
 
 .input-field {
   flex: 1;
+  transition: all 0.3s ease;
 }
 
 .input-field :deep(.el-input__inner) {
-  height: 48px;
-  border-radius: 8px;
-  padding: 0 16px 0 40px;
-  font-size: 16px;
+  height: 60px;
+  border-radius: 15px;
+  padding: 0 25px 0 60px;
+  font-size: 18px;
   border: 2px solid #e4e7ed;
-  transition: all var(--transition-time) ease;
+  background: #f8fafc;
+  transition: all 0.3s ease;
 }
 
 .input-field :deep(.el-input__prefix) {
-  left: 12px;
-  color: var(--primary-color);
+  left: 20px;
 }
 
+.input-field :deep(.el-input__prefix i) {
+  font-size: 24px;
+  color: #409eff;
+  transition: all 0.3s ease;
+}
+
+/* 查询按钮样式 */
 .query-button {
-  min-width: 120px;
-  height: 48px;
-  border-radius: 8px;
-  font-size: 16px;
+  min-width: 80px; /* 减小最小宽度 */
+  width: auto; /* 自适应宽度 */
+  height: 45px; /* 减小高度 */
+  border-radius: 12px;
+  font-size: 14px; /* 减小字体大小 */
   font-weight: 500;
+  background: linear-gradient(135deg, #409eff, #67c23a);
+  border: none;
+  color: white;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  background: linear-gradient(135deg, #409eff, #337ecc);
-  border: none;
-  transition: all var(--transition-time) ease;
+  gap: 4px; /* 减小图标和文字的间距 */
+  padding: 0 15px; /* 减小内边距 */
+  margin-top: 8px; /* 微调垂直位置 */
+}
+
+.query-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(64, 158, 255, 0.2);
 }
 
 .query-button i {
-  font-size: 18px;
+  font-size: 14px; /* 减小图标大小 */
 }
 
-/* 表格样式增强 */
-.results-wrapper,
-.table-wrapper {
-  position: relative;
-  margin-top: 20px;
-}
-
-.result-table,
-.upload-table {
-  width: 100%;
-  border-radius: 8px;
+/* 结果表格样式 */
+.results-wrapper {
+  margin-top: 30px;
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
-/* 表格单元格样式 */
+.result-table {
+  width: 100%;
+  border-radius: 12px;
+}
+
+:deep(.el-table) {
+  background: transparent;
+}
+
+:deep(.el-table th) {
+  background: #f8fafc;
+  padding: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+:deep(.el-table td) {
+  padding: 16px;
+}
+
+/* RNA ID 样式 */
 .rna-id {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  color: #409eff;
+  font-weight: 500;
+  width: 120px; /* 固定 RNA ID 列宽 */
 }
 
+.rna-id i {
+  font-size: 18px;
+}
+
+/* 序列单元格样式 */
 .sequence-cell {
-  font-family: monospace;
+  font-family: 'Courier New', monospace;
+  background: #f8fafc;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  border: 1px solid #e4e7ed;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 400px; /* 设置最大宽度 */
+  display: block; /* 确保省略号正常显示 */
 }
 
+/* 概率进度条样式 */
 .probability-wrapper {
   padding: 8px 0;
+  width: 150px; /* 固定概率列宽 */
 }
 
+/* 调整表格列宽 */
+:deep(.el-table .el-table__cell) {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+:deep(.el-table .cell) {
+  padding: 0 16px;
+  white-space: nowrap;
+}
+
+
+/* 无结果样式 */
+.no-result {
+  padding: 60px 20px;
+  text-align: center;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+.no-result .empty-icon {
+  font-size: 72px;
+  color: #e4e7ed;
+  margin-bottom: 20px;
+}
+
+.no-result p {
+  color: #606266;
+  font-size: 16px;
+  margin: 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.no-result .el-button {
+  margin-top: 20px;
+  font-size: 15px;
+  color: #409eff;
+}
 /* 文件上传区域样式 */
 .upload-demo {
   width: 100%;
@@ -753,36 +896,5 @@ export default {
   background: #909399;
 }
 
-.no-result {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-  color: #909399;
-}
 
-.no-result .empty-icon {
-  font-size: 64px;
-  margin-bottom: 16px;
-  color: #dcdfe6;
-}
-
-.no-result p {
-  font-size: 16px;
-  margin: 12px 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.no-result .el-icon-info-circle {
-  font-size: 18px;
-  color: #409eff;
-}
-
-.no-result .el-button {
-  margin-top: 16px;
-  font-size: 14px;
-}
 </style>
