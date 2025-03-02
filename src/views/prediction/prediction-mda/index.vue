@@ -558,12 +558,13 @@ export default {
 }
 
 /* 查询按钮样式 */
+
 .query-button {
-  min-width: 80px; /* 减小最小宽度 */
-  width: auto; /* 自适应宽度 */
-  height: 45px; /* 减小高度 */
+  min-width: 80px;
+  width: auto;
+  height: 45px;
   border-radius: 12px;
-  font-size: 14px; /* 减小字体大小 */
+  font-size: 14px;
   font-weight: 500;
   background: linear-gradient(135deg, #409eff, #67c23a);
   border: none;
@@ -572,20 +573,78 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px; /* 减小图标和文字的间距 */
-  padding: 0 15px; /* 减小内边距 */
-  margin-top: 8px; /* 微调垂直位置 */
+  gap: 4px;
+  padding: 0 15px;
+  margin-top: 8px;
+  position: relative; /* 添加相对定位 */
+  overflow: hidden; /* 确保光效不会溢出按钮边界 */
 }
 
+/* 添加光效动画 */
+.query-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shine-button 3s infinite linear;
+}
+
+/* 光效动画关键帧 */
+@keyframes shine-button {
+  0% {
+    left: -100%;
+  }
+  20%, 100% {
+    left: 100%;
+  }
+}
+
+/* 鼠标悬浮效果 */
 .query-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(64, 158, 255, 0.2);
 }
 
-.query-button i {
-  font-size: 14px; /* 减小图标大小 */
+/* 鼠标悬浮时加快光效动画 */
+.query-button:hover::before {
+  animation-duration: 1.5s;
 }
 
+.query-button i {
+  font-size: 14px;
+  position: relative; /* 确保图标在光效之上 */
+  z-index: 1;
+}
+
+/* 添加按钮文字样式 */
+.query-button span {
+  position: relative; /* 确保文字在光效之上 */
+  z-index: 1;
+}
+
+/* 按钮点击效果 */
+.query-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(64, 158, 255, 0.1);
+}
+
+/* 加载状态样式 */
+.query-button.is-loading {
+  opacity: 0.8;
+  cursor: wait;
+}
+
+.query-button.is-loading::before {
+  animation: none;
+}
 /* 结果表格样式 */
 .results-wrapper {
   margin-top: 30px;
