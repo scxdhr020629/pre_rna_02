@@ -27,8 +27,7 @@
   .d2-layout-header-aside-content {
     @extend %full;
     .d2-theme-header {
-      // height: 60px;
-      height: 80px;
+      height: 60px;
       .d2-theme-header-menu {
         overflow: hidden;
         &.is-scrollable {
@@ -54,8 +53,7 @@
           }
         }
         .d2-theme-header-menu__prev, .d2-theme-header-menu__next {
-          // height: 60px;
-          height: 80px;
+          height: 60px;
           position: absolute;
           top: 0;
           font-size: 20px;
@@ -123,8 +121,7 @@
         float: left;
         text-align: center;
         img {
-          // height: 60px;
-          height: 80px;
+          height: 60px;
         }
       }
       .logo-transition {
@@ -133,68 +130,44 @@
       // 折叠侧边栏切换按钮
       .toggle-aside-btn {
         float: left;
-        // display: flex;
-        // align-items: center;
-        // gap: 100px;
-        // height: 60px;
-        // width: 60px;
-        height: 80px;
-        width: 80px;
+        height: 60px;
+        width: 60px;
         display: flex;
         justify-content: center;
         align-items: center;
         @extend %unable-select;
-        // 侧边栏到图标 添加距离
-        margin-left: 10px;
         i {
-          // font-size: 20px;
-          font-size: 30px;
+          font-size: 20px;
           margin-top: 4px;
         }
       }
       // [菜单] 顶栏
       .el-menu {
-        // float: left;
-        display: flex;
-        align-items: center;
-        gap: 150px;
-        // 本来是float left 正常排列
+        float: left;
         border-bottom: none;
         background-color: transparent;
-
         %header-menu-item {
           @extend %unable-select;
           i.fa {
-            // font-size: 16px;
-            // 这里更改了顶栏的图片大小
-            font-size: 40px;
-            margin-right: 30px;
+            font-size: 16px;
+            margin-right: 4px;
           }
-          // font-size: 40px;
         }
         .el-menu-item {
           @extend %header-menu-item;
           border-bottom: none;
-          // 这里更改了 Home About这种单的大小
-          font-size: 40px;
         }
         .el-submenu {
           @extend %header-menu-item;
           .el-submenu__title {
             border-bottom: none;
-            // 这里更改的是有子元素的 Prediction Help 的字体大小
-            font-size:40px;
           }
         }
       }
       // 顶栏右侧的按钮
       .d2-header-right {
-        // float: right;
-        display: flex;
-        align-items: center;
-        gap: 150px;
-        // height: 60px;
-        height: 80px;
+        float: right;
+        height: 60px;
         display: flex;
         align-items: center;
         .btn-text {

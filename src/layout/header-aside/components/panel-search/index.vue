@@ -1,14 +1,13 @@
 <template>
   <div class="panel-search" flex="dir:top">
     <div class="panel-search__input-group" flex-box="0" flex="dir:top main:center cross:center" @click.self="handlePanelClick">
-      <!-- <d2-icon-svg class="panel-search__logo" name="d2-admin-text"/> -->
-      <d2-icon-svg class="panel-search__logo" name="d2-admin"/>
+      <d2-icon-svg class="panel-search__logo" name="d2-admin-text"/>
       <el-autocomplete
         class="panel-search__input"
         ref="input"
         v-model="searchText"
         suffix-icon="el-icon-search"
-        placeholder="search page"
+        placeholder="搜索页面"
         :fetch-suggestions="querySearch"
         :trigger-on-focus="false"
         :clearable="true"
@@ -17,11 +16,11 @@
         <d2-panel-search-item slot-scope="{ item }" :item="item"/>
       </el-autocomplete>
       <div class="panel-search__tip">
-        You can use the shortcut 
+        您可以使用快捷键
         <span class="panel-search__key">{{hotkey.open}}</span>
-         wake up the search panel,Press
+        唤醒搜索面板，按
         <span class="panel-search__key">{{hotkey.close}}</span>
-        to close it
+        关闭
       </div>
     </div>
     <div v-if="resultsList.length > 0" class="panel-search__results-group" flex-box="1">

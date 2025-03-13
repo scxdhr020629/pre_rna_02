@@ -189,7 +189,8 @@
 
 <script>
 import * as XLSX from "xlsx";
-
+import {get_rnas} from "@/api/modules/sys.predict.api";
+import {get_all_rnas} from "@/api/modules/sys.predict.all.api";
 export default {
   name: "DrugMiRNAQuery",
   data() {
@@ -224,7 +225,7 @@ export default {
         console.log("drug_sequence:", this.drugName); // 打印 drugName 查看是否正确
 
         // 调用 get_rnas API，传入 drugName 作为 drug_sequence
-        const response = await this.$api.get_rnas({
+        const response = await get_rnas({
           drug_sequence: this.drugName,
         });
 
@@ -303,7 +304,7 @@ export default {
           const sequenceData = rows.slice(1).map((sequence) => ({ sequence }));
           console.log(sequenceData);
           try {
-            const response = await this.$api.get_all_rnas({
+            const response = await get_all_rnas({
               data: sequenceData,
             });
 
@@ -379,55 +380,30 @@ export default {
 /* 页面标题样式 */
 .page-header {
   text-align: center;
-  padding: 30px 0; /* 增加内边距 */
-  background: linear-gradient(135deg, #409eff 0%, #67c23a 100%); /* 使用主色调的渐变 */
+  padding: 20px 0; /* 从30px减少到20px */
+  background: linear-gradient(135deg, #409eff 0%, #67c23a 100%);
   border-radius: var(--border-radius);
-  margin-bottom: 30px;
-  box-shadow: 0 4px 15px rgba(64, 158, 255, 0.1); /* 添加阴影效果 */
+  margin-bottom: 20px; /* 从30px减少到20px */
+  box-shadow: 0 4px 15px rgba(64, 158, 255, 0.1);
   position: relative;
-  overflow: hidden; /* 确保伪元素不会溢出 */
-}
-
-/* 添加渐变背景动画效果 */
-.page-header::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
-  transform: translateX(-100%);
-  animation: shine 3s infinite;
-}
-
-@keyframes shine {
-  0% {
-    transform: translateX(-100%);
-  }
-  20% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
+  overflow: hidden;
 }
 
 .title {
-  font-size: 2.8em; /* 增大标题字号 */
-  color: #ffffff; /* 改为白色 */
+  font-size: 2.4em; /* 从2.8em减小到2.4em */
+  color: #ffffff;
   margin: 0;
-  font-weight: 700; /* 加粗 */
+  font-weight: 700;
   letter-spacing: 1px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* 添加文字阴影 */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;
-  z-index: 1; /* 确保文字在动画效果上层 */
+  z-index: 1;
 }
 
 .subtitle {
-  color: rgba(255, 255, 255, 0.9); /* 半透明白色 */
-  margin-top: 12px;
-  font-size: 1.2em;
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 8px; /* 从12px减少到8px */
+  font-size: 1.1em; /* 从1.2em减小到1.1em */
   font-weight: 500;
   letter-spacing: 0.5px;
   position: relative;
@@ -435,32 +411,32 @@ export default {
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* 添加响应式样式 */
+/* 响应式调整 */
 @media (max-width: 768px) {
   .title {
-    font-size: 2.2em;
+    font-size: 2em; /* 从2.2em减小到2em */
   }
   
   .subtitle {
-    font-size: 1.1em;
+    font-size: 1em; /* 从1.1em减小到1em */
   }
   
   .page-header {
-    padding: 25px 0;
+    padding: 15px 0; /* 从25px减少到15px */
   }
 }
 
 @media (max-width: 480px) {
   .title {
-    font-size: 1.8em;
+    font-size: 1.6em; /* 从1.8em减小到1.6em */
   }
   
   .subtitle {
-    font-size: 1em;
+    font-size: 0.9em; /* 从1em减小到0.9em */
   }
   
   .page-header {
-    padding: 20px 0;
+    padding: 12px 0; /* 从20px减少到12px */
   }
 }
 

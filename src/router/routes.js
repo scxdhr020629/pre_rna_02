@@ -1,3 +1,9 @@
+import playground from './modules/playground'
+import plugins from './modules/plugins'
+import components from './modules/components'
+import mdaEmail from './modules/mda-email'
+import mdaPrediction from './modules/mda-prediction'
+
 import layoutHeaderAside from '@/layout/header-aside'
 
 // 由于懒加载页面太多的话会造成webpack热更新太慢，所以开发环境不使用懒加载，只有生产环境使用懒加载
@@ -17,109 +23,10 @@ const frameIn = [
         path: 'index',
         name: 'index',
         meta: {
-          title:'Home',
+          title: 'Home',
           auth: true
         },
         component: _import('system/index')
-      },
-      // 演示页面
-      // {
-      //   path: 'page1',
-      //   name: 'page1',
-      //   meta: {
-      //     title: 'Page 1',
-      //     auth: true
-      //   },
-      //   component: _import('demo/page1')
-      // },
-      // {
-      //   path: 'page2',
-      //   name: 'page2',
-      //   meta: {
-      //     title: 'Page 2',
-      //     auth: true
-      //   },
-      //   component: _import('demo/page2')
-      // },
-      // {
-      //   path: 'page3',
-      //   name: 'page3',
-      //   meta: {
-      //     title: 'Page 3',
-      //     auth: true
-      //   },
-      //   component: _import('demo/page3')
-      // },
-      // test
-      // {
-      //   path: 'demo-page',
-      //   name: 'demo-page',
-      //   meta: {
-      //     title: 'demo-page',
-      //     auth: true
-      //   },
-      //   component: _import('demo/page-demo')
-      // },
-      // prediction
-      // {
-      //   path: 'description-mda',
-      //   name: 'description-mda',
-      //   meta: {
-      //     title: 'DESCR',
-      //     auth: true
-      //   },
-      //   component: _import('prediction/description-mda')
-      // },
-      {
-        path: 'prediction-mda',
-        name: 'prediction-mda',
-        meta: {
-          title: 'MDA',
-          auth: true
-        },
-        component: _import('prediction/prediction-mda')
-      },
-      // help
-      {
-        // 帮助文档
-        path: 'help-document',
-        name: 'help-document',
-        meta: {
-          title: 'help-document',
-          auth: true
-        },
-        component: _import('help/help-document')
-      },
-      // 发送邮件
-      {
-        path: 'email',
-        name: 'email',
-        meta: {
-          title: 'Email',
-          auth: true
-        },
-        component: _import('email')
-      },
-      
-      // about
-      {
-        path: 'about',
-        name: 'about',
-        meta: {
-          title: 'about',
-          auth: true
-        },
-        component: _import('about')
-      },
-      // Publiction
-      {
-        path: 'publication',
-        name: 'publication',
-        meta: {
-          title: 'Publication',
-          auth: true
-        },
-        component: _import('publication')
       },
       // 系统 前端日志
       {
@@ -144,9 +51,43 @@ const frameIn = [
         name: 'redirect',
         hidden: true,
         component: _import('system/function/redirect')
+      },
+      // 发送邮件
+      {
+        path: 'email',
+        name: 'email',
+        meta: {
+          title: 'email',
+          auth: true
+        },
+        component: _import('email')
+      },
+      // help
+      {
+        path: 'help',
+        name: 'help',
+        meta: {
+          title: 'help',
+          auth: true
+        },
+        component: _import('help')
+      },
+      // about
+      {
+        path: 'about',
+        name: 'about',
+        meta: {
+          title: 'about',
+          auth: true
+        },
+        component: _import('about')
       }
     ]
-  }
+  },
+  playground,
+  plugins,
+  components,
+  mdaPrediction
 ]
 
 /**

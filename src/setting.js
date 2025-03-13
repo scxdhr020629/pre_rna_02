@@ -9,8 +9,10 @@ export default {
   },
   // 侧边栏默认配置
   menu: {
-    asideCollapse: false,
-    asideTransition: true
+    // asideCollapse: false,
+    // asideTransition: true
+    asideCollapse: true,
+    asideTransition: false
   },
   // 在读取持久化数据失败时默认页面
   page: {

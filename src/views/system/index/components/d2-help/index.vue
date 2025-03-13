@@ -2,7 +2,7 @@
   <div>
     <el-button type="primary" @click="dialogVisible = true" plain round>
       <d2-icon name="question-circle-o" class="d2-mr-5"/>
-      需要帮助吗
+      Help?
     </el-button>
     <el-dialog
       title="帮助"
@@ -14,7 +14,7 @@
           这里有一些参考资料
         </h2>
         <el-button-group>
-          <el-button @click="$open('https://d2.pub/zh/doc/d2-admin')">
+          <el-button @click="$open('https://d2.pub/doc/d2-admin')">
             <d2-icon name="book" class="d2-mr-5"/>
             文档
           </el-button>

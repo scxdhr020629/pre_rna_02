@@ -1,5 +1,20 @@
 import { uniqueId } from 'lodash'
 
+// 插件
+import demoPlugins from './modules/demo-plugins'
+// 组件
+import demoComponents from './modules/demo-components'
+// 功能
+import demoPlayground from './modules/demo-playground'
+// 邮件
+import mdaEmail from './modules/mda-email'
+// 预测
+import mdaPrediction from './modules/mda-prediction'
+// help
+import mdaHelp from './modules/mda-help'
+// about
+import mdaAbout from './modules/mda-about'
+
 /**
  * @description 给菜单数据补充上 path 字段
  * @description https://github.com/d2-projects/d2-admin/issues/209
@@ -15,98 +30,28 @@ function supplementPath (menu) {
   }))
 }
 
-export const menuHeader = supplementPath([
-  { path: '/index', title: 'Home', icon: 'home' },
-  // {
-  //   title: 'Page',
-  //   icon: 'folder-o',
-  //   // icon: 'database',
-  //   children: [
-  //     { path: '/page1', title: 'Page 1' },
-  //     { path: '/page2', title: 'Page 2' },
-  //     { path: '/page3', title: 'Page 3' },
-  //     { path: '/demo-page', title: 'demo-page' }
-  //   ]
-  // },
-  // prediction
-  // 这里的path 要和router 里的path 相互对应
-  {
-    title: 'Prediction',
-    icon: 'database',
-    children: [
-      // { path: '/description-mda', title: 'DESCR',icon:'database' },
-      { path: '/prediction-mda', title: 'MDA',icon:'database' }
-    ]
-  },
-  // help 帮助部分
-  {
-    title: 'Help',
-    icon: 'tree',
-    children: [
-      // { path: '/help-document', title: 'help-document' },
-      { path: '/help-document', title: 'Help-document',icon:'tree' },
-      // { path: '/send-email', title: 'Send-email',icon:'question' },
-    ]
-  },
-  //email 单独出来
-  {
-    path:'/email',
-    title: 'Email',
-    icon: 'envelope',
-  },
-  // about 
-  { path: '/about', title: 'About', icon: 'thumbs-up' },
-  // Publication
-  {
-    path:'/publication',
-    title: 'Publication',
-    icon: 'list',
-  }
+// 菜单 侧边栏
+export const menuAside = supplementPath([
+  demoComponents,
+  demoPlugins,
+  demoPlayground,
+  mdaPrediction
+
 ])
 
-export const menuAside = supplementPath([
-  { path: '/index', title: 'Home', icon: 'home' },
-  // {
-  //   title: 'Page',
-  //   icon: 'folder-o',
-  //   // icon: 'database',
-  //   children: [
-  //     { path: '/page1', title: 'Page 1' },
-  //     { path: '/page2', title: 'Page 2' },
-  //     { path: '/page3', title: 'Page 3' },
-  //     { path: '/demo-page', title: 'demo-page' }
-  //   ]
-  // },
-  // prediction
+// 菜单 顶栏
+export const menuHeader = supplementPath([
   {
-    title: 'prediction',
-    icon: 'database',
-    children: [
-      // { path: '/description-mda', title: 'DESCR',icon:'database' },
-      { path: '/prediction-mda', title: 'MDA',icon:'database' }
-    ]
+    path: '/index',
+    title: 'Home',
+    icon: 'home'
   },
-  // help 帮助部分
-  {
-    title: 'help',
-    icon: 'tree',
-    children: [
-      { path: '/help-document', title: 'Help-document',icon:'tree' },
-      // { path: '/send-email', title: 'Send-email' ,icon:'question' },
-    ]
-  },
-  //email
-  {
-    path:'/email',
-    title: 'Email',
-    icon: 'envelope',
-  },
-  // about 
-  { path: '/about', title: 'About', icon: 'thumbs-up' },
-  // Publication
-  {
-    path:'/publication',
-    title: 'Publication',
-    icon: 'list',
-  }
+  // 先屏蔽掉
+  demoPlayground,
+  demoComponents,
+  demoPlugins,
+  mdaPrediction,
+  mdaEmail,
+  mdaHelp,
+  mdaAbout
 ])
