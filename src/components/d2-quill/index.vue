@@ -41,7 +41,7 @@ export default {
             ['link', 'image']
           ]
         },
-        placeholder: '书写你的内容',
+        placeholder: 'Writing your content',
         readOnly: false
       }
     }
