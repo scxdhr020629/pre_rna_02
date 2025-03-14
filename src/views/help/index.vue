@@ -7,13 +7,6 @@
         <p class="subtitle">Last Updated: {{ currentTime }}</p>
       </div>
     </template>
-    
-    <!-- Markdown documentation content -->
-    <div class="doc-container">
-      <d2-markdown :source="doc" highlight/>
-    </div>
-    
-    <!-- Quick navigation section -->
     <div class="quick-nav">
       <h3>Quick Navigation</h3>
       <el-button-group>
@@ -22,7 +15,22 @@
         <el-button type="primary" size="small" icon="el-icon-s-platform" @click="scrollToSection('getting-started')">Getting Started</el-button>
         <el-button type="primary" size="small" icon="el-icon-question" @click="scrollToSection('troubleshooting')">Troubleshooting</el-button>
       </el-button-group>
+    </div>    
+    <!-- Markdown documentation content -->
+    <div class="doc-container">
+      <d2-markdown :source="doc" highlight/>
     </div>
+    
+    <!-- Quick navigation section -->
+    <!-- <div class="quick-nav">
+      <h3>Quick Navigation</h3>
+      <el-button-group>
+        <el-button type="primary" size="small" icon="el-icon-document" @click="scrollToSection('overview')">Overview</el-button>
+        <el-button type="primary" size="small" icon="el-icon-menu" @click="scrollToSection('features')">Features</el-button>
+        <el-button type="primary" size="small" icon="el-icon-s-platform" @click="scrollToSection('getting-started')">Getting Started</el-button>
+        <el-button type="primary" size="small" icon="el-icon-question" @click="scrollToSection('troubleshooting')">Troubleshooting</el-button>
+      </el-button-group>
+    </div> -->
   </d2-container>
 </template>
 
@@ -59,6 +67,7 @@ export default {
     });
   }
 }
+
 </script>
 
 <style lang="scss" scoped>
