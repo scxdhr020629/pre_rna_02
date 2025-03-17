@@ -8,7 +8,7 @@
       </div>
       <template slot="footer">
         <div class="btn-group">
-          <span class="btn-group__btn" @click="$open('https://github.com/d2-projects')">Codes</span> |
+          <span class="btn-group__btn" @click="$open('https://github.com/scxdhr020629/pre_rna_02')">Codes</span> |
           <span class="btn-group__btn" @click="$open('https://d2.pub/doc/d2-admin')">Documents</span> |
           <span class="btn-group__btn" @click="$open('https://juejin.im/user/57a48b632e958a006691b946/posts')">CSDN</span> |
           <el-popover :width="150" trigger="hover">

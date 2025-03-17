@@ -10,7 +10,7 @@
     </div>
     <p class="d2-page-cover__build-time">FINAL BUILD TIME {{$buildTime}}</p>
     <slot name="footer"/>
-    <a target="blank" href="https://github.com/d2-projects/d2-admin">
+    <a target="blank" href="https://github.com/scxdhr020629/pre_rna_02">
       <img
         style="position: absolute; top: 0; right: 0; border: 0; width: 150px;"
         src="./image/darkblue@2x.png"
