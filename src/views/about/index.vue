@@ -22,47 +22,47 @@
       <div class="section team-section">
         <h2>Our Team</h2>
         
-        <el-row :gutter="30" class="team-container">
+        <el-row :gutter="40" class="team-container">
           <!-- Team Member 1 -->
-          <el-col :xs="24" :sm="12" :md="6" :lg="6" class="team-col">
+          <el-col :xs="24" :sm="24" :md="8" :lg="8" class="team-col">
             <div class="team-card">
               <div class="member-avatar">
-                <img src="/static/images/avatars/member1.png" alt="Nan Sheng" onerror="this.src='/static/images/avatars/default.png'">
+                <img src="./images/huanglan.jpg" alt="Lan Huang" onerror="this.src='/static/images/avatars/default.png'">
               </div>
               <div class="member-info">
-                <h3>Nan Sheng</h3>
-                <div class="position">Lead Researcher</div>
+                <h3>Lan Huang</h3>
+                <div class="email">huanglan@jlu.edu.cn</div>
                 <div class="divider"></div>
                 <p class="bio">Specialized in computational biology with expertise in RNA folding algorithms.</p>
                 <div class="contact">
                   <el-tooltip content="Email" placement="top">
-                    <a href="mailto:shengnan@jlu.edu.cn"><i class="el-icon-message"></i></a>
+                    <a href="mailto:huanglan@jlu.edu.cn"><i class="el-icon-message"></i></a>
                   </el-tooltip>
-                  <el-tooltip content="GitHub" placement="top">
-                    <a href="https://github.com/username" target="_blank"><i class="el-icon-share"></i></a>
+                  <el-tooltip content="ResearchGate" placement="top">
+                    <a href="https://www.researchgate.net/profile/Lan-Huang-7" target="_blank"><i class="el-icon-share"></i></a>
                   </el-tooltip>
                 </div>
               </div>
             </div>
           </el-col>
 
-          <!-- Team Member 2 - Fixed alignment issue -->
-          <el-col :xs="24" :sm="12" :md="6" :lg="6" class="team-col">
+          <!-- Team Member 2 -->
+          <el-col :xs="24" :sm="24" :md="8" :lg="8" class="team-col">
             <div class="team-card">
               <div class="member-avatar">
-                <img src="/static/images/avatars/member2.png" alt="Yunzhi Liu" onerror="this.src='/static/images/avatars/default.png'">
+                <img src="./images/wangyan.png" alt="Yan Wang" onerror="this.src='/static/images/avatars/default.png'">
               </div>
               <div class="member-info">
-                <h3>Yunzhi Liu</h3>
-                <div class="position">Machine Learning Specialist</div>
+                <h3>Yan Wang</h3>
+                <div class="email">wy6868@jlu.edu.cn</div>
                 <div class="divider"></div>
                 <p class="bio">Focuses on developing AI models for accurate RNA secondary structure prediction.</p>
                 <div class="contact">
                   <el-tooltip content="Email" placement="top">
-                    <a href="mailto:liuyunzhi@jlu.edu.cn"><i class="el-icon-message"></i></a>
+                    <a href="mailto:wy6868@jlu.edu.cn"><i class="el-icon-message"></i></a>
                   </el-tooltip>
-                  <el-tooltip content="GitHub" placement="top">
-                    <a href="https://github.com/username" target="_blank"><i class="el-icon-share"></i></a>
+                  <el-tooltip content="Google Scholar" placement="top">
+                    <a href="https://scholar.google.com/citations?user=nxf-ryQAAAAJ&hl=zh-CN" target="_blank"><i class="el-icon-share"></i></a>
                   </el-tooltip>
                 </div>
               </div>
@@ -70,45 +70,22 @@
           </el-col>
 
           <!-- Team Member 3 -->
-          <el-col :xs="24" :sm="12" :md="6" :lg="6" class="team-col">
+          <el-col :xs="24" :sm="24" :md="8" :lg="8" class="team-col">
             <div class="team-card">
               <div class="member-avatar">
-                <img src="/static/images/avatars/member3.png" alt="Lei Wang" onerror="this.src='/static/images/avatars/default.png'">
+                <img src="./images/shengnan.jpg" alt="Nan Sheng" onerror="this.src='/static/images/avatars/default.png'">
               </div>
               <div class="member-info">
-                <h3>Lei Wang</h3>
-                <div class="position">Algorithm Developer</div>
+                <h3>Nan Sheng</h3>
+                <div class="email">shengnan@jlu.edu.cn</div>
                 <div class="divider"></div>
                 <p class="bio">Expert in optimization algorithms and data structures for RNA analysis.</p>
                 <div class="contact">
                   <el-tooltip content="Email" placement="top">
-                    <a href="mailto:wanglei@jlu.edu.cn"><i class="el-icon-message"></i></a>
+                    <a href="mailto:shengnan@jlu.edu.cn"><i class="el-icon-message"></i></a>
                   </el-tooltip>
-                  <el-tooltip content="GitHub" placement="top">
-                    <a href="https://github.com/username" target="_blank"><i class="el-icon-share"></i></a>
-                  </el-tooltip>
-                </div>
-              </div>
-            </div>
-          </el-col>
-
-          <!-- Team Member 4 -->
-          <el-col :xs="24" :sm="12" :md="6" :lg="6" class="team-col">
-            <div class="team-card">
-              <div class="member-avatar">
-                <img src="/static/images/avatars/member4.png" alt="Chenxu Si" onerror="this.src='/static/images/avatars/default.png'">
-              </div>
-              <div class="member-info">
-                <h3>Chenxu Si</h3>
-                <div class="position">Frontend Developer</div>
-                <div class="divider"></div>
-                <p class="bio">Specializes in creating intuitive interfaces for complex scientific applications.</p>
-                <div class="contact">
-                  <el-tooltip content="Email" placement="top">
-                    <a href="mailto:sicx24@jlu.edu.cn"><i class="el-icon-message"></i></a>
-                  </el-tooltip>
-                  <el-tooltip content="GitHub" placement="top">
-                    <a href="https://github.com/scxdhr020629" target="_blank"><i class="el-icon-share"></i></a>
+                  <el-tooltip content="Google Scholar" placement="top">
+                    <a href="https://scholar.google.com.hk/citations?user=MeSogXgAAAAJ&hl=zh-CN" target="_blank"><i class="el-icon-share"></i></a>
                   </el-tooltip>
                 </div>
               </div>
@@ -185,13 +162,13 @@ export default {
   --shadow-color: rgba(0, 0, 0, 0.08);
 }
 
-/* 页面标题样式 - 更新为与Email Service匹配的样式 */
+/* Page Header Styles */
 .page-header {
   text-align: center;
-  padding: 20px 0;
+  padding: 25px 0;
   background: linear-gradient(135deg, #409eff 0%, #67c23a 100%);
   border-radius: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   box-shadow: 0 4px 15px rgba(64, 158, 255, 0.1);
   position: relative;
   overflow: hidden;
@@ -210,14 +187,14 @@ export default {
 
 .subtitle {
   color: rgba(255, 255, 255, 0.95);
-  margin-top: 8px;
+  margin-top: 10px;
   font-size: 1.1em;
   font-weight: 500;
   position: relative;
   z-index: 1;
 }
 
-/* 页面标题光效动画 */
+/* Header Animation */
 .page-header::before {
   content: '';
   position: absolute;
@@ -250,18 +227,20 @@ export default {
 .about-content {
   padding: 20px 10px;
   animation: fadeInUp 0.6s ease-out;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 .section {
-  margin-bottom: 50px;
+  margin-bottom: 60px;
 }
 
 .section h2 {
-  font-size: 26px;
+  font-size: 28px;
   color: #2c3e50;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   position: relative;
-  padding-bottom: 10px;
+  padding-bottom: 12px;
   text-align: center;
 }
 
@@ -285,102 +264,126 @@ export default {
   margin: 0 auto;
 }
 
+/* Team Section Styles */
 .team-container {
-  margin-top: 30px;
+  margin-top: 40px;
   display: flex;
-  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .team-col {
-  margin-bottom: 30px;
-  display: flex; /* 解决第二个元素不对齐的问题 */
+  margin-bottom: 40px;
+  display: flex;
 }
 
 .team-card {
-  height: 100%; /* 确保卡片高度一致 */
-  width: 100%; /* 确保卡片宽度占满整个列 */
+  height: 100%;
+  width: 100%;
   background: #fff;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s, box-shadow 0.3s;
   display: flex;
   flex-direction: column;
 }
 
 .team-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
 .member-avatar {
-  height: 180px;
-  overflow: hidden;
+  height: 250px; /* Increased height for better display */
   position: relative;
-  background: #f0f3f7;
+  background: #f5f7fa;
+  overflow: hidden;
 }
 
 .member-avatar img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* Changed to contain to prevent cropping */
+  object-position: center;
+  transition: transform 0.5s;
+}
+
+.team-card:hover .member-avatar img {
+  transform: scale(1.05);
 }
 
 .member-info {
-  padding: 20px;
-  flex-grow: 1; /* 让信息区域自动填充剩余空间 */
+  padding: 25px 20px;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
+  background-color: #ffffff;
 }
 
 .member-info h3 {
-  font-size: 20px;
+  font-size: 22px;
   color: #2c3e50;
-  margin: 0 0 5px;
+  margin: 0 0 8px;
+  text-align: center;
 }
 
-.position {
+.email {
   color: #409EFF;
   font-size: 14px;
   font-weight: 600;
+  text-align: center;
+  margin-bottom: 5px;
 }
 
 .divider {
-  margin: 15px 0;
+  margin: 15px auto;
   width: 40px;
   height: 2px;
   background: #eee;
 }
 
 .bio {
-  font-size: 14px;
-  color: #7f8c8d;
+  font-size: 15px;
+  color: #5a6a7e;
   line-height: 1.6;
-  margin-bottom: 15px;
-  flex-grow: 1; /* 让简介占据剩余空间 */
+  margin-bottom: 20px;
+  flex-grow: 1;
+  text-align: center;
 }
 
 .contact {
   display: flex;
-  justify-content: flex-start;
-  gap: 15px;
+  justify-content: center;
+  gap: 20px;
+  margin-top: auto;
 }
 
 .contact a {
   color: #7f8c8d;
-  font-size: 18px;
-  transition: color 0.2s;
+  font-size: 20px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f5f7fa;
 }
 
 .contact a:hover {
   color: #409EFF;
+  background: #e8f4ff;
+  transform: translateY(-3px);
 }
 
+/* Lab Section Styles */
 .lab-content {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 40px;
   flex-wrap: wrap;
+  margin-top: 30px;
 }
 
 .lab-text {
@@ -392,7 +395,7 @@ export default {
   font-size: 16px;
   line-height: 1.8;
   color: #34495e;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .lab-image {
@@ -402,30 +405,41 @@ export default {
 
 .lab-image img {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 12px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Dialog Styles */
 .contact-dialog {
-  padding: 10px;
+  padding: 15px;
 }
 
 .contact-dialog p {
   font-size: 16px;
-  margin: 15px 0;
+  margin: 20px 0;
   display: flex;
   align-items: center;
 }
 
 .contact-dialog i {
-  margin-right: 10px;
+  margin-right: 15px;
   color: #409EFF;
+  font-size: 20px;
 }
 
+/* Footer Styles */
 .page-footer {
   text-align: center;
   color: #7f8c8d;
   font-size: 14px;
+  padding: 10px 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991px) {
+  .team-col {
+    padding: 0 20px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -433,12 +447,38 @@ export default {
     flex-direction: column;
   }
   
-  .team-card {
-    margin-bottom: 20px;
+  .team-container {
+    margin-top: 20px;
+  }
+  
+  .team-col {
+    margin-bottom: 30px;
+  }
+  
+  .member-avatar {
+    height: 220px;
   }
 }
 
-/* 页面内容载入动画 */
+@media (max-width: 576px) {
+  .title {
+    font-size: 2em;
+  }
+  
+  .subtitle {
+    font-size: 1em;
+  }
+  
+  .section h2 {
+    font-size: 24px;
+  }
+  
+  .member-avatar {
+    height: 200px;
+  }
+}
+
+/* Page Transition Animation */
 @keyframes fadeInUp {
   from {
     opacity: 0;
