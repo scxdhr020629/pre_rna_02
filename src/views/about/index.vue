@@ -22,9 +22,11 @@
       <div class="section team-section">
         <h2>Our Team</h2>
         
+        <!-- Row 1: Professors -->
+        <div class="team-row-title">Professors</div>
         <el-row :gutter="40" class="team-container">
-          <!-- Team Member 1 -->
-          <el-col :xs="24" :sm="24" :md="8" :lg="8" class="team-col">
+          <!-- Professor 1: Lan Huang -->
+          <el-col :xs="24" :sm="24" :md="12" :lg="12" class="team-col">
             <div class="team-card">
               <div class="member-avatar">
                 <img src="./images/huanglan.jpg" alt="Lan Huang" onerror="this.src='/static/images/avatars/default.png'">
@@ -32,8 +34,12 @@
               <div class="member-info">
                 <h3>Lan Huang</h3>
                 <div class="email">huanglan@jlu.edu.cn</div>
+                <div class="research-areas">
+                  <span class="research-tag">Bioinformatics</span>
+                  <span class="research-tag">Drug Discovery</span>
+                </div>
                 <div class="divider"></div>
-                <p class="bio">Specialized in computational biology with expertise in RNA folding algorithms.</p>
+                <p class="bio">Leading research in computational biology with expertise in RNA structure analysis and drug target identification.</p>
                 <div class="contact">
                   <el-tooltip content="Email" placement="top">
                     <a href="mailto:huanglan@jlu.edu.cn"><i class="el-icon-message"></i></a>
@@ -46,8 +52,8 @@
             </div>
           </el-col>
 
-          <!-- Team Member 2 -->
-          <el-col :xs="24" :sm="24" :md="8" :lg="8" class="team-col">
+          <!-- Professor 2: Yan Wang -->
+          <el-col :xs="24" :sm="24" :md="12" :lg="12" class="team-col">
             <div class="team-card">
               <div class="member-avatar">
                 <img src="./images/wangyan.png" alt="Yan Wang" onerror="this.src='/static/images/avatars/default.png'">
@@ -55,8 +61,12 @@
               <div class="member-info">
                 <h3>Yan Wang</h3>
                 <div class="email">wy6868@jlu.edu.cn</div>
+                <div class="research-areas">
+                  <span class="research-tag">Machine Learning</span>
+                  <span class="research-tag">Data Mining</span>
+                </div>
                 <div class="divider"></div>
-                <p class="bio">Focuses on developing AI models for accurate RNA secondary structure prediction.</p>
+                <p class="bio">Specializes in developing AI and machine learning approaches for RNA secondary structure prediction and analysis.</p>
                 <div class="contact">
                   <el-tooltip content="Email" placement="top">
                     <a href="mailto:wy6868@jlu.edu.cn"><i class="el-icon-message"></i></a>
@@ -68,8 +78,12 @@
               </div>
             </div>
           </el-col>
+        </el-row>
 
-          <!-- Team Member 3 -->
+        <!-- Row 2: Doctors -->
+        <div class="team-row-title">Doctors</div>
+        <el-row :gutter="40" class="team-container">
+          <!-- Doctor 1: Nan Sheng -->
           <el-col :xs="24" :sm="24" :md="8" :lg="8" class="team-col">
             <div class="team-card">
               <div class="member-avatar">
@@ -77,20 +91,97 @@
               </div>
               <div class="member-info">
                 <h3>Nan Sheng</h3>
-                <div class="email">shengnan@jlu.edu.cn</div>
-                <div class="divider"></div>
-                <p class="bio">Expert in optimization algorithms and data structures for RNA analysis.</p>
-                <div class="contact">
-                  <el-tooltip content="Email" placement="top">
-                    <a href="mailto:shengnan@jlu.edu.cn"><i class="el-icon-message"></i></a>
-                  </el-tooltip>
-                  <el-tooltip content="Google Scholar" placement="top">
-                    <a href="https://scholar.google.com.hk/citations?user=MeSogXgAAAAJ&hl=zh-CN" target="_blank"><i class="el-icon-share"></i></a>
-                  </el-tooltip>
+                <div class="research-areas">
+                  <span class="research-tag">Bioinformatics</span>
+                  <span class="research-tag">Biomarker Discovery</span>
                 </div>
+                <div class="divider"></div>
+                <p class="bio">Expert in optimization algorithms and data structures for RNA analysis and biomarker identification.</p>
               </div>
             </div>
           </el-col>
+
+          <!-- Doctor 2: Ling Gao -->
+          <el-col :xs="24" :sm="24" :md="8" :lg="8" class="team-col">
+            <div class="team-card">
+              <div class="member-avatar">
+                <img src="./images/gaolin.jpg" alt="Ling Gao" onerror="this.src='/static/images/avatars/default.png'">
+              </div>
+              <div class="member-info">
+                <h3>Ling Gao</h3>
+                <div class="research-areas">
+                  <span class="research-tag">Deep Learning</span>
+                  <span class="research-tag">Drug Discovery</span>
+                </div>
+                <div class="divider"></div>
+                <p class="bio">Focuses on deep learning applications for RNA structure prediction and drug development.</p>
+              </div>
+            </div>
+          </el-col>
+
+          <!-- Doctor 3: Lei Wang -->
+          <el-col :xs="24" :sm="24" :md="8" :lg="8" class="team-col">
+            <div class="team-card">
+              <div class="member-avatar">
+                <img src="./images/wanglei.png" alt="Lei Wang" onerror="this.src='/static/images/avatars/default.png'">
+              </div>
+              <div class="member-info">
+                <h3>Lei Wang</h3>
+                <div class="research-areas">
+                  <span class="research-tag">Data Mining</span>
+                  <span class="research-tag">Biomarker Discovery</span>
+                </div>
+                <div class="divider"></div>
+                <p class="bio">Researches innovative data mining techniques for biomarker discovery and RNA structural analysis.</p>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+
+        <!-- Row 3: Graduate Students -->
+        <div class="team-row-title">Graduate Students</div>
+        <el-row :gutter="40" class="team-container">
+          <!-- Empty col for centering -->
+          <el-col :xs="0" :sm="0" :md="4" :lg="4" class="team-col empty-col"></el-col>
+
+          <!-- Student 1: Yunzhi Liu -->
+          <el-col :xs="24" :sm="24" :md="8" :lg="8" class="team-col">
+            <div class="team-card">
+              <div class="member-avatar">
+                <img src="./images/liuyunzhi.jpg" alt="Yunzhi Liu" onerror="this.src='/static/images/avatars/default.png'">
+              </div>
+              <div class="member-info">
+                <h3>Yunzhi Liu</h3>
+                <div class="research-areas">
+                  <span class="research-tag">Machine Learning</span>
+                  <span class="research-tag">Bioinformatics</span>
+                </div>
+                <div class="divider"></div>
+                <p class="bio">Working on applying machine learning approaches to RNA structural prediction and classification.</p>
+              </div>
+            </div>
+          </el-col>
+
+          <!-- Student 2: Chenxu Si -->
+          <el-col :xs="24" :sm="24" :md="8" :lg="8" class="team-col">
+            <div class="team-card">
+              <div class="member-avatar">
+                <img src="./images/sichenxu.jpg" alt="Chenxu Si" onerror="this.src='/static/images/avatars/default.png'">
+              </div>
+              <div class="member-info">
+                <h3>Chenxu Si</h3>
+                <div class="research-areas">
+                  <span class="research-tag">Deep Learning</span>
+                  <span class="research-tag">Data Visualization</span>
+                </div>
+                <div class="divider"></div>
+                <p class="bio">Specializes in creating intuitive interfaces and visualizations for complex RNA structural data.</p>
+              </div>
+            </div>
+          </el-col>
+
+          <!-- Empty col for centering -->
+          <el-col :xs="0" :sm="0" :md="4" :lg="4" class="team-col empty-col"></el-col>
         </el-row>
       </div>
 
@@ -265,15 +356,29 @@ export default {
 }
 
 /* Team Section Styles */
+.team-row-title {
+  font-size: 22px;
+  color: #2c3e50;
+  margin: 40px 0 15px;
+  padding-left: 5px;
+  border-left: 4px solid #409EFF;
+  font-weight: 600;
+}
+
 .team-container {
-  margin-top: 40px;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
+  margin-bottom: 20px;
 }
 
 .team-col {
   margin-bottom: 40px;
   display: flex;
+}
+
+.empty-col {
+  display: block;
 }
 
 .team-card {
@@ -332,7 +437,24 @@ export default {
   font-size: 14px;
   font-weight: 600;
   text-align: center;
+  margin-bottom: 12px;
+}
+
+.research-areas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
   margin-bottom: 5px;
+}
+
+.research-tag {
+  background: #f0f7ff;
+  color: #409EFF;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 16px;
+  display: inline-block;
 }
 
 .divider {
@@ -458,6 +580,15 @@ export default {
   .member-avatar {
     height: 220px;
   }
+  
+  .team-row-title {
+    font-size: 20px;
+    margin: 30px 0 10px;
+  }
+  
+  .empty-col {
+    display: none;
+  }
 }
 
 @media (max-width: 576px) {
@@ -475,6 +606,11 @@ export default {
   
   .member-avatar {
     height: 200px;
+  }
+  
+  .research-areas {
+    flex-direction: column;
+    align-items: center;
   }
 }
 
