@@ -7,7 +7,7 @@
         ref="input"
         v-model="searchText"
         suffix-icon="el-icon-search"
-        placeholder="搜索页面"
+        placeholder="search page"
         :fetch-suggestions="querySearch"
         :trigger-on-focus="false"
         :clearable="true"
@@ -16,11 +16,11 @@
         <d2-panel-search-item slot-scope="{ item }" :item="item"/>
       </el-autocomplete>
       <div class="panel-search__tip">
-        您可以使用快捷键
+        You can use the shortcut
         <span class="panel-search__key">{{hotkey.open}}</span>
-        唤醒搜索面板，按
+        to wake up the search panel and
         <span class="panel-search__key">{{hotkey.close}}</span>
-        关闭
+        to close it.
       </div>
     </div>
     <div v-if="resultsList.length > 0" class="panel-search__results-group" flex-box="1">

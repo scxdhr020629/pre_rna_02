@@ -47,9 +47,9 @@ export const menuHeader = supplementPath([
     icon: 'home'
   },
   // 先屏蔽掉
-  demoPlayground,
-  demoComponents,
-  demoPlugins,
+  // demoPlayground,
+  // demoComponents,
+  // demoPlugins,
   mdaPrediction,
   mdaEmail,
   mdaHelp,
