@@ -4,7 +4,7 @@
       <!-- <d2-icon-svg class="logo" name="d2-admin"/> -->
       <!-- 图片插入 -->
       <div class="image-container">
-        <img src="./image/home1.jpg" alt="Deep Learning Framework" />
+        <img src="./image/home2.jpg" alt="Deep Learning Framework" />
       </div>
       <template slot="footer">
         <div class="btn-group">
