@@ -1,63 +1,66 @@
 <template>
   <d2-container>
-    <template slot="header">
-      <div class="page-header">
-        <h1 class="title">Email Service</h1>
-        <p class="subtitle">Last Updated: {{ currentTime }}</p>
-      </div>
-    </template>
-    
-    <div class="email-container">
-      <div class="form-group">
-        <label class="form-label">Subject</label>
-        <div class="subject-input-container">
-          <i class="el-icon-chat-dot-round subject-icon"></i>
-          <input 
-            v-model="emailSubject" 
-            placeholder="Enter email subject" 
-            class="email-input"
-          />
-          <div class="focus-line"></div>
+    <div class="about-content">
+      <!-- Page Header -->
+      <div class="page-header-container">
+        <div class="page-header">
+          <h1 class="title">Email Service</h1>
+          <p class="subtitle">Send HTML-formatted emails to recipients with our easy-to-use editor</p>
         </div>
       </div>
       
-      <div class="form-group message-editor">
-        <label class="form-label">Message</label>
-        <d2-quill
-          v-model="emailBody"
-          style="min-height: 400px; background: var(--background-color);"
-          @text-change="textChangeHandler"
-          @selection-change="selectionChangeHandler"
-          @editor-change="editorChangeHandler"
-        />
-      </div>
-      
-      <div class="button-group">
-        <button @click="handleAddRow" class="action-button">
-          <i class="el-icon-plus"></i>
-          Add Row
-        </button>
+      <div class="email-container">
+        <div class="form-group">
+          <label class="form-label">Subject</label>
+          <div class="subject-input-container">
+            <i class="el-icon-chat-dot-round subject-icon"></i>
+            <input 
+              v-model="emailSubject" 
+              placeholder="Enter email subject" 
+              class="email-input"
+            />
+            <div class="focus-line"></div>
+          </div>
+        </div>
         
-        <button @click="sendEmail" class="send-button">
-          <i class="el-icon-message"></i>
-          Send Email
-        </button>
-      </div>
-      
-      <el-card 
-        v-if="showPreview" 
-        shadow="hover" 
-        class="preview-card d2-mt">
-        <div class="preview-header">
-          <h3>Message Preview</h3>
-          <el-switch 
-            v-model="showPreview" 
-            active-text="Hide Preview"
-            inactive-text="Show Preview">
-          </el-switch>
+        <div class="form-group message-editor">
+          <label class="form-label">Message</label>
+          <d2-quill
+            v-model="emailBody"
+            style="min-height: 400px; background: var(--background-color);"
+            @text-change="textChangeHandler"
+            @selection-change="selectionChangeHandler"
+            @editor-change="editorChangeHandler"
+          />
         </div>
-        <d2-highlight :code="emailBody" format-html/>
-      </el-card>
+        
+        <div class="button-group">
+          <button @click="handleAddRow" class="action-button">
+            <i class="el-icon-plus"></i>
+            Add Row
+          </button>
+          
+          <button @click="sendEmail" class="send-button">
+            <i class="el-icon-message"></i>
+            Send Email
+          </button>
+        </div>
+        
+        <el-card 
+          v-if="showPreview" 
+          shadow="hover" 
+          class="preview-card d2-mt">
+          <div class="preview-header">
+            <h3>Message Preview</h3>
+            <el-switch 
+              v-model="showPreview" 
+              active-text="Hide Preview"
+              inactive-text="Show Preview">
+            </el-switch>
+          </div>
+          <d2-highlight :code="emailBody" format-html/>
+        </el-card>
+      </div>
     </div>
   </d2-container>
 </template>
@@ -72,8 +75,7 @@ export default {
     return {
       emailSubject: '', // Email subject
       emailBody: defaultValue || '<p>Type your message here...</p>', // Initialize with default content
-      showPreview: false, // Toggle for the preview section
-      currentTime: '2025-03-13 07:00:44' // Format: YYYY-MM-DD HH:MM:SS
+      showPreview: false // Toggle for the preview section
     };
   },
   methods: {
@@ -129,8 +131,6 @@ export default {
     textChangeHandler(delta, oldDelta, source) {
       // Handling text changes in the editor
       console.log('Content changed');
-      // Update the timestamp whenever content changes
-      this.updateTimestamp();
     },
     
     selectionChangeHandler(range, oldRange, source) {
@@ -144,21 +144,13 @@ export default {
     // Toggle preview visibility
     togglePreview() {
       this.showPreview = !this.showPreview;
-    },
-    
-    // Update the timestamp
-    updateTimestamp() {
-      this.currentTime = '2025-03-13 07:00:44';
     }
-  },
-  mounted() {
-    // Update timestamp every minute
-    setInterval(this.updateTimestamp, 60000);
   }
 };
 </script>
 
 <style scoped>
+/* Base variables for consistent scaling */
 :root {
   --primary-color: #409eff;
   --success-color: #67c23a;
@@ -168,39 +160,72 @@ export default {
   --shadow-color: rgba(0, 0, 0, 0.08);
 }
 
-/* 页面标题样式 */
-.page-header {
-  text-align: center;
-  padding: 20px 0;
-  background: linear-gradient(135deg, #409eff 0%, #67c23a 100%);
-  border-radius: 12px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 15px rgba(64, 158, 255, 0.1);
+/* Page content container */
+.about-content {
+  padding: 0.08rem 0 0.6rem;  /* Small top padding to maintain minimal space */
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  font-size: calc(0.85rem + 0.1vw);
+  line-height: 1.5;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  animation: fadeInUp 0.6s ease-out; /* Added animation for page transition */
+}
+
+/* Page header container for full width effect */
+.page-header-container {
   position: relative;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  margin-top: 0;
   overflow: hidden;
 }
 
+/* Page header styling */
+.page-header {
+  text-align: center;
+  padding: 0.5rem 0;
+  background: linear-gradient(135deg, #409eff 0%, #67c23a 100%);
+  border-radius: 0.5rem;
+  margin-bottom: 0.9rem;
+  margin-top: 0;
+  box-shadow: 0 0.25rem 0.9rem rgba(64, 158, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  /* Use viewport units for responsive height that scales with screen size */
+  min-height: 3.8rem;
+  max-height: 5.5rem;
+  width: 99.8%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .title {
-  font-size: 2.4em;
+  /* Using rem and viewport width for responsive text sizing */
+  font-size: calc(1.5rem + 0.5vw);
   color: #ffffff;
   margin: 0;
   font-weight: 800;
-  letter-spacing: 2px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+  letter-spacing: 0.125rem;
+  text-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.15);
   position: relative;
   z-index: 1;
+  padding: 0 1rem;
 }
 
 .subtitle {
   color: rgba(255, 255, 255, 0.95);
-  margin-top: 8px;
-  font-size: 1.1em;
+  margin-top: 0.25rem;
+  /* Responsive font sizing that scales better across displays */
+  font-size: calc(0.7rem + 0.2vw);
   font-weight: 500;
   position: relative;
   z-index: 1;
+  padding: 0 1rem;
 }
 
-/* 页面标题光效动画 */
+/* Page title gradient effect */
 .page-header::before {
   content: '';
   position: absolute;
@@ -227,6 +252,18 @@ export default {
   }
   100% {
     transform: translateX(100%);
+  }
+}
+
+/* Page transition animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -488,19 +525,71 @@ export default {
   }
 }
 
-/* 邮件容器载入动画 */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+/* Responsive adjustments for the header */
+@media (min-width: 1440px) {
+  .page-header {
+    width: 99.8%;
   }
 }
 
-.email-container {
-  animation: fadeInUp 0.6s ease-out;
+@media (max-width: 1200px) {
+  .page-header {
+    width: 99.6%;
+  }
+}
+
+@media (max-width: 992px) {
+  .about-content {
+    padding: 0.08rem 0 0.6rem;
+  }
+  
+  .page-header {
+    width: 99.4%;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    padding: 0.5rem 0;
+    width: 99%;
+  }
+}
+
+@media (max-width: 576px) {
+  .about-content {
+    padding: 0.08rem 0 0.6rem;
+  }
+  
+  .page-header {
+    padding: 0.5rem 0;
+    margin-bottom: 0.75rem;
+    width: 98%;
+  }
+  
+  .title {
+    font-size: calc(1.3rem + 0.5vw);
+    padding: 0 0.5rem;
+  }
+  
+  .subtitle {
+    font-size: calc(0.6rem + 0.2vw);
+    margin-top: 0.25rem;
+    padding: 0 0.5rem;
+  }
+}
+
+/* For Firefox which handles rem differently */
+@-moz-document url-prefix() {
+  .about-content {
+    font-size: calc(13.6px + 0.1vw);
+  }
+  
+  .title {
+    font-size: calc(24px + 0.5vw);
+  }
+  
+  .subtitle {
+    font-size: calc(11.2px + 0.2vw);
+  }
 }
 </style>
