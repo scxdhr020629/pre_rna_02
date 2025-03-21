@@ -1,189 +1,192 @@
 <template>
   <d2-container>
-    <template slot="header">
-      <div class="page-header">
-        <h1 class="title">Drug-MiRNA Association Query</h1>
-        <p class="subtitle">
-          Explore drug and miRNA relationships through our advanced query system
-        </p>
+    <div class="about-content">
+      <!-- Page Header -->
+      <div class="page-header-container">
+        <div class="page-header">
+          <h1 class="title">Drug-MiRNA Association Query</h1>
+          <p class="subtitle">
+            Explore drug and miRNA relationships through our advanced query system
+          </p>
+        </div>
       </div>
-    </template>
 
-    <div class="content">
-      <div class="left-section">
-        <div class="section-header">
-          <i class="el-icon-search"></i>
-          <span>Single Query Mode</span>
-        </div>
+      <div class="content">
+        <div class="left-section">
+          <div class="section-header">
+            <i class="el-icon-search"></i>
+            <span>Single Query Mode</span>
+          </div>
 
-        <div class="input-section">
-          <el-input
-            v-model="drugName"
-            placeholder="Please enter drug sequence"
-            clearable
-            class="input-field"
-          >
-            <template slot="prefix">
-              <i class="el-icon-cpu"></i>
-            </template>
-          </el-input>
-
-          <el-button
-            type="primary"
-            :loading="loading"
-            @click="fetchMRNA"
-            class="query-button"
-          >
-            <i class="el-icon-search" v-if="!loading"></i>
-            Search
-          </el-button>
-        </div>
-
-        <div class="results-wrapper">
-          <transition name="fade">
-            <el-table
-              v-if="mrnaList.length > 0"
-              :data="mrnaList"
-              class="result-table"
-              :stripe="true"
-              :border="true"
-              height="calc(100vh - 400px)"
+          <div class="input-section">
+            <el-input
+              v-model="drugName"
+              placeholder="Please enter drug sequence"
+              clearable
+              class="input-field"
             >
-              <el-table-column prop="RNA_ID" label="RNA_ID" min-width="120">
-                <template slot-scope="scope">
-                  <div class="rna-id">
-                    <i class="el-icon-view"></i>
-                    <span>{{ scope.row.RNA_ID }}</span>
-                  </div>
-                </template>
-              </el-table-column>
+              <template slot="prefix">
+                <i class="el-icon-cpu"></i>
+              </template>
+            </el-input>
 
-              <el-table-column prop="Sequence" label="Sequence" min-width="200">
-                <template slot-scope="scope">
-                  <el-tooltip :content="scope.row.Sequence" placement="top">
-                    <div class="sequence-cell">{{ scope.row.Sequence }}</div>
-                  </el-tooltip>
-                </template>
-              </el-table-column>
+            <el-button
+              type="primary"
+              :loading="loading"
+              @click="fetchMRNA"
+              class="query-button"
+            >
+              <i class="el-icon-search" v-if="!loading"></i>
+              Search
+            </el-button>
+          </div>
 
-              <el-table-column
-                prop="Probability"
-                label="Probability"
-                min-width="150"
+          <div class="results-wrapper">
+            <transition name="fade">
+              <el-table
+                v-if="mrnaList.length > 0"
+                :data="mrnaList"
+                class="result-table"
+                :stripe="true"
+                :border="true"
+                height="calc(100vh - 400px)"
               >
-                <template slot-scope="scope">
-                  <div class="probability-wrapper">
-                    <el-progress
-                      :percentage="scope.row.Probability * 100"
-                      :format="percentageFormat"
-                      :color="customColorMethod(scope.row.Probability * 100)"
-                      :stroke-width="16"
-                    ></el-progress>
-                  </div>
-                </template>
-              </el-table-column>
-            </el-table>
+                <el-table-column prop="RNA_ID" label="RNA_ID" min-width="120">
+                  <template slot-scope="scope">
+                    <div class="rna-id">
+                      <i class="el-icon-view"></i>
+                      <span>{{ scope.row.RNA_ID }}</span>
+                    </div>
+                  </template>
+                </el-table-column>
 
-            <div v-else class="no-result">
-              <i class="el-icon-search empty-icon"></i>
-              <p>
-                <i class="el-icon-info-circle"></i>
-                Please enter a drug sequence to start your query
-              </p>
-              <el-button type="text" @click="showHelp">Need help?</el-button>
+                <el-table-column prop="Sequence" label="Sequence" min-width="200">
+                  <template slot-scope="scope">
+                    <el-tooltip :content="scope.row.Sequence" placement="top">
+                      <div class="sequence-cell">{{ scope.row.Sequence }}</div>
+                    </el-tooltip>
+                  </template>
+                </el-table-column>
+
+                <el-table-column
+                  prop="Probability"
+                  label="Probability"
+                  min-width="150"
+                >
+                  <template slot-scope="scope">
+                    <div class="probability-wrapper">
+                      <el-progress
+                        :percentage="scope.row.Probability * 100"
+                        :format="percentageFormat"
+                        :color="customColorMethod(scope.row.Probability * 100)"
+                        :stroke-width="16"
+                      ></el-progress>
+                    </div>
+                  </template>
+                </el-table-column>
+              </el-table>
+
+              <div v-else class="no-result">
+                <i class="el-icon-search empty-icon"></i>
+                <p>
+                  <i class="el-icon-info-circle"></i>
+                  Please enter a drug sequence to start your query
+                </p>
+                <el-button type="text" @click="showHelp">Need help?</el-button>
+              </div>
+            </transition>
+          </div>
+        </div>
+
+        <div class="right-section">
+          <div class="section-header">
+            <i class="el-icon-upload"></i>
+            <span>Batch Upload Mode</span>
+          </div>
+
+          <el-upload
+            class="upload-demo"
+            ref="upload"
+            :before-upload="beforeUpload"
+            :on-change="handleChange"
+            :on-success="handleUploadSuccess"
+            :on-error="handleUploadError"
+            :file-list="fileList"
+            :http-request="handleUpload"
+            accept=".xlsx, .xls, .csv"
+            drag
+          >
+            <div class="upload-content">
+              <div class="upload-icon">
+                <i class="el-icon-upload"></i>
+              </div>
+              <div class="upload-text">
+                <p class="main-text">
+                  Drop your file here or <em>click to upload</em>
+                </p>
+                <p class="upload-hint">Support for .xlsx, .xls and .csv files</p>
+              </div>
+            </div>
+          </el-upload>
+
+          <transition name="fade">
+            <div v-if="table.data.length > 0" class="table-wrapper">
+              <div class="table-header">
+                <h3>Uploaded Data Preview</h3>
+                <el-button
+                  type="text"
+                  icon="el-icon-download"
+                  @click="exportData"
+                >
+                  Export Data
+                </el-button>
+              </div>
+
+              <el-table
+                :data="table.data"
+                class="upload-table"
+                :stripe="true"
+                :border="true"
+                height="calc(100vh - 500px)"
+              >
+                <el-table-column
+                  v-for="(column, index) in table.columns"
+                  :key="index"
+                  :prop="column.prop"
+                  :label="column.label"
+                  min-width="120"
+                >
+                </el-table-column>
+              </el-table>
             </div>
           </transition>
         </div>
       </div>
 
-      <div class="right-section">
-        <div class="section-header">
-          <i class="el-icon-upload"></i>
-          <span>Batch Upload Mode</span>
+      <!-- Help Dialog -->
+      <el-dialog
+        title="Query Help"
+        :visible.sync="helpDialogVisible"
+        width="50%"
+        custom-class="help-dialog"
+      >
+        <div class="help-content">
+          <h3>How to use the Drug-MiRNA Query Tool</h3>
+          <ol>
+            <li>Enter a valid drug sequence in the input field</li>
+            <li>Click the search button to find associated miRNAs</li>
+            <li>Review the results in the table below</li>
+          </ol>
+          <div class="help-note">
+            <i class="el-icon-info"></i>
+            <p>
+              The probability score indicates the strength of the drug-miRNA
+              association
+            </p>
+          </div>
         </div>
-
-        <el-upload
-          class="upload-demo"
-          ref="upload"
-          :before-upload="beforeUpload"
-          :on-change="handleChange"
-          :on-success="handleUploadSuccess"
-          :on-error="handleUploadError"
-          :file-list="fileList"
-          :http-request="handleUpload"
-          accept=".xlsx, .xls, .csv"
-          drag
-        >
-          <div class="upload-content">
-            <div class="upload-icon">
-              <i class="el-icon-upload"></i>
-            </div>
-            <div class="upload-text">
-              <p class="main-text">
-                Drop your file here or <em>click to upload</em>
-              </p>
-              <p class="upload-hint">Support for .xlsx, .xls and .csv files</p>
-            </div>
-          </div>
-        </el-upload>
-
-        <transition name="fade">
-          <div v-if="table.data.length > 0" class="table-wrapper">
-            <div class="table-header">
-              <h3>Uploaded Data Preview</h3>
-              <el-button
-                type="text"
-                icon="el-icon-download"
-                @click="exportData"
-              >
-                Export Data
-              </el-button>
-            </div>
-
-            <el-table
-              :data="table.data"
-              class="upload-table"
-              :stripe="true"
-              :border="true"
-              height="calc(100vh - 500px)"
-            >
-              <el-table-column
-                v-for="(column, index) in table.columns"
-                :key="index"
-                :prop="column.prop"
-                :label="column.label"
-                min-width="120"
-              >
-              </el-table-column>
-            </el-table>
-          </div>
-        </transition>
-      </div>
+      </el-dialog>
     </div>
-
-    <!-- Help Dialog -->
-    <el-dialog
-      title="Query Help"
-      :visible.sync="helpDialogVisible"
-      width="50%"
-      custom-class="help-dialog"
-    >
-      <div class="help-content">
-        <h3>How to use the Drug-MiRNA Query Tool</h3>
-        <ol>
-          <li>Enter a valid drug sequence in the input field</li>
-          <li>Click the search button to find associated miRNAs</li>
-          <li>Review the results in the table below</li>
-        </ol>
-        <div class="help-note">
-          <i class="el-icon-info"></i>
-          <p>
-            The probability score indicates the strength of the drug-miRNA
-            association
-          </p>
-        </div>
-      </div>
-    </el-dialog>
   </d2-container>
 </template>
 
@@ -366,7 +369,7 @@ export default {
 </script>
 
 <style scoped>
-/* 基础样式重置和变量定义 */
+/* Base variables for consistent scaling */
 :root {
   --primary-color: #409eff;
   --success-color: #67c23a;
@@ -377,66 +380,110 @@ export default {
   --transition-time: 0.3s;
 }
 
-/* 页面标题样式 */
-.page-header {
-  text-align: center;
-  padding: 20px 0; /* 从30px减少到20px */
-  background: linear-gradient(135deg, #409eff 0%, #67c23a 100%);
-  border-radius: var(--border-radius);
-  margin-bottom: 20px; /* 从30px减少到20px */
-  box-shadow: 0 4px 15px rgba(64, 158, 255, 0.1);
+/* Page content container */
+.about-content {
+  padding: 0.08rem 0 0.6rem;  /* Small top padding to maintain minimal space */
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  font-size: calc(0.85rem + 0.1vw);
+  line-height: 1.5;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  animation: fadeInUp 0.6s ease-out; /* Added animation for page transition */
+}
+
+/* Page header container for full width effect */
+.page-header-container {
   position: relative;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  margin-top: 0;
   overflow: hidden;
 }
 
+/* Page header styling */
+.page-header {
+  text-align: center;
+  padding: 0.5rem 0;
+  background: linear-gradient(135deg, #409eff 0%, #67c23a 100%);
+  border-radius: 0.5rem;
+  margin-bottom: 0.9rem;
+  margin-top: 0;
+  box-shadow: 0 0.25rem 0.9rem rgba(64, 158, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  /* Use viewport units for responsive height that scales with screen size */
+  min-height: 3.8rem;
+  max-height: 5.5rem;
+  width: 99.8%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .title {
-  font-size: 2.4em; /* 从2.8em减小到2.4em */
+  /* Using rem and viewport width for responsive text sizing */
+  font-size: calc(1.5rem + 0.5vw);
   color: #ffffff;
   margin: 0;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  font-weight: 800;
+  letter-spacing: 0.125rem;
+  text-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.15);
   position: relative;
   z-index: 1;
+  padding: 0 1rem;
 }
 
 .subtitle {
-  color: rgba(255, 255, 255, 0.9);
-  margin-top: 8px; /* 从12px减少到8px */
-  font-size: 1.1em; /* 从1.2em减小到1.1em */
+  color: rgba(255, 255, 255, 0.95);
+  margin-top: 0.25rem;
+  /* Responsive font sizing that scales better across displays */
+  font-size: calc(0.7rem + 0.2vw);
   font-weight: 500;
-  letter-spacing: 0.5px;
   position: relative;
   z-index: 1;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  padding: 0 1rem;
 }
 
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .title {
-    font-size: 2em; /* 从2.2em减小到2em */
+/* Page title gradient effect */
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
   }
-  
-  .subtitle {
-    font-size: 1em; /* 从1.1em减小到1em */
+  20% {
+    transform: translateX(100%);
   }
-  
-  .page-header {
-    padding: 15px 0; /* 从25px减少到15px */
+  100% {
+    transform: translateX(100%);
   }
 }
 
-@media (max-width: 480px) {
-  .title {
-    font-size: 1.6em; /* 从1.8em减小到1.6em */
+/* Page transition animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
   }
-  
-  .subtitle {
-    font-size: 0.9em; /* 从1em减小到0.9em */
-  }
-  
-  .page-header {
-    padding: 12px 0; /* 从20px减少到12px */
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -534,7 +581,6 @@ export default {
 }
 
 /* 查询按钮样式 */
-
 .query-button {
   min-width: 80px;
   width: auto;
@@ -621,6 +667,7 @@ export default {
 .query-button.is-loading::before {
   animation: none;
 }
+
 /* 结果表格样式 */
 .results-wrapper {
   margin-top: 30px;
@@ -695,7 +742,6 @@ export default {
   white-space: nowrap;
 }
 
-
 /* 无结果样式 */
 .no-result {
   padding: 60px 20px;
@@ -725,6 +771,7 @@ export default {
   font-size: 15px;
   color: #409eff;
 }
+
 /* 文件上传区域样式 */
 .upload-demo {
   width: 100%;
@@ -819,31 +866,6 @@ export default {
   margin-top: 8px;
 }
 
-/* 响应式调整 */
-@media screen and (max-width: 768px) {
-  .upload-demo :deep(.el-upload-dragger) {
-    min-height: 160px;
-    padding: 20px 15px;
-  }
-
-  .upload-icon {
-    width: 48px;
-    height: 48px;
-  }
-
-  .upload-icon i {
-    font-size: 24px;
-  }
-
-  .main-text {
-    font-size: 14px;
-  }
-
-  .upload-hint {
-    font-size: 12px;
-  }
-}
-
 /* 上传动画 */
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
@@ -885,32 +907,6 @@ export default {
   border-radius: 8px;
 }
 
-/* 响应式设计优化 */
-@media (max-width: 1200px) {
-  .content {
-    grid-template-columns: 1fr;
-  }
-
-  .left-section,
-  .right-section {
-    margin-bottom: 24px;
-  }
-}
-
-@media (max-width: 768px) {
-  .input-section {
-    flex-direction: column;
-  }
-
-  .query-button {
-    width: 100%;
-  }
-
-  .title {
-    font-size: 2em;
-  }
-}
-
 /* 自定义滚动条 */
 ::-webkit-scrollbar {
   width: 8px;
@@ -931,5 +927,110 @@ export default {
   background: #909399;
 }
 
+/* Responsive adjustments for the header */
+@media (min-width: 1440px) {
+  .page-header {
+    width: 99.8%;
+  }
+}
 
+@media (max-width: 1200px) {
+  .page-header {
+    width: 99.6%;
+  }
+  
+  .content {
+    grid-template-columns: 1fr;
+  }
+
+  .left-section,
+  .right-section {
+    margin-bottom: 24px;
+  }
+}
+
+@media (max-width: 992px) {
+  .about-content {
+    padding: 0.08rem 0 0.6rem;
+  }
+  
+  .page-header {
+    width: 99.4%;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    padding: 0.5rem 0;
+    width: 99%;
+  }
+  
+  .input-section {
+    flex-direction: column;
+  }
+
+  .query-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .about-content {
+    padding: 0.08rem 0 0.6rem;
+  }
+  
+  .page-header {
+    padding: 0.5rem 0;
+    margin-bottom: 0.75rem;
+    width: 98%;
+  }
+  
+  .title {
+    font-size: calc(1.3rem + 0.5vw);
+    padding: 0 0.5rem;
+  }
+  
+  .subtitle {
+    font-size: calc(0.6rem + 0.2vw);
+    margin-top: 0.25rem;
+    padding: 0 0.5rem;
+  }
+  
+  .upload-demo :deep(.el-upload-dragger) {
+    min-height: 160px;
+    padding: 20px 15px;
+  }
+
+  .upload-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .upload-icon i {
+    font-size: 24px;
+  }
+
+  .main-text {
+    font-size: 14px;
+  }
+
+  .upload-hint {
+    font-size: 12px;
+  }
+}
+
+/* For Firefox which handles rem differently */
+@-moz-document url-prefix() {
+  .about-content {
+    font-size: calc(13.6px + 0.1vw);
+  }
+  
+  .title {
+    font-size: calc(24px + 0.5vw);
+  }
+  
+  .subtitle {
+    font-size: calc(11.2px + 0.2vw);
+  }
+}
 </style>
