@@ -4,31 +4,40 @@
       <!-- Page Header -->
       <div class="page-header-container">
         <div class="page-header">
-          <h1 class="title">MDA</h1>
-          <p class="subtitle">miRNA-Drug Association Prediction Platform</p>
+          <h1 class="title">DLST-MDA</h1>
+          <p class="subtitle">Deep learning-based integration of sequence and structure information for efficient predicting miRNA-drug associations</p>
         </div>
       </div>
       
       <div class="home-layout">
         <!-- 左侧图片 -->
         <div class="left-panel">
-          <img 
-            src="./image/home2.jpg" 
-            alt="RNA Analysis Platform" 
-            @click="$open('https://github.com/scxdhr020629/pre_rna_02')" 
-            class="main-image"
-          />
+          <div class="image-container">
+            <img 
+              src="./image/home2.jpg" 
+              alt="RNA Analysis Platform" 
+              @click="$open('https://github.com/scxdhr020629/pre_rna_02')" 
+              class="main-image"
+            />
+          </div>
         </div>
         
         <!-- 右侧内容 -->
         <div class="right-panel">
-          <h2 class="title">RNA Structure Prediction Platform</h2>
+          <h2 class="title">miRNA-Drug Association Prediction Platform</h2>
           <p class="description">
-            Welcome to our advanced RNA sequence analysis and structure prediction platform. 
-            This innovative tool leverages deep learning algorithms to analyze RNA sequences, 
-            predict secondary structures, and provide comprehensive insights into RNA functionality. 
-            Designed for researchers, bioinformaticians, and computational biologists, our platform 
-            facilitates rapid analysis with high accuracy and intuitive visualization tools.
+            Welcome to DLST-MDA, an innovative platform for predicting miRNA-drug associations through deep learning technology. 
+            Our platform integrates critical sequence and structure information to identify potential interactions between drugs and microRNAs 
+            with high accuracy and efficiency.
+          </p>
+          <p class="description">
+            Simply input a drug's SMILES notation, and our advanced algorithm will analyze molecular structures and sequence patterns to 
+            predict the top five miRNAs most likely to interact with your compound. This predictive capability accelerates drug repurposing efforts, 
+            enhances understanding of drug mechanisms, and supports the development of RNA-targeted therapeutics.
+          </p>
+          <p class="description">
+            Designed for pharmaceutical researchers, computational biologists, and drug discovery teams, DLST-MDA offers a user-friendly interface 
+            that bridges the gap between complex bioinformatics and practical applications in drug development.
           </p>
           
           <!-- 四宫格链接 -->
@@ -222,14 +231,23 @@ export default {
 }
 
 .left-panel {
-  width: 55%;
+  width: 50%; /* Reduced from 55% to 50% */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   
   @media (max-width: 768px) {
     width: 100%;
   }
   
+  .image-container {
+    width: 90%; /* Container is 90% of the panel width */
+    display: flex;
+    justify-content: center;
+  }
+  
   .main-image {
-    width: 100%;
+    width: 90%; /* Image is 90% of the container width (effectively 81% of original) */
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s;
@@ -243,7 +261,7 @@ export default {
 }
 
 .right-panel {
-  width: 45%;
+  width: 50%; /* Increased from 45% to 50% */
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -263,7 +281,7 @@ export default {
     font-size: 14px;
     line-height: 1.5;
     color: $color-text-sub;
-    margin: 0;
+    margin: 0 0 10px 0;
   }
   
   .grid-box {
@@ -380,6 +398,10 @@ export default {
     padding: 0.5rem 0;
     width: 99%;
   }
+  
+  .left-panel .main-image {
+    width: 85%; /* Make image slightly smaller on medium screens */
+  }
 }
 
 @media (max-width: 576px) {
@@ -402,6 +424,10 @@ export default {
     font-size: calc(0.6rem + 0.2vw);
     margin-top: 0.25rem;
     padding: 0 0.5rem;
+  }
+  
+  .left-panel .main-image {
+    width: 80%; /* Make image even smaller on small screens */
   }
 }
 
