@@ -18,22 +18,30 @@
             <span>Single Query Mode</span>
           </div>
 
+          <!-- Add Query Type Selector -->
+          <div class="query-type-selector">
+            <el-radio-group v-model="queryType" size="medium" @change="onQueryTypeChange">
+              <el-radio-button label="drug">Search by Drug</el-radio-button>
+              <el-radio-button label="rna">Search by RNA</el-radio-button>
+            </el-radio-group>
+          </div>
+
           <div class="input-section">
             <el-input
-              v-model="drugName"
-              placeholder="Please enter drug sequence"
+              v-model="sequenceInput"
+              :placeholder="getPlaceholder()"
               clearable
               class="input-field"
             >
               <template slot="prefix">
-                <i class="el-icon-cpu"></i>
+                <i :class="queryType === 'drug' ? 'el-icon-cpu' : 'el-icon-share'"></i>
               </template>
             </el-input>
 
             <el-button
               type="primary"
               :loading="loading"
-              @click="fetchMRNA"
+              @click="fetchResults"
               class="query-button"
             >
               <i class="el-icon-search" v-if="!loading"></i>
@@ -43,9 +51,10 @@
 
           <div class="results-wrapper">
             <transition name="fade">
+              <!-- Drug Search Results (RNA List) -->
               <el-table
-                v-if="mrnaList.length > 0"
-                :data="mrnaList"
+                v-if="resultsList.length > 0 && queryType === 'drug'"
+                :data="resultsList"
                 class="result-table"
                 :stripe="true"
                 :border="true"
@@ -86,11 +95,55 @@
                 </el-table-column>
               </el-table>
 
+              <!-- RNA Search Results (Drug List) -->
+              <el-table
+                v-else-if="resultsList.length > 0 && queryType === 'rna'"
+                :data="resultsList"
+                class="result-table"
+                :stripe="true"
+                :border="true"
+                height="calc(100vh - 400px)"
+              >
+                <el-table-column prop="DrugBank_ID" label="DrugBank ID" min-width="120">
+                  <template slot-scope="scope">
+                    <div class="drug-id">
+                      <i class="el-icon-medicine-box"></i>
+                      <span>{{ scope.row.DrugBank_ID }}</span>
+                    </div>
+                  </template>
+                </el-table-column>
+
+                <el-table-column prop="smiles" label="SMILES" min-width="200">
+                  <template slot-scope="scope">
+                    <el-tooltip :content="scope.row.smiles" placement="top">
+                      <div class="sequence-cell">{{ scope.row.smiles }}</div>
+                    </el-tooltip>
+                  </template>
+                </el-table-column>
+
+                <el-table-column
+                  prop="Probability"
+                  label="Probability"
+                  min-width="150"
+                >
+                  <template slot-scope="scope">
+                    <div class="probability-wrapper">
+                      <el-progress
+                        :percentage="parseFloat(scope.row.Probability) * 100"
+                        :format="percentageFormat"
+                        :color="customColorMethod(parseFloat(scope.row.Probability) * 100)"
+                        :stroke-width="16"
+                      ></el-progress>
+                    </div>
+                  </template>
+                </el-table-column>
+              </el-table>
+
               <div v-else class="no-result">
                 <i class="el-icon-search empty-icon"></i>
                 <p>
                   <i class="el-icon-info-circle"></i>
-                  Please enter a drug sequence to start your query
+                  Please enter a {{ queryType === 'drug' ? 'drug' : 'RNA' }} sequence to start your query
                 </p>
                 <el-button type="text" @click="showHelp">Need help?</el-button>
               </div>
@@ -102,6 +155,19 @@
           <div class="section-header">
             <i class="el-icon-upload"></i>
             <span>Batch Upload Mode</span>
+          </div>
+
+          <!-- Add Batch Query Type Selector -->
+          <div class="query-type-selector batch-selector">
+            <el-radio-group v-model="batchQueryType" size="medium" @change="onBatchQueryTypeChange">
+              <el-radio-button label="drug">Search by Drug</el-radio-button>
+              <el-radio-button label="rna">Search by RNA</el-radio-button>
+            </el-radio-group>
+          </div>
+
+          <div class="batch-instruction">
+            <i class="el-icon-info-circle"></i>
+            <span>Upload a file containing {{ getBatchInstructionText() }}</span>
           </div>
 
           <el-upload
@@ -172,11 +238,40 @@
       >
         <div class="help-content">
           <h3>How to use the Drug-MiRNA Query Tool</h3>
-          <ol>
-            <li>Enter a valid drug sequence in the input field</li>
-            <li>Click the search button to find associated miRNAs</li>
-            <li>Review the results in the table below</li>
-          </ol>
+          <div class="help-tabs">
+            <el-tabs v-model="helpActiveTab">
+              <el-tab-pane label="Search by Drug" name="drug">
+                <ol>
+                  <li>Select "Search by Drug" option</li>
+                  <li>Enter a valid drug sequence in the input field</li>
+                  <li>Click the search button to find associated miRNAs</li>
+                  <li>Review the results in the table below</li>
+                </ol>
+                <h4>Batch Upload</h4>
+                <ol>
+                  <li>Select "Search by Drug" in the Batch Upload section</li>
+                  <li>Upload a CSV or Excel file containing drug sequences</li>
+                  <li>Each row should contain one drug sequence</li>
+                  <li>The system will process and return associated miRNAs</li>
+                </ol>
+              </el-tab-pane>
+              <el-tab-pane label="Search by RNA" name="rna">
+                <ol>
+                  <li>Select "Search by RNA" option</li>
+                  <li>Enter a valid RNA sequence in the input field</li>
+                  <li>Click the search button to find associated drugs</li>
+                  <li>Review the results in the table below</li>
+                </ol>
+                <h4>Batch Upload</h4>
+                <ol>
+                  <li>Select "Search by RNA" in the Batch Upload section</li>
+                  <li>Upload a CSV or Excel file containing RNA sequences</li>
+                  <li>Each row should contain one RNA sequence</li>
+                  <li>The system will process and return associated drugs</li>
+                </ol>
+              </el-tab-pane>
+            </el-tabs>
+          </div>
           <div class="help-note">
             <i class="el-icon-info"></i>
             <p>
@@ -194,12 +289,16 @@
 import * as XLSX from "xlsx";
 import {get_rnas} from "@/api/modules/sys.predict.api";
 import {get_all_rnas} from "@/api/modules/sys.predict.all.api";
+import {get_drugs} from "@/api/modules/sys.predict.drug.api";
+import {get_all_drugs} from "@/api/modules/sys.predict.all.drug.api";
 export default {
   name: "DrugMiRNAQuery",
   data() {
     return {
-      drugName: "",
-      mrnaList: [],
+      sequenceInput: "",
+      queryType: "drug", // Default to drug search
+      batchQueryType: "drug", // Default to drug search for batch upload
+      resultsList: [],
       loading: false,
       fileList: [],
       table: {
@@ -207,6 +306,7 @@ export default {
         data: [],
       },
       helpDialogVisible: false,
+      helpActiveTab: "drug",
       customColors: [
         { color: "#f56c6c", percentage: 20 },
         { color: "#e6a23c", percentage: 40 },
@@ -217,31 +317,67 @@ export default {
     };
   },
   methods: {
-    async fetchMRNA() {
-      if (!this.drugName) {
-        this.$message.warning("Please enter the drug sequence");
+    getPlaceholder() {
+      return this.queryType === 'drug' 
+        ? "Please enter drug sequence" 
+        : "Please enter RNA sequence";
+    },
+    
+    getBatchInstructionText() {
+      return this.batchQueryType === 'drug' 
+        ? "drug sequences to find related RNAs" 
+        : "RNA sequences to find related drugs";
+    },
+    
+    onQueryTypeChange() {
+      // Clear results when switching query type
+      this.resultsList = [];
+      this.sequenceInput = "";
+    },
+    
+    onBatchQueryTypeChange() {
+      // Clear batch upload data when switching query type
+      this.fileList = [];
+      this.table.columns = [];
+      this.table.data = [];
+    },
+    
+    async fetchResults() {
+      if (!this.sequenceInput) {
+        this.$message.warning(`Please enter the ${this.queryType} sequence`);
         return;
       }
+      
       this.loading = true;
 
       try {
-        console.log("drug_sequence:", this.drugName); // 打印 drugName 查看是否正确
+        let response;
+        if (this.queryType === 'drug') {
+          // Call API for drug to RNA search
+          console.log("drug_sequence:", this.sequenceInput);
+          response = await get_rnas({
+            drug_sequence: this.sequenceInput,
+          });
+          this.resultsList = response[1].data.data;
+        } else {
+          // Call API for RNA to drug search
+          console.log("rna_sequence:", this.sequenceInput);
+          response = await get_drugs({
+            rna_sequence: this.sequenceInput,
+          });
+          this.resultsList = response[1].data.data;
+        }
 
-        // 调用 get_rnas API，传入 drugName 作为 drug_sequence
-        const response = await get_rnas({
-          drug_sequence: this.drugName,
-        });
-
-        // 直接将返回的 RNA 数据赋值给 mrnaList
-        this.mrnaList = response[1].data.data; // 假设 API 直接返回了 RNA 数据数组
-
+        console.log("Response:", response);
+        
       } catch (error) {
-        console.error("Request failed", error); // 打印错误信息
+        console.error("Request failed", error);
         this.$message.error("Request failed. Please try again later.");
       } finally {
         this.loading = false;
       }
     },
+    
     beforeUpload(file) {
       const isAcceptedFormat =
         file.type ===
@@ -265,6 +401,7 @@ export default {
     },
     async handleUpload({ file }) {
       console.log("Uploading file:", file);
+      this.loading = true;
 
       const reader = new FileReader();
 
@@ -296,6 +433,8 @@ export default {
           this.$message.error(
             "The file is empty or does not contain any sequences"
           );
+          this.loading = false;
+          return;
         }
 
         const rows = fileContent
@@ -307,15 +446,27 @@ export default {
           const sequenceData = rows.slice(1).map((sequence) => ({ sequence }));
           console.log(sequenceData);
           try {
-            const response = await get_all_rnas({
-              data: sequenceData,
-            });
+            let response;
+            
+            // Call different API based on batch query type
+            if (this.batchQueryType === 'drug') {
+              // Upload drug sequences to find related RNAs
+              console.log("Batch processing drug sequences");
+              response = await get_all_rnas({
+                data: sequenceData,
+              });
+            } else {
+              // Upload RNA sequences to find related drugs
+              console.log("Batch processing RNA sequences");
+              response = await get_all_drugs({
+                data: sequenceData,
+              });
+            }
 
             console.log("Upload response:", response);
-            console.log("now");
-            console.log(response[1].data);
+            
             if (response[1].code === 0) {
-              this.$message.success("File processed successfully");
+              this.$message.success(`File processed successfully. Finding ${this.batchQueryType === 'drug' ? 'RNAs' : 'drugs'} for your sequences.`);
               // 假设返回一个下载链接
               if (response[1].data.data) {
                 window.location.href = response[1].data.data;
@@ -326,21 +477,26 @@ export default {
           } catch (error) {
             console.error("Error uploading file:", error);
             this.$message.error("Failed to upload file");
+          } finally {
+            this.loading = false;
           }
         } else {
           this.$message.error(
             "The file is empty or does not contain any sequences"
           );
+          this.loading = false;
         }
       };
 
       reader.onerror = (error) => {
         console.error("Error reading file:", error);
         this.$message.error("Failed to read the file");
+        this.loading = false;
       };
 
       reader.readAsBinaryString(file);
     },
+    
     // 新增方法
     percentageFormat(val) {
       return val.toFixed(2) + "%";
@@ -355,6 +511,8 @@ export default {
     },
 
     showHelp() {
+      // Set the active tab based on the current query type
+      this.helpActiveTab = this.queryType;
       this.helpDialogVisible = true;
     },
 
@@ -378,6 +536,96 @@ export default {
   --info-color: #909399;
   --border-radius: 12px;
   --transition-time: 0.3s;
+}
+
+/* Query type selector styles */
+.query-type-selector {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Batch query type selector specific styles */
+.batch-selector {
+  margin-bottom: 16px;
+}
+
+/* Batch instruction text */
+.batch-instruction {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  background: #f0f8ff;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  color: #606266;
+  font-size: 14px;
+}
+
+.batch-instruction i {
+  font-size: 18px;
+  margin-right: 10px;
+  color: #409eff;
+}
+
+.query-type-selector >>> .el-radio-button__inner {
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.query-type-selector >>> .el-radio-button:first-child .el-radio-button__inner {
+  border-radius: 8px 0 0 8px;
+}
+
+.query-type-selector >>> .el-radio-button:last-child .el-radio-button__inner {
+  border-radius: 0 8px 8px 0;
+}
+
+.query-type-selector >>> .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+  background: linear-gradient(135deg, #409eff, #67c23a);
+  border-color: #409eff;
+  box-shadow: 0 0 8px rgba(64, 158, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Drug ID styles similar to RNA ID */
+.drug-id {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #67c23a;
+  font-weight: 500;
+  width: 120px;
+}
+
+.drug-id i {
+  font-size: 18px;
+}
+
+/* Help tabs styling */
+.help-tabs {
+  margin-bottom: 20px;
+}
+
+.help-tabs >>> .el-tabs__header {
+  margin-bottom: 20px;
+}
+
+.help-tabs >>> .el-tabs__item {
+  font-size: 15px;
+  height: 40px;
+  line-height: 40px;
+}
+
+.help-tabs >>> .el-tabs__item.is-active {
+  color: #409eff;
+  font-weight: 600;
+}
+
+.help-tabs >>> .el-tabs__active-bar {
+  background: linear-gradient(90deg, #409eff, #67c23a);
+  height: 3px;
 }
 
 /* Page content container */
@@ -895,6 +1143,13 @@ export default {
 
 .help-content {
   padding: 20px;
+}
+
+.help-content h4 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #606266;
+  font-weight: 600;
 }
 
 .help-note {
