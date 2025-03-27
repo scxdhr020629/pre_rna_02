@@ -51,10 +51,10 @@
 
           <div class="results-wrapper">
             <transition name="fade">
-              <!-- Drug Search Results (RNA List) -->
+              <!-- Drug Search Results (RNA List) with Pagination -->
               <el-table
                 v-if="resultsList.length > 0 && queryType === 'drug'"
-                :data="resultsList"
+                :data="paginatedResults"
                 class="result-table"
                 :stripe="true"
                 :border="true"
@@ -95,10 +95,10 @@
                 </el-table-column>
               </el-table>
 
-              <!-- RNA Search Results (Drug List) -->
+              <!-- RNA Search Results (Drug List) with Pagination -->
               <el-table
                 v-else-if="resultsList.length > 0 && queryType === 'rna'"
-                :data="resultsList"
+                :data="paginatedResults"
                 class="result-table"
                 :stripe="true"
                 :border="true"
@@ -148,6 +148,20 @@
                 <el-button type="text" @click="showHelp">Need help?</el-button>
               </div>
             </transition>
+
+            <!-- Pagination Component -->
+            <div v-if="resultsList.length > 0" class="pagination-container">
+              <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="currentPage"
+                :page-sizes="[5, 10, 20, 50]"
+                :page-size="pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="resultsList.length"
+              >
+              </el-pagination>
+            </div>
           </div>
         </div>
 
@@ -291,6 +305,7 @@ import {get_rnas} from "@/api/modules/sys.predict.api";
 import {get_all_rnas} from "@/api/modules/sys.predict.all.api";
 import {get_drugs} from "@/api/modules/sys.predict.drug.api";
 import {get_all_drugs} from "@/api/modules/sys.predict.all.drug.api";
+
 export default {
   name: "DrugMiRNAQuery",
   data() {
@@ -314,7 +329,19 @@ export default {
         { color: "#409eff", percentage: 80 },
         { color: "#6f7ad3", percentage: 100 },
       ],
+      
+      // New pagination-related properties
+      currentPage: 1,
+      pageSize: 10, // Default page size
     };
+  },
+  computed: {
+    // Computed property to handle pagination
+    paginatedResults() {
+      const start = (this.currentPage - 1) * this.pageSize;
+      const end = start + this.pageSize;
+      return this.resultsList.slice(start, end);
+    }
   },
   methods: {
     getPlaceholder() {
@@ -333,6 +360,9 @@ export default {
       // Clear results when switching query type
       this.resultsList = [];
       this.sequenceInput = "";
+      // Reset pagination
+      this.currentPage = 1;
+      this.pageSize = 10;
     },
     
     onBatchQueryTypeChange() {
@@ -349,6 +379,9 @@ export default {
       }
       
       this.loading = true;
+      // Reset pagination when new results are fetched
+      this.currentPage = 1;
+      this.pageSize = 10;
 
       try {
         let response;
@@ -389,16 +422,20 @@ export default {
       }
       return isAcceptedFormat;
     },
+
     handleChange(file, fileList) {
       this.fileList = fileList.slice(-1); // 只保留最新上传的一个文件
     },
+
     handleUploadSuccess(response, file, fileList) {
       this.fileList = fileList;
       this.$message.success("Upload successful");
     },
+
     handleUploadError(err, file, fileList) {
       this.$message.error("Upload failed");
     },
+
     async handleUpload({ file }) {
       console.log("Uploading file:", file);
       this.loading = true;
@@ -467,7 +504,7 @@ export default {
             
             if (response[1].code === 0) {
               this.$message.success(`File processed successfully. Finding ${this.batchQueryType === 'drug' ? 'RNAs' : 'drugs'} for your sequences.`);
-              // 假设返回一个下载链接
+              // Assume returns a download link
               if (response[1].data.data) {
                 window.location.href = response[1].data.data;
               }
@@ -495,6 +532,16 @@ export default {
       };
 
       reader.readAsBinaryString(file);
+    },
+    
+    // Pagination methods
+    handleSizeChange(newSize) {
+      this.pageSize = newSize;
+      this.currentPage = 1; // Reset to first page when changing page size
+    },
+
+    handleCurrentChange(newPage) {
+      this.currentPage = newPage;
     },
     
     // 新增方法
@@ -527,6 +574,17 @@ export default {
 </script>
 
 <style scoped>
+
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+  background: #f8fafc;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
 /* Base variables for consistent scaling */
 :root {
   --primary-color: #409eff;

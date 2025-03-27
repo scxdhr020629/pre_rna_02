@@ -14,7 +14,7 @@ import i18n from '@/i18n.js'
 import pluginError from '@/plugin/error'
 import pluginLog from '@/plugin/log'
 import pluginOpen from '@/plugin/open'
-
+import locale from 'element-ui/lib/locale/lang/en'
 export default {
   async install (Vue, options) {
     // 设置为 false 以阻止 vue 在启动时生成生产提示
@@ -32,6 +32,7 @@ export default {
     Vue.use(ElementUI, {
       i18n: (key, value) => i18n.t(key, value)
     })
+    Vue.use(ElementUI, { locale })
     // 插件
     Vue.use(pluginError)
     Vue.use(pluginLog)
