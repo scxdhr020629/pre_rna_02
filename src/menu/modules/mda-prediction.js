@@ -4,7 +4,8 @@ export default {
     title: 'Prediction',
     icon: 'database',
     children: [
-      { path: '/prediction/prediction-mda', title: 'DrugMiRNAQuery', icon: 'database' }
+      { path: '/prediction/prediction-mda', title: 'DrugMiRNAQuery', icon: 'database' },
+      { path: '/prediction/prediction-mda-relation', title: 'DrugMiRNACustomizeQuery', icon: 'database' }
     ]
   }
   
