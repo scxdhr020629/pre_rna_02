@@ -410,74 +410,61 @@ export default {
   gap: 1.8rem;
 }
 
-/* Message styling */
+/* Message container styles - ensure proper layout */
 .message {
   display: flex;
   margin-bottom: 0.5rem;
   animation: fadeIn 0.3s ease-out;
+  width: 100%;
+  align-items: flex-start; /* Align items at the top */
 }
 
+/* Position user messages on the right side */
 .user-message {
   justify-content: flex-end;
-  flex-direction: row-reverse;
+  /* Keep flex-direction: row-reverse to swap avatar and content positions */
 }
 
+/* Position AI messages on the left side */
 .ai-message {
   justify-content: flex-start;
+  /* Keep flex-direction: row to keep avatar on the left */
 }
 
+/* Make avatars larger and more visible */
 .message-avatar {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background-color: #f0f2f5;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 0.8rem;
   flex-shrink: 0;
+  color: white;
+  margin: 0 12px; /* Consistent margin on both sides */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Add shadow for depth */
 }
 
 .user-message .message-avatar {
   background: var(--primary-gradient);
-  color: white;
+  order: 1; /* Force avatar to be after content in user messages */
 }
 
 .ai-message .message-avatar {
   background: linear-gradient(135deg, #6f7ad3, #409eff);
-  color: white;
+  order: 0; /* Default - avatar before content in AI messages */
 }
 
-.message-avatar i {
-  font-size: 1.2rem;
-}
-
+/* Adjust content widths to allow space for avatars */
 .message-content {
-  max-width: 70%;
+  max-width: 65%; /* Reduced from 70% to make room for avatars */
   min-width: 200px;
   border-radius: var(--border-radius);
   padding: 1.2rem;
   position: relative;
   box-shadow: var(--message-shadow);
   transition: all 0.2s ease;
-}
-
-.message-content:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-}
-
-.user-message .message-content {
-  background: linear-gradient(to right, #e6f1ff, #f0f7ff);
-  border-top-right-radius: 4px;
-  margin-right: 0.5rem;
-  border-right: 3px solid var(--primary-color);
-}
-
-.ai-message .message-content {
   background: white;
-  border-top-left-radius: 4px;
-  margin-left: 0.5rem;
-  border-left: 3px solid #6f7ad3;
 }
 
 .message-header {
