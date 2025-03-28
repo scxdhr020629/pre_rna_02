@@ -59,10 +59,20 @@
           </div>
         </transition-group>
 
-        <div v-if="isLoading" class="typing-indicator">
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
+        <div v-if="isLoading" class="thinking-dialog">
+          <div class="thinking-dialog-content">
+            <div class="thinking-avatar">
+              <i class="el-icon-cpu"></i>
+            </div>
+            <div class="thinking-text">
+              <div class="thinking-header">Deepseek is thinking</div>
+              <div class="thinking-animation">
+                <div class="thinking-dot"></div>
+                <div class="thinking-dot"></div>
+                <div class="thinking-dot"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -344,7 +354,7 @@ export default {
 .chat-window {
   flex: 1;
   overflow-y: auto;
-  padding: 1rem;
+  padding: 1.5rem;
   background-color: var(--chat-bg);
   border-radius: var(--border-radius);
   margin-bottom: 1rem;
@@ -397,13 +407,13 @@ export default {
 .messages-container {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.8rem;
 }
 
 /* Message styling */
 .message {
   display: flex;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   animation: fadeIn 0.3s ease-out;
 }
 
@@ -446,21 +456,28 @@ export default {
   max-width: 70%;
   min-width: 200px;
   border-radius: var(--border-radius);
-  padding: 1rem;
+  padding: 1.2rem;
   position: relative;
   box-shadow: var(--message-shadow);
+  transition: all 0.2s ease;
+}
+
+.message-content:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .user-message .message-content {
-  background: #e6f1ff;
-  border-top-right-radius: 2px;
+  background: linear-gradient(to right, #e6f1ff, #f0f7ff);
+  border-top-right-radius: 4px;
   margin-right: 0.5rem;
+  border-right: 3px solid var(--primary-color);
 }
 
 .ai-message .message-content {
   background: white;
-  border-top-left-radius: 2px;
+  border-top-left-radius: 4px;
   margin-left: 0.5rem;
+  border-left: 3px solid #6f7ad3;
 }
 
 .message-header {
@@ -556,97 +573,100 @@ export default {
   line-height: 1.5;
 }
 
+/* Thinking dialog styles */
+.thinking-dialog {
+  position: relative;
+  margin: 1rem 0;
+  display: flex;
+  justify-content: flex-start;
+  animation: fadeIn 0.5s ease-out;
+}
 
+.thinking-dialog-content {
+  display: flex;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  padding: 1rem;
+  min-width: 250px;
+  max-width: 70%;
+  border-left: 4px solid #6f7ad3;
+  animation: pulseGlow 2s infinite alternate;
+}
 
-/* Enhanced Typing indicator */
-.typing-indicator {
+.thinking-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6f7ad3, #409eff);
+  color: white;
   display: flex;
   align-items: center;
-  padding: 12px 20px;
-  width: auto;
-  min-width: 80px;
-  border-radius: 20px;
-  background: white;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  margin-left: 3.3rem;
-  margin-top: 0.5rem;
-  position: relative;
-  animation: pulse-shadow 2s infinite ease-in-out;
+  justify-content: center;
+  margin-right: 1rem;
+  flex-shrink: 0;
 }
 
-.typing-indicator::before {
-  content: 'AI is thinking...';
-  position: absolute;
-  bottom: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 12px;
-  color: #606266;
-  white-space: nowrap;
-  opacity: 0.8;
+.thinking-avatar i {
+  font-size: 1.2rem;
 }
 
-.typing-dot {
-  height: 10px;
-  width: 10px;
+.thinking-header {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.thinking-animation {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  height: 20px;
+}
+
+.thinking-dot {
+  height: 8px;
+  width: 8px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #409eff, #67c23a);
-  margin: 0 3px;
-  animation: typing 1.5s infinite ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #6f7ad3;
+  animation: thinkingDots 1.4s infinite ease-in-out;
 }
 
-.typing-dot:nth-child(1) {
+.thinking-dot:nth-child(1) {
   animation-delay: 0s;
 }
 
-.typing-dot:nth-child(2) {
-  animation-delay: 0.3s;
+.thinking-dot:nth-child(2) {
+  animation-delay: 0.2s;
 }
 
-.typing-dot:nth-child(3) {
-  animation-delay: 0.6s;
+.thinking-dot:nth-child(3) {
+  animation-delay: 0.4s;
 }
 
-@keyframes typing {
-  0% {
-    transform: translateY(0px) scale(1);
-    opacity: 0.4;
+@keyframes thinkingDots {
+  0%, 100% {
+    transform: scale(0.7);
+    opacity: 0.5;
   }
   50% {
-    transform: translateY(-8px) scale(1.2);
+    transform: scale(1.2);
     opacity: 1;
   }
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 4px 12px rgba(111, 122, 211, 0.1);
+  }
   100% {
-    transform: translateY(0px) scale(1);
-    opacity: 0.4;
+    box-shadow: 0 8px 24px rgba(111, 122, 211, 0.25);
   }
 }
 
-@keyframes pulse-shadow {
-  0%, 100% {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  }
-  50% {
-    box-shadow: 0 4px 20px rgba(64, 158, 255, 0.25);
-  }
-}
-
-@media (max-width: 576px) {
-  .typing-indicator {
-    margin-left: 2.5rem;
-    padding: 10px 15px;
-  }
-  
-  .typing-indicator::before {
-    font-size: 10px;
-    bottom: -18px;
-  }
-  
-  .typing-dot {
-    height: 8px;
-    width: 8px;
-  }
+/* Remove old typing indicator styles */
+.typing-indicator {
+  display: none;
 }
 
 /* Input area styling */

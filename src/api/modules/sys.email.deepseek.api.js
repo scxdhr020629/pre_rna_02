@@ -8,7 +8,7 @@ export function send_message_to_deepseek(data = {}) {
 return request({
   url: 'email/test_openai/',  // 后端接口
   method: 'post',
-  timeout: 30000,  // 设置请求超时时间为 1 秒
+  timeout: 90000,  // 设置请求超时时间为 1 秒
   data: {
       
       message:data.message
