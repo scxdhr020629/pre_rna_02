@@ -81,6 +81,15 @@ const frameIn = [
           auth: true
         },
         component: _import('about')
+      },
+      {
+        path: 'chat',
+        name: 'chat',
+        meta: {
+          title: 'chat',
+          auth: true
+        },
+        component: _import('chat')
       }
     ]
   },

@@ -14,6 +14,7 @@ import mdaPrediction from './modules/mda-prediction'
 import mdaHelp from './modules/mda-help'
 // about
 import mdaAbout from './modules/mda-about'
+import mdaChat from './modules/mda-chat'
 
 /**
  * @description 给菜单数据补充上 path 字段
@@ -53,5 +54,6 @@ export const menuHeader = supplementPath([
   mdaPrediction,
   mdaEmail,
   mdaHelp,
-  mdaAbout
+  mdaAbout,
+  mdaChat
 ])

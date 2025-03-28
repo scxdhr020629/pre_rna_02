@@ -20,6 +20,7 @@
     "core-js": "^3.24.1",
     "countup.js": "^2.3.2",
     "dayjs": "^1.11.5",
+    "dompurify": "^3.2.4",
     "element-ui": "^2.15.9",
     "faker": "^4.1.0",
     "flex.css": "^1.1.7",
