@@ -653,13 +653,15 @@ export default {
 /* Action section */
 .action-section {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   margin-bottom: 30px;
+   width: 100%;
 }
 
 /* Query button styles */
 .query-button {
-  min-width: 180px;
+  /* min-width: 180px; */
+  width: 100%;
   height: 45px;
   border-radius: 12px;
   font-size: 16px;
