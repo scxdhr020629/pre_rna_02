@@ -25,7 +25,7 @@
           <div v-for="(message, index) in chatHistory" :key="index" 
                :class="['message', message.role === 'user' ? 'user-message' : 'ai-message']">
             <div class="message-avatar">
-              <i :class="message.role === 'user' ? 'el-icon-user' : 'el-icon-cpu'"></i>
+              <i :class="message.role === 'user' ? 'el-icon-star-on' : 'el-icon-cpu'"></i>
             </div>
             <div class="message-content">
               <div class="message-header">
@@ -78,17 +78,18 @@
 
       <!-- Input Area -->
       <div class="input-area">
-        <el-input
-          v-model="userInput"
-          type="textarea"
-          :rows="2"
-          :autosize="{ minRows: 1, maxRows: 5 }"
-          placeholder="Type your message here..."
-          @keydown.enter.native.exact.prevent="sendMessage"
-          :disabled="isLoading"
-        >
-        </el-input>
-        <div class="input-actions">
+        <div class="input-container">
+          <el-input
+            v-model="userInput"
+            type="textarea"
+            :rows="2"
+            :autosize="{ minRows: 1, maxRows: 5 }"
+            placeholder="Type your message here..."
+            @keydown.enter.native.exact.prevent="sendMessage"
+            :disabled="isLoading"
+          >
+          </el-input>
+          
           <el-tooltip content="Press Enter to send" placement="top">
             <el-button 
               type="primary" 
@@ -101,6 +102,9 @@
               <span>{{ isLoading ? 'Thinking...' : 'Send' }}</span>
             </el-button>
           </el-tooltip>
+        </div>
+        
+        <div class="input-actions">
           <el-button type="text" @click="clearChat" class="clear-button">
             <i class="el-icon-delete"></i>
             Clear Chat
@@ -252,7 +256,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style>
 /* Base variables for consistent scaling */
 :root {
   --primary-color: #409eff;
@@ -357,7 +361,7 @@ export default {
   padding: 1.5rem;
   background-color: var(--chat-bg);
   border-radius: var(--border-radius);
-  margin-bottom: 1rem;
+  margin-bottom: 0.6rem; /* Reduced from 1rem */
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
   position: relative;
 }
@@ -453,6 +457,12 @@ export default {
 .ai-message .message-avatar {
   background: linear-gradient(135deg, #6f7ad3, #409eff);
   order: 0; /* Default - avatar before content in AI messages */
+}
+
+/* Enhanced user avatar icon styling */
+.user-message .message-avatar i {
+  font-size: 1.3rem; /* Slightly larger icon */
+  font-weight: bold; /* Make it bolder */
 }
 
 /* Adjust content widths to allow space for avatars */
@@ -656,113 +666,64 @@ export default {
   display: none;
 }
 
-/* Input area styling */
+/* Input area redesign - position send button to the right of input */
 .input-area {
   padding: 1rem;
   background: white;
   border-radius: var(--border-radius);
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
   position: relative;
+  margin-bottom: 0.3rem;
 }
 
-.input-area :deep(.el-textarea__inner) {
-  border-radius: 12px;
-  padding: 0.8rem 1rem;
-  font-size: 1rem;
-  border: 2px solid #e4e7ed;
-  background: #f8fafc;
-  resize: none;
-  transition: all 0.3s ease;
-}
-
-.input-area :deep(.el-textarea__inner:focus) {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.2);
-}
-
-.input-actions {
+/* Create a flex container for input and send button */
+.input-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 0.8rem;
+  align-items: flex-end; /* Align to bottom of textarea */
+  gap: 10px;
 }
 
+/* Make the input take available space */
+.input-container .el-textarea {
+  flex: 1;
+}
+
+/* Style the send button with gradient */
 .send-button {
+  background: linear-gradient(135deg, #409eff 0%, #67c23a 100%) !important;
+  border: none !important;
+  height: auto !important; /* Match text input height */
+  min-height: 40px;
   min-width: 100px;
-  height: 40px;
   border-radius: 20px;
-  background: var(--primary-gradient);
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  position: relative;
-  overflow: hidden;
-}
-
-.send-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
-  animation: shine-button 3s infinite linear;
+  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.3);
+  transition: all 0.3s ease;
+  color: white !important; /* Ensure text is visible */
+  font-weight: 600;
+  padding: 0 20px !important;
 }
 
 .send-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(64, 158, 255, 0.2);
+  box-shadow: 0 6px 15px rgba(64, 158, 255, 0.4);
 }
 
-.send-button:hover::before {
-  animation-duration: 1.5s;
-}
-
+/* Fix icon visibility */
 .send-button i {
-  font-size: 1rem;
-  position: relative;
-  z-index: 1;
+  color: white;
+  margin-right: 8px;
 }
 
-.send-button span {
-  position: relative;
-  z-index: 1;
-}
-
-.clear-button {
-  color: #909399;
-  transition: all 0.3s;
-}
-
-.clear-button:hover {
-  color: var(--danger-color);
-}
-
-/* Chat footer */
+/* Chat footer - Bring it closer to the input area */
 .chat-footer {
   display: flex;
   justify-content: center;
-  padding: 0.8rem 0;
+  padding: 0.4rem 0 0.6rem; /* Reduced top padding */
   color: #909399;
   font-size: 0.8rem;
-}
-
-.chat-footer p {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.chat-footer i {
-  color: var(--info-color);
+  background: white; /* Match input area background */
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03); /* Subtle shadow for continuity */
 }
 
 /* Animations */
