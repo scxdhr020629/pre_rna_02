@@ -19,30 +19,24 @@
           </div>
 
           <div class="input-section">
-            <!-- Drug Input Field -->
+            <!-- Drug Input Field - Removed icon -->
             <el-input
               v-model="drugSequence"
               placeholder="Enter drug sequence"
               clearable
               class="input-field"
             >
-              <template slot="prefix">
-                <i class="el-icon-cpu"></i>
-              </template>
             </el-input>
           </div>
 
           <div class="input-section">
-            <!-- RNA Input Field -->
+            <!-- RNA Input Field - Removed icon -->
             <el-input
               v-model="rnaSequence"
               placeholder="Enter RNA sequence"
               clearable
               class="input-field"
             >
-              <template slot="prefix">
-                <i class="el-icon-share"></i>
-              </template>
             </el-input>
           </div>
 
@@ -633,21 +627,20 @@ export default {
 .input-field :deep(.el-input__inner) {
   height: 60px;
   border-radius: 15px;
-  padding: 0 25px 0 60px;
+  padding: 0 25px; /* Adjusted padding - removed left padding for icons */
   font-size: 18px;
   border: 2px solid #e4e7ed;
   background: #f8fafc;
   transition: all 0.3s ease;
 }
 
+/* You can remove these icon-specific styles if you want */
 .input-field :deep(.el-input__prefix) {
-  left: 20px;
+  display: none; /* Hide the prefix area completely */
 }
 
 .input-field :deep(.el-input__prefix i) {
-  font-size: 24px;
-  color: #409eff;
-  transition: all 0.3s ease;
+  display: none; /* Hide the icons */
 }
 
 /* Action section */
