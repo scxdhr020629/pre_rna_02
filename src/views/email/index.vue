@@ -5,7 +5,7 @@
       <div class="page-header-container">
         <div class="page-header">
           <h1 class="title">Email Service</h1>
-          <p class="subtitle">Send HTML-formatted emails to recipients with our easy-to-use editor</p>
+          <p class="subtitle">Send emails to out team</p>
         </div>
       </div>
       

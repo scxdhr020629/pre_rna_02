@@ -753,18 +753,23 @@ export default {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
-/* Result card styles */
+/* Result card styles - improved layout */
 .result-card {
   background: #ffffff;
   border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
+  margin-top: 10px;
+  animation: fadeInUp 0.5s ease-out;
 }
 
 .result-header {
   padding: 16px 20px;
-  background: #f8fafc;
+  background: linear-gradient(to right, #f0f7ff, #f8fafc);
   border-bottom: 1px solid #ebeef5;
+  display: flex;
+  align-items: center;
 }
 
 .result-header h3 {
@@ -772,25 +777,59 @@ export default {
   font-size: 18px;
   color: #2c3e50;
   font-weight: 600;
+  position: relative;
+  padding-left: 15px;
+}
+
+.result-header h3::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 16px;
+  background: linear-gradient(135deg, #409eff, #67c23a);
+  border-radius: 2px;
 }
 
 .result-content {
   padding: 20px;
 }
 
+/* Improved sequence display */
 .sequence-pair {
   margin-bottom: 25px;
+  background: #f9fafc;
+  border-radius: 10px;
+  padding: 15px;
 }
 
 .sequence-item {
   margin-bottom: 15px;
   animation: fadeIn 0.5s ease-out;
+  border-left: 3px solid transparent;
+  padding-left: 12px;
+  transition: all 0.3s ease;
+}
+
+.sequence-item:first-child {
+  border-left-color: #409eff;
+}
+
+.sequence-item:last-child {
+  margin-bottom: 0;
+  border-left-color: #67c23a;
+}
+
+.sequence-item:hover {
+  background-color: rgba(64, 158, 255, 0.05);
 }
 
 .sequence-label {
   display: flex;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   font-weight: 500;
   color: #606266;
 }
@@ -798,27 +837,46 @@ export default {
 .sequence-label i {
   margin-right: 8px;
   font-size: 18px;
+}
+
+.sequence-item:first-child .sequence-label i {
   color: #409eff;
 }
 
+.sequence-item:last-child .sequence-label i {
+  color: #67c23a;
+}
+
 .sequence-value {
-  background: #f8fafc;
+  background: #fff;
   border: 1px solid #ebeef5;
   border-radius: 8px;
-  padding: 10px 15px;
+  padding: 12px 15px;
   font-family: monospace;
   color: #606266;
   word-break: break-all;
   cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-/* Probability display */
+.sequence-value:hover {
+  border-color: #c0c4cc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+/* Improved probability display */
 .probability-display {
-  background: #f8fafc;
+  background: linear-gradient(to right, #f0f7ff, #f8fafc);
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   animation: fadeIn 0.7s ease-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ebeef5;
 }
 
 .probability-header {
@@ -826,13 +884,50 @@ export default {
   font-weight: 500;
   color: #606266;
   margin-bottom: 10px;
+  align-self: flex-start;
 }
 
 .probability-value {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
-  color: #409eff;
+  background: linear-gradient(135deg, #409eff, #67c23a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-bottom: 15px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  letter-spacing: 0.5px;
+}
+
+/* Progress bar improvements */
+.probability-display .el-progress {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.probability-display :deep(.el-progress-bar__outer) {
+  border-radius: 10px;
+  background-color: #ebeef5;
+}
+
+.probability-display :deep(.el-progress-bar__inner) {
+  border-radius: 10px;
+  transition: all 0.8s ease;
+}
+
+.probability-display :deep(.el-progress__text) {
+  display: none; /* Hide the percentage text */
+}
+
+/* Animation for when result appears */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* No result styles */
