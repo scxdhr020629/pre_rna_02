@@ -273,7 +273,6 @@ export default {
 
 /* Page content container */
 .chat-container {
-  padding: 0.08rem 0 0.6rem;
   width: 100%;
   box-sizing: border-box;
   margin: 0 auto;
@@ -283,7 +282,7 @@ export default {
   animation: fadeInUp 0.6s ease-out;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 90px);
+  height: calc(100vh - 60px); /* Increased container height */
 }
 
 /* Page header container for full width effect */
@@ -294,6 +293,7 @@ export default {
   margin: 0;
   margin-top: 0;
   overflow: hidden;
+  flex-shrink: 0; /* Prevent header from shrinking */
 }
 
 /* Page header styling */
@@ -358,10 +358,10 @@ export default {
 .chat-window {
   flex: 1;
   overflow-y: auto;
-  padding: 1.5rem;
+  padding: 1rem 1.5rem; /* Reduced top/bottom padding */
   background-color: var(--chat-bg);
   border-radius: var(--border-radius);
-  margin-bottom: 0.6rem; /* Reduced from 1rem */
+  margin-bottom: 0.4rem; /* Reduced margin */
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
   position: relative;
 }
@@ -668,12 +668,13 @@ export default {
 
 /* Input area redesign - position send button to the right of input */
 .input-area {
-  padding: 1rem;
+  padding: 0.7rem 1rem; /* Reduced padding */
   background: white;
   border-radius: var(--border-radius);
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
   position: relative;
   margin-bottom: 0.3rem;
+  flex-shrink: 0; /* Prevent input area from shrinking */
 }
 
 /* Create a flex container for input and send button */
@@ -692,8 +693,8 @@ export default {
 .send-button {
   background: linear-gradient(135deg, #409eff 0%, #67c23a 100%) !important;
   border: none !important;
-  height: auto !important; /* Match text input height */
-  min-height: 40px;
+  height: 36px !important; /* Fixed height to match input */
+  min-height: 36px; /* Reduced from 40px */
   min-width: 100px;
   border-radius: 20px;
   box-shadow: 0 4px 12px rgba(64, 158, 255, 0.3);
@@ -701,6 +702,10 @@ export default {
   color: white !important; /* Ensure text is visible */
   font-weight: 600;
   padding: 0 20px !important;
+  line-height: 1; /* Improved vertical centering */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .send-button:hover {
@@ -718,12 +723,13 @@ export default {
 .chat-footer {
   display: flex;
   justify-content: center;
-  padding: 0.4rem 0 0.6rem; /* Reduced top padding */
+  padding: 0.3rem 0; /* Reduced padding */
   color: #909399;
   font-size: 0.8rem;
-  background: white; /* Match input area background */
+  background: white;
   border-radius: var(--border-radius);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03); /* Subtle shadow for continuity */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  flex-shrink: 0; /* Prevent footer from shrinking */
 }
 
 /* Animations */
