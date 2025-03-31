@@ -30,7 +30,7 @@
                   <span class="research-tag">Drug Discovery</span>
                 </div>
                 <div class="divider"></div>
-                <p class="bio">Leading research in computational biology with expertise in RNA structure analysis and drug target identification.</p>
+                <p class="bio">Leading research in computational biology with expertise in RNA structure analysis.</p>
                 <div class="contact">
                   <el-tooltip content="Email" placement="top">
                     <a href="mailto:huanglan@jlu.edu.cn"><i class="el-icon-message"></i></a>
@@ -183,17 +183,13 @@
       <!-- Lab Information -->
       <div class="section lab-info">
         <h2>Our Laboratory</h2>
+        <!-- Centered paragraph below heading -->
+        <p class="lab-description">
+          Our research is conducted at Key Laboratory of symbolic computation and Knowledge Engineering of Ministry of Education. With state-of-the-art computing resources and interdisciplinary collaboration, we're pushing the boundaries of RNA structure prediction.
+        </p>
         <div class="lab-content">
-          <div class="lab-text">
-            <p>
-              Our research is conducted at Jilin University's Advanced Computational Biology Laboratory. 
-              With state-of-the-art computing resources and interdisciplinary collaboration, 
-              we're pushing the boundaries of RNA structure prediction.
-            </p>
-            <el-button type="primary" @click="showContactDialog">Contact Us</el-button>
-          </div>
-          <div class="lab-image">
-            <img src="/static/images/lab.jpg" alt="Our Laboratory" onerror="this.style.display='none'">
+          <div class="lab-button-container">
+            <span class="contact-text" @click="showContactDialog">Contact Us</span>
           </div>
         </div>
       </div>
@@ -204,9 +200,9 @@
       :visible.sync="dialogVisible"
       width="30%">
       <div class="contact-dialog">
-        <p><i class="el-icon-location"></i> School of Life Sciences, Jilin University, Changchun, China</p>
-        <p><i class="el-icon-phone"></i> +86 XXX-XXXX-XXXX</p>
-        <p><i class="el-icon-message"></i> rna-pred@jlu.edu.cn</p>
+        <p><i class="el-icon-location"></i> College of Computer Science and Technology, Jilin University, Changchun, China</p>
+        <p><i class="el-icon-phone"></i> 0431-85166771</p>
+        <p><i class="el-icon-message"></i> huanglan@jlu.edu.cn</p>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">Close</el-button>
@@ -543,12 +539,21 @@ export default {
 
 /* Lab section styles */
 .lab-content {
-  display: flex;
-  align-items: center;
-  gap: 1.5625rem;
-  flex-wrap: wrap;
+  text-align: center;
   margin-top: 0.9375rem;
-  justify-content: space-between;
+}
+
+.lab-button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.contact-button {
+  min-width: 180px;
+  padding: 12px 20px;
+  font-size: calc(0.8rem + 0.1vw);
+  font-weight: 500;
 }
 
 .lab-text {
@@ -574,6 +579,15 @@ export default {
   box-shadow: 0 0.375rem 0.9375rem rgba(0, 0, 0, 0.08);
 }
 
+.lab-description {
+  text-align: center;
+  margin: 0 auto 1.2rem;
+  font-size: calc(0.8rem + 0.1vw);
+  line-height: 1.6;
+  color: #34495e;
+  max-width: 90%;
+}
+
 /* Dialog styles */
 .contact-dialog {
   padding: 0.9375rem;
@@ -590,6 +604,23 @@ export default {
   margin-right: 0.9375rem;
   color: #409EFF;
   font-size: 1.125rem;
+}
+
+/* Contact text styles */
+.contact-text {
+  font-size: calc(0.8rem + 0.1vw);
+  color: #409eff;
+  cursor: pointer;
+  font-weight: 500;
+  display: inline-block;
+  padding: 8px 16px;
+  transition: all 0.3s;
+  text-decoration: underline;
+}
+
+.contact-text:hover {
+  color: #66b1ff;
+  transform: translateY(-2px);
 }
 
 /* UI Scaling for High DPI displays */

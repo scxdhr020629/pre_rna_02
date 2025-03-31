@@ -4,9 +4,9 @@
       <!-- Page Header -->
       <div class="page-header-container">
         <div class="page-header">
-          <h1 class="title">AI Assistant</h1>
+          <h1 class="title">DeepSeek</h1>
           <p class="subtitle">
-            Chat with our advanced AI model to get intelligent responses
+            Into the unknown
           </p>
         </div>
       </div>
@@ -17,7 +17,7 @@
           <div class="welcome-icon">
             <i class="el-icon-chat-dot-square"></i>
           </div>
-          <h2>Welcome to the AI Assistant</h2>
+          <h2>Welcome to the DeepSeek</h2>
           <p>Ask me anything to get started!</p>
         </div>
 
