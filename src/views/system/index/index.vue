@@ -68,7 +68,7 @@
         <div class="footer-links">
           <span class="link-item" @click="$open('https://github.com/scxdhr020629/pre_rna_02')">Codes</span>
           <span class="separator">|</span>
-          <span class="link-item" @click="$open('https://d2.pub/doc/d2-admin')">Documents</span>
+          <span class="link-item" @click="$open('https://github.com/scxdhr020629/api_documents_MDA')">Documents</span>
           <span class="separator">|</span>
           <span class="link-item" @click="$open('https://juejin.im/user/57a48b632e958a006691b946/posts')">CSDN</span>
           <span class="separator">|</span>

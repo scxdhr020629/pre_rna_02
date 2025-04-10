@@ -5,7 +5,7 @@
       <div class="page-header-container">
         <div class="page-header">
           <h1 class="title">Email Service</h1>
-          <p class="subtitle">Send emails to out team</p>
+          <p class="subtitle">Send emails to our team</p>
         </div>
       </div>
       

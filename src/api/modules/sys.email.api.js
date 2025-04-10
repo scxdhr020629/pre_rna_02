@@ -8,7 +8,7 @@ export function send_email(data = {}) {
 return request({
   url: 'email/send/',  // 后端接口
   method: 'post',
-  timeout: 10000,  // 设置请求超时时间为 1 秒
+  timeout: 30000,  // 设置请求超时时间为 1 秒
   data: {
       // drug_sequence: data.drug_sequence,  // 传递 drug_sequence
       subject:data.subject,

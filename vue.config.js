@@ -76,8 +76,11 @@ keys(pages).forEach(name => {
 })
 
 module.exports = {
-  publicPath: process.env.VUE_APP_PUBLIC_PATH || '/',
+  // publicPath: process.env.VUE_APP_PUBLIC_PATH || '/',
+  publicPath: './',
   lintOnSave: true,
+  parallel: false,
+  assetsDir: 'static',
   devServer: {
     publicPath: process.env.VUE_APP_PUBLIC_PATH || '/',
     disableHostCheck: process.env.NODE_ENV === 'development'
