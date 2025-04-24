@@ -6,7 +6,7 @@ import App from './App'
 import d2Admin from '@/plugin/d2admin'
 // store
 import store from '@/store/index'
-
+// import VCharts from 'v-charts'
 // 菜单和路由设置
 import router from './router'
 import { menuHeader, menuAside } from '@/menu'
@@ -18,7 +18,7 @@ locale.use(lang)
 
 // 核心插件
 Vue.use(d2Admin)
-
+// Vue.use(VCharts)
 new Vue({
   router,
   store,

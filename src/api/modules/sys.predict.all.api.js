@@ -9,7 +9,7 @@ export function get_all_rnas(data = {}) {
   return request({
     url: 'get_all_rnas/',   // 后端接口
     method: 'post',
-    timeout: 20000,  // 设置请求超时时间为 20 秒
+    timeout: 60000,  // 设置请求超时时间为 20 秒
     data: {
       // drug_sequence: data.drug_sequence,  // 传递 drug_sequence
       data: data.data
@@ -72,7 +72,7 @@ export default ({ request, tools }) => ({
     return request({
       url: 'get_all_rnas/',   // 后端接口
       method: 'post',
-      timeout: 20000,  // 设置请求超时时间为 20 秒
+      timeout: 60000,  // 设置请求超时时间为 秒
       data: {
         // drug_sequence: data.drug_sequence,  // 传递 drug_sequence
         data: data.data

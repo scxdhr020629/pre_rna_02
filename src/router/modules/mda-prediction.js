@@ -13,6 +13,7 @@ export default {
   component: layoutHeaderAside,
   children: [
     { path: 'prediction-mda', name: 'DrugMiRNAQuery', component: _import('prediction/prediction-mda'), meta: { ...meta, title: 'DrugMiRNAQuery' } },
-    { path: 'prediction-mda-relation', name: 'DrugMiRNACustomizeQuery', component: _import('prediction/prediction-mda-relation'), meta: { ...meta, title: 'DrugMiRNACustomizeQuery' } }
+    { path: 'prediction-mda-relation', name: 'DrugMiRNACustomizeQuery', component: _import('prediction/prediction-mda-relation'), meta: { ...meta, title: 'DrugMiRNACustomizeQuery' } },
+    { path: 'mda-knowledge-graph', name: 'MDAKnowledgeGraph', component: _import('prediction/mda-knowledge-graph'), meta: { ...meta, title: 'MDAKnowledgeGraph' } },
   ]
 }

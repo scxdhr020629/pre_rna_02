@@ -1,1 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0abc40"],{1759:function(n,p,a){n.exports=a.p+"static/img/shengnan.a87dde79.jpg"}}]);
