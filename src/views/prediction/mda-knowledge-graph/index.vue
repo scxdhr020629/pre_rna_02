@@ -4,9 +4,9 @@
       <!-- Page Header -->
       <div class="page-header-container">
         <div class="page-header">
-          <h1 class="title">药物-RNA 知识图谱可视化</h1>
+          <h1 class="title">Drug-miRNA Knowledge Graph Visualization</h1>
           <p class="subtitle">
-            探索药物与RNA的关系网络，可视化复杂关联数据
+            Explore drug-miRNA relationship networks, visualize complex association data
           </p>
         </div>
       </div>
@@ -14,12 +14,15 @@
       <div class="content">
         <div class="left-section">
           <div class="section-header">
-            <i class="el-icon-upload"></i>
-            <span>数据管理</span>
+            <i class="el-icon-s-data"></i>
+            <span>Data Management</span>
           </div>
           
           <!-- File Upload Component -->
-          <file-upload @upload-success="handleUploadSuccess" />
+          <file-upload 
+            @upload-success="handleUploadSuccess"
+            @file-selected="handleFileSelected" 
+          />
           
           <!-- Graph Stats -->
           <graph-stats :stats="stats" />
@@ -28,16 +31,16 @@
         <div class="right-section">
           <div class="section-header">
             <i class="el-icon-connection"></i>
-            <span>知识图谱</span>
+            <span>Knowledge Graph</span>
           </div>
           
           <!-- Knowledge Graph Component -->
-          <knowledge-graph :graphData="graphData" />
+          <knowledge-graph :graphData="graphData" ref="knowledgeGraph" />
         </div>
       </div>
       
       <div class="app-footer">
-        <p>药物-RNA知识图谱系统 © 2025</p>
+        <p>Drug-miRNA Knowledge Graph System © 2025</p>
       </div>
     </div>
   </d2-container>
@@ -77,16 +80,16 @@ export default {
     fetchGraphData() {
       axios.get('http://localhost:8000/dj_api/email/knowledge-graph/get_graph/')
         .then(response => {
-          // 转换数据以匹配可视化所需的格式
+          // Convert data to match the format required for visualization
           this.processGraphData(response.data);
         })
         .catch(error => {
-          console.error('获取图谱数据失败:', error);
-          this.$message.error('加载图谱数据失败');
+          console.error('Failed to fetch graph data:', error);
+          this.$message.error('Failed to load graph data');
         });
     },
     processGraphData(data) {
-      // 将API响应转换为图形组件所需的格式
+      // Convert API response to the format required by the graph component
       const nodes = data.nodes.map(node => ({
         id: node.node_id,
         name: node.name,
@@ -95,7 +98,7 @@ export default {
         category: node.node_type === 'drug' ? 0 : 1
       }));
 
-      // 注意：您的API返回的是'relationships'而不是'links'
+      // Note: Your API returns 'relationships' instead of 'links'
       const links = data.relationships.map(rel => ({
         source: rel.source,
         target: rel.target,
@@ -105,7 +108,7 @@ export default {
 
       this.graphData = { nodes, links };
       
-      // 更新统计信息
+      // Update statistics
       this.updateStats();
     },
     handleUploadSuccess(response) {
@@ -114,7 +117,7 @@ export default {
         links: response.links
       };
       this.stats = response.stats;
-      this.$message.success('文件上传并处理成功');
+      this.$message.success('File uploaded and processed successfully');
     },
     updateStats() {
       this.stats = {
@@ -123,6 +126,16 @@ export default {
         drugCount: this.graphData.nodes.filter(node => node.type === 'drug').length,
         rnaCount: this.graphData.nodes.filter(node => node.type === 'rna').length
       };
+    },
+    handleFileSelected() {
+      // Delay call to ensure DOM has been updated
+      this.$nextTick(() => {
+        setTimeout(() => {
+          if (this.$refs.knowledgeGraph && this.$refs.knowledgeGraph.chart) {
+            this.$refs.knowledgeGraph.resizeChart();
+          }
+        }, 200);
+      });
     }
   }
 };
@@ -248,6 +261,7 @@ export default {
 .right-section {
   display: flex;
   flex-direction: column;
+  min-height: 600px; /* Ensure right section has enough height */
 }
 
 .section-header {
@@ -281,6 +295,12 @@ export default {
   font-size: 18px;
   font-weight: 600;
   color: #2c3e50;
+}
+
+/* Add special styles for main area titles - longer underline */
+.left-section > .section-header::after,
+.right-section > .section-header::after {
+  width: 140px; /* Increased from 80px to 140px, clearly differentiating main titles */
 }
 
 /* Footer */
@@ -322,7 +342,7 @@ export default {
 /* Override for KnowledgeGraph component */
 .right-section .graph-container {
   flex: 1;
-  height: calc(100vh - 200px);
+  min-height: 500px; /* Set minimum height instead of fixed calculated height */
   margin: -5px;
   border-radius: var(--border-radius);
   overflow: hidden;

@@ -4,11 +4,11 @@
     
     <!-- Node Type Filter -->
     <div class="node-filter">
-      <span class="filter-label">筛选节点:</span>
+      <span class="filter-label">Filter Nodes:</span>
       <el-radio-group v-model="nodeFilter" size="small" @change="applyNodeFilter">
-        <el-radio-button label="all">全部</el-radio-button>
-        <el-radio-button label="drug" class="drug-button">药物</el-radio-button>
-        <el-radio-button label="rna" class="rna-button">RNA</el-radio-button>
+        <el-radio-button label="all">All</el-radio-button>
+        <el-radio-button label="drug" class="drug-button">Drugs</el-radio-button>
+        <el-radio-button label="rna" class="rna-button">miRNA</el-radio-button>
       </el-radio-group>
     </div>
     
@@ -16,19 +16,19 @@
     <div class="legend">
       <div class="legend-item">
         <div class="legend-color" style="background-color: #5470c6"></div>
-        <span>药物</span>
+        <span>Drugs</span>
       </div>
       <div class="legend-item">
         <div class="legend-color" style="background-color: #91cc75"></div>
-        <span>RNA</span>
+        <span>miRNA</span>
       </div>
     </div>
     
     <!-- Controls -->
     <div class="controls">
-      <el-button size="small" @click="resetGraph" type="primary">重置视图</el-button>
+      <el-button size="small" @click="resetGraph" type="primary">Reset View</el-button>
       <div class="force-control">
-        <span class="slider-label">力度:</span>
+        <span class="slider-label">Force Strength:</span>
         <el-slider v-model="forceStrength" :min="1" :max="100" @change="updateForce"></el-slider>
       </div>
     </div>
@@ -53,8 +53,8 @@ export default {
       nodeFilter: 'all', // Default to showing all nodes
       chartOption: {
         title: {
-          text: '药物-RNA交互网络',
-          subtext: '知识图谱可视化',
+          text: 'Drug-RNA Interaction Network',
+          subtext: 'Knowledge Graph Visualization',
           left: 'center',
           textStyle: {
             color: '#2c3e50'
@@ -70,16 +70,16 @@ export default {
               return `
                 <div>
                   <strong>${params.data.name}</strong><br/>
-                  类型: ${params.data.type === 'drug' ? '药物' : 'RNA'}<br/>
+                  Type: ${params.data.type === 'drug' ? 'Drug' : 'miRNA'}<br/>
                   ID: ${params.data.id}
                 </div>
               `;
             } else {
               return `
                 <div>
-                  <strong>关联关系</strong><br/>
-                  类型: ${params.data.relationship}<br/>
-                  证据分数: ${params.data.value.toFixed(2)}
+                  <strong>Relationship</strong><br/>
+                  Type: ${params.data.relationship}<br/>
+                  Evidence Score: ${params.data.value.toFixed(2)}
                 </div>
               `;
             }
@@ -116,7 +116,7 @@ export default {
             },
             categories: [
               { name: 'Drug', itemStyle: { color: '#5470c6' } },
-              { name: 'RNA', itemStyle: { color: '#91cc75' } }
+              { name: 'miRNA', itemStyle: { color: '#91cc75' } }
             ],
             data: [],
             edges: []
@@ -129,6 +129,17 @@ export default {
   },
   mounted() {
     this.initChart();
+    
+    // Add container size change listener
+    if (window.ResizeObserver) {
+      const ro = new ResizeObserver(entries => {
+        if (entries[0] && this.chart) {
+          this.resizeChart();
+        }
+      });
+      ro.observe(this.$refs.graphChart);
+      this._resizeObserver = ro; // Save reference for cleanup
+    }
   },
   watch: {
     graphData: {
@@ -144,6 +155,9 @@ export default {
       this.chart = null;
     }
     window.removeEventListener('resize', this.resizeChart);
+    if (this._resizeObserver) {
+      this._resizeObserver.disconnect();
+    }
   },
   methods: {
     initChart() {
@@ -203,7 +217,17 @@ export default {
     },
     resizeChart() {
       if (this.chart) {
-        this.chart.resize();
+        // Ensure container is visible before redrawing
+        const chartDom = this.$refs.graphChart;
+        if (chartDom && chartDom.offsetHeight > 0 && chartDom.offsetWidth > 0) {
+          console.log('Redrawing chart, container size:', chartDom.offsetWidth, 'x', chartDom.offsetHeight);
+          this.chart.resize();
+          
+          // Check edge count
+          if (this.originalEdges && this.originalEdges.length > 0) {
+            console.log(`Chart contains ${this.originalEdges.length} edge relationships`);
+          }
+        }
       }
     },
     resetGraph() {
@@ -241,7 +265,7 @@ export default {
       // Force a redraw
       this.chart.resize();
       
-      this.$message.success('图谱视图已重置');
+      this.$message.success('Graph view has been reset');
     },
     updateForce(value) {
       if (this.chart) {
@@ -262,32 +286,32 @@ export default {
       let filteredNodes = [];
       let filteredEdges = [];
       
-      // 基于选择应用筛选
+      // Apply filtering based on selection
       if (filter === 'all') {
-        // 显示所有节点和边
+        // Show all nodes and edges
         filteredNodes = this.originalNodes;
         filteredEdges = this.originalEdges;
       } else if (filter === 'drug') {
-        // 只获取药物节点
+        // Get only drug nodes
         filteredNodes = this.originalNodes.filter(node => node.type === 'drug');
         
-        // 获取这些节点之间的边（药物到药物的连接，如果有的话）
+        // Get edges between these nodes (drug-to-drug connections, if any)
         const drugIds = new Set(filteredNodes.map(node => node.id));
         filteredEdges = this.originalEdges.filter(edge => 
           drugIds.has(edge.source) && drugIds.has(edge.target)
         );
       } else if (filter === 'rna') {
-        // 只获取RNA节点
+        // Get only RNA nodes
         filteredNodes = this.originalNodes.filter(node => node.type === 'rna');
         
-        // 获取这些节点之间的边（RNA到RNA的连接，如果有的话）
+        // Get edges between these nodes (RNA-to-RNA connections, if any)
         const rnaIds = new Set(filteredNodes.map(node => node.id));
         filteredEdges = this.originalEdges.filter(edge => 
           rnaIds.has(edge.source) && rnaIds.has(edge.target)
         );
       }
       
-      // 更新图表，使用筛选后的数据
+      // Update chart with filtered data
       this.chart.setOption({
         series: [{
           data: filteredNodes,
@@ -295,9 +319,9 @@ export default {
         }]
       });
       
-      // 提供用户反馈
+      // Provide user feedback
       this.$message({
-        message: `已筛选显示${filteredNodes.length}个${filter === 'all' ? '' : (filter === 'drug' ? '药物' : 'RNA')}节点`,
+        message: `Now showing ${filteredNodes.length} ${filter === 'all' ? '' : (filter === 'drug' ? 'Drug' : 'miRNA')} nodes`,
         type: 'success',
         duration: 2000
       });
@@ -410,16 +434,19 @@ export default {
   width: 120px;
 }
 
-/* Override the primary button color to match the graph theme */
+/* Override the primary button color to match the consistent theme */
 :deep(.el-button--primary) {
-  background: linear-gradient(135deg, #5470c6, #91cc75);
-  border-color: #5470c6;
+  background: linear-gradient(135deg, #409eff, #67c23a);
+  border: none;
+  transition: all 0.3s ease;
 }
 
 :deep(.el-button--primary:hover),
 :deep(.el-button--primary:focus) {
-  background: linear-gradient(135deg, #5470c6, #91cc75);
-  opacity: 0.9;
-  border-color: #5470c6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.3);
+  opacity: 0.95;
+  border: none;
 }
 </style>
+``` 
