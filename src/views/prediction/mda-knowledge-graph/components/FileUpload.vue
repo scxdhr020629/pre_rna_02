@@ -33,17 +33,23 @@
         <div class="file-header">
           <i class="el-icon-document"></i>
           <span>Selected File</span>
+          <div v-if="processingComplete" class="status-badge success">
+            <i class="el-icon-check"></i> Processed
+          </div>
         </div>
         <div class="file-detail">{{ selectedFile.name }}</div>
-        <el-button 
-          type="primary"
-          @click="uploadFile" 
-          :loading="uploading" 
-          :disabled="!selectedFile || uploading" 
-          class="upload-button"
-        >
-          {{ uploading ? 'Processing...' : 'Start Processing' }}
-        </el-button>
+        
+        <div class="button-group">
+          <el-button 
+            type="primary"
+            @click="uploadFile" 
+            :loading="uploading" 
+            :disabled="!selectedFile || uploading || processingComplete" 
+            class="upload-button"
+          >
+            {{ uploading ? 'Processing...' : 'Start Processing' }}
+          </el-button>
+        </div>
       </div>
     </transition>
 
@@ -73,7 +79,8 @@ export default {
       uploading: false,
       uploadProgress: 0,
       errorMessage: '',
-      fileList: []
+      fileList: [],
+      processingComplete: false // 添加新状态变量跟踪处理是否完成
     };
   },
   methods: {
@@ -91,11 +98,12 @@ export default {
     },
     
     handleFileChange(file, fileList) {
-      this.fileList = fileList.slice(-1); // Only keep the latest uploaded file
+      this.fileList = fileList.slice(-1); // 只保留最新上传的文件
       if (file && file.raw) {
         this.selectedFile = file.raw;
         this.errorMessage = '';
-        // Notify parent component that a file has been selected
+        this.processingComplete = false; // 重置处理状态
+        // 通知父组件文件已被选择
         this.$emit('file-selected', file.raw);
       }
     },
@@ -121,8 +129,8 @@ export default {
         .then(response => {
           this.$emit('upload-success', response.data);
           this.uploading = false;
-          this.fileList = [];
-          this.selectedFile = null;
+          this.processingComplete = true; // 标记处理完成
+          // 不再清除文件和文件列表
         })
         .catch(error => {
           this.errorMessage = error.response?.data?.error || 'File processing failed, please check the format';
@@ -130,6 +138,15 @@ export default {
           this.$message.error('File processing failed');
           console.error('File upload error:', error);
         });
+    },
+    
+    // 添加新方法重置文件选择
+    resetFile() {
+      this.fileList = [];
+      this.selectedFile = null;
+      this.processingComplete = false;
+      this.errorMessage = '';
+      this.$refs.upload.clearFiles();
     }
   }
 };
@@ -350,5 +367,51 @@ export default {
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;
+}
+
+/* 添加新样式 */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-badge.success {
+  background-color: rgba(103, 194, 58, 0.1);
+  color: #67c23a;
+}
+
+.status-badge i {
+  margin-right: 4px;
+  font-size: 12px;
+}
+
+.reset-button {
+  width: 100%;
+  background: #f4f4f5;
+  color: #606266;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.reset-button:hover {
+  background: #e9e9eb;
+  color: #303133;
+}
+
+/* 文件处理完成后的样式变化 */
+.file-info.processed {
+  border-color: #67c23a;
+  background: rgba(103, 194, 58, 0.05);
 }
 </style>
