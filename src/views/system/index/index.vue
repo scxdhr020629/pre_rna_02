@@ -4,7 +4,7 @@
       <!-- Page Header -->
       <div class="page-header-container">
         <div class="page-header">
-          <h1 class="title">DLST-MDA</h1>
+          <h1 class="title">miDAS Web</h1>
           <p class="subtitle">Deep learning-based integration of sequence and structure information for efficient predicting miRNA-drug associations</p>
         </div>
       </div>
@@ -24,9 +24,9 @@
         
         <!-- 右侧内容 -->
         <div class="right-panel">
-          <h2 class="title">miRNA-Drug Association Prediction Platform</h2>
+          <h2 class="title">miDAS Web</h2>
           <p class="description">
-            Welcome to DLST-MDA, an innovative platform for predicting miRNA-drug associations through deep learning technology. 
+            Welcome to miDAS Web, an innovative platform for predicting miRNA-drug associations through deep learning technology. 
             Our platform integrates critical sequence and structure information to identify potential interactions between drugs and microRNAs 
             with high accuracy and efficiency.
           </p>

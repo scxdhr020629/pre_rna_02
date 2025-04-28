@@ -2,11 +2,10 @@
 export default {
     path: '/prediction',
     title: 'Prediction',
-    icon: 'database',
+    icon: 'star', // 非常常用的图标
     children: [
-      { path: '/prediction/prediction-mda', title: 'DrugMiRNAQuery', icon: 'database' },
-      { path: '/prediction/prediction-mda-relation', title: 'DrugMiRNACustomizeQuery', icon: 'database' },
-      { path: '/prediction/mda-knowledge-graph', title: 'MDAKnowledgeGraph', icon: 'database' },
+      { path: '/prediction/prediction-mda', title: 'DrugMiRNAQuery', icon: 'flask' },
+      { path: '/prediction/prediction-mda-relation', title: 'DrugMiRNACustomizeQuery', icon: 'bell' },
+      { path: '/prediction/mda-knowledge-graph', title: 'MDAKnowledgeGraph', icon: 'map' },
     ]
   }
-  

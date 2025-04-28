@@ -302,6 +302,7 @@ import {get_rnas} from "@/api/modules/sys.predict.api";
 import {get_all_rnas} from "@/api/modules/sys.predict.all.api";
 import {get_drugs} from "@/api/modules/sys.predict.drug.api";
 import {get_all_drugs} from "@/api/modules/sys.predict.all.drug.api";
+import log from '@/libs/util.log';
 
 export default {
   name: "DrugMiRNAQuery",
@@ -392,6 +393,8 @@ export default {
         } else {
           // Call API for RNA to drug search
           console.log("rna_sequence:", this.sequenceInput);
+          // console.log('hi')
+          // console.log(this.$IconSvg)
           response = await get_drugs({
             rna_sequence: this.sequenceInput,
           });
